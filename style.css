@@ -70,12 +70,14 @@ body.dark-mode .dropdown-content {
 }
 
 body.dark-mode .popup-content {
-    background-color: #332701;
-    border-color: #665201;
+    background-color: rgba(30, 30, 30, 0.95);
+    border: 1px solid #333;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 body.dark-mode .popup-content p {
-    color: #fff3cd;
+    color: #ffffff;
 }
 
 /* Dark mode styles voor submenu's */
@@ -1060,24 +1062,26 @@ strong {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
     visibility: hidden;
     opacity: 0;
-    transform: translateY(-20px); /* Start position for slide-down effect */
+    transform: translateY(-20px);
     transition: visibility 0s, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .popup.show {
     visibility: visible;
     opacity: 1;
-    transform: translateY(0); /* End position for slide-down effect */
+    transform: translateY(0);
 }
 
 .popup-content {
-    background-color: #fff3cd;
+    background-color: rgba(255, 243, 205, 0.95);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -1085,6 +1089,8 @@ strong {
     max-width: 500px;
     border: 2px solid #ffeeba;
     animation: popupBounce 0.5s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .popup-content p {
@@ -1114,6 +1120,16 @@ strong {
     color: #dc3545;
     margin-bottom: 15px;
     display: block;
+}
+
+/* Dark mode popup styles */
+body.dark-mode .popup {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .popup-content {
+    background-color: rgba(30, 30, 30, 0.95);
+    border: 1px solid #444;
 }
 
 @keyframes popupBounce {
