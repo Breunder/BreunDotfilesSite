@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyprland Geavanceerde Scripting</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="dark-mode-toggle">🌙</button>
+    <header>
+        <h1>Hyprland Geavanceerde Scripting</h1>
+        <p class="post-meta">In deze sectie leer je hoe je geavanceerde scripts kunt maken en integreren in Hyprland.</p>
+    </header>
+
+    <section>
+        <h2>Stap 1: Scripts toevoegen aan Hyprland</h2>
+        <p>Je kunt scripts toevoegen aan je Hyprland-configuratie door gebruik te maken van de <code>exec-once</code> of <code>exec</code> commando's. Hier is een voorbeeld:</p>
+        <pre>
+# Start een script bij het opstarten
+exec-once = ~/.config/hyprland/scripts/startup.sh
+        </pre>
+        <p>Het script <code>startup.sh</code> kan bijvoorbeeld gebruikt worden om applicaties te starten of instellingen te configureren.</p>
+    </section>
+
+    <section>
+        <h2>Stap 2: Automatisering met shell-scripts</h2>
+        <p>Shell-scripts zijn krachtig voor het automatiseren van taken. Hier is een voorbeeld van een script dat automatisch werkruimtes toewijst aan monitoren:</p>
+        <pre>
+#!/bin/bash
+# Automatische werkruimte toewijzing
+hyprctl dispatch workspace 1 DP-1
+hyprctl dispatch workspace 2 HDMI-A-1
+        </pre>
+        <p>Maak dit script uitvoerbaar met <code>chmod +x</code> en voeg het toe aan je Hyprland-configuratie.</p>
+    </section>
+
+    <section>
+        <h2>Stap 3: Dynamische configuraties</h2>
+        <p>Je kunt dynamische configuraties maken door gebruik te maken van scripts die reageren op systeemgebeurtenissen. Bijvoorbeeld:</p>
+        <pre>
+#!/bin/bash
+# Verander de achtergrond afhankelijk van het tijdstip
+HOUR=$(date +%H)
+if [ $HOUR -ge 6 ] && [ $HOUR -lt 18 ]; then
+    swww img ~/Pictures/wallpapers/day.jpg
+else
+    swww img ~/Pictures/wallpapers/night.jpg
+fi
+        </pre>
+        <p>Dit script verandert de achtergrond afhankelijk van het tijdstip van de dag.</p>
+    </section>
+
+    <section>
+        <h2>Stap 4: Gebruik van externe tools</h2>
+        <p>Externe tools zoals <code>rofi</code> en <code>waybar</code> kunnen worden geïntegreerd met scripts. Hier is een voorbeeld:</p>
+        <pre>
+bind = SUPER, R, exec, ~/.config/hyprland/scripts/rofi_launcher.sh
+        </pre>
+        <p>Het script <code>rofi_launcher.sh</code> kan een aangepaste Rofi-launcher starten.</p>
+    </section>
+
+    <section>
+        <h2>Stap 5: Debugging en logging</h2>
+        <p>Gebruik logging om je scripts te debuggen. Voeg bijvoorbeeld de volgende regel toe aan je script:</p>
+        <pre>
+#!/bin/bash
+# Debugging voorbeeld
+echo "Script gestart op $(date)" >> ~/.config/hyprland/scripts/log.txt
+        </pre>
+        <p>Controleer de logbestanden om problemen op te lossen.</p>
+    </section>
+
+    <footer>
+        <a class="button" href="wiki.html">Terug naar de hoofdpagina</a>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

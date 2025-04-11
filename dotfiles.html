@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyprland Dotfiles Configureren</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="dark-mode-toggle">🌙</button>
+    <header>
+        <h1>Hyprland Dotfiles Configureren</h1>
+        <p class="post-meta">In deze sectie bespreek ik hoe je je dotfiles configureert voor Hyprland.</p>
+    </header>
+
+    <section>
+        <h2>Stap 1: De basisconfiguratie</h2>
+        <p>De basisconfiguratie van Hyprland bevindt zich in <code>~/.config/hyprland/hyprland.conf</code>. Hier is een voorbeeld van een eenvoudige configuratie:</p>
+        <pre>
+# Hyprland Config
+exec-once = waybar &
+exec-once = Kitty &
+bind = SUPER, Return, exec, Kitty
+monitor = ,preferred,auto
+        </pre>
+        <p>Deze configuratie start Waybar en Kitty automatisch en stelt een sneltoets in om de terminal te openen met <code>SUPER + Return</code>.</p>
+    </section>
+
+    <section>
+        <h2>Stap 2: Andere belangrijke instellingen</h2>
+        <p>Je kunt andere belangrijke configuraties toevoegen, zoals:</p>
+        <ul>
+            <li><strong>Werkruimtes:</strong> Stel specifieke werkruimtes in voor verschillende monitoren.</li>
+            <pre>
+workspace = 1, DP-1
+workspace = 2, HDMI-A-1
+            </pre>
+            <li><strong>Keybindings:</strong> Voeg aangepaste sneltoetsen toe voor je workflow.</li>
+            <pre>
+bind = SUPER, D, exec, rofi -show drun
+bind = SUPER, Q, killactive
+            </pre>
+            <li><strong>Theming:</strong> Pas de kleuren en stijl van Hyprland aan.</li>
+            <pre>
+decoration {
+    rounding = 10
+    border_size = 2
+    active_color = rgba(81, 161, 193, 1)
+    inactive_color = rgba(46, 52, 64, 1)
+}
+            </pre>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Stap 3: Waybar configureren</h2>
+        <p>Waybar is een populaire statusbalk voor Hyprland. De configuratie bevindt zich in <code>~/.config/waybar/</code>. Hier is een voorbeeld van een eenvoudige configuratie:</p>
+        <pre>
+{
+    "modules-left": ["workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["cpu", "memory", "network"],
+    "clock": {
+        "format": "{:%H:%M:%S}"
+    }
+}
+        </pre>
+        <p>Je kunt ook een aangepaste CSS-stijl toevoegen in <code>~/.config/waybar/style.css</code> om de statusbalk aan te passen.</p>
+    </section>
+
+    <section>
+        <h2>Stap 4: Rofi configureren</h2>
+        <p>Rofi is een krachtige applicatiestarter. Voeg de volgende regel toe aan je Hyprland-configuratie om Rofi te starten met een sneltoets:</p>
+        <pre>
+bind = SUPER, D, exec, rofi -show drun
+        </pre>
+        <p>Je kunt de Rofi-configuratie aanpassen in <code>~/.config/rofi/config.rasi</code>. Hier is een voorbeeld:</p>
+        <pre>
+configuration {
+    font: "JetBrains Mono 12";
+    background: "#2e3440";
+    foreground: "#d8dee9";
+    selected-background: "#81a1c1";
+    selected-foreground: "#2e3440";
+}
+        </pre>
+    </section>
+
+    <section>
+        <h2>Stap 5: Problemen oplossen</h2>
+        <p>Als je configuratie niet werkt zoals verwacht, controleer dan de logbestanden:</p>
+        <pre>
+journalctl -xe
+        </pre>
+        <p>Controleer ook of de configuratiebestanden correct zijn gestructureerd en geen syntaxfouten bevatten.</p>
+    </section>
+
+    <footer>
+        <a class="button" href="wiki.html">Terug naar de hoofdpagina</a>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

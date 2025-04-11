@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veelvoorkomende Problemen</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2e3440;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1.5rem 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        h2 {
+            color: #2e3440;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #81a1c1;
+            padding-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle">🌙</button>
+    <header>
+        <h1>Veelvoorkomende Problemen</h1>
+        <p class="post-meta">Hier vind je oplossingen voor veelvoorkomende problemen bij het gebruik van Hyprland.</p>
+    </header>
+
+    <section>
+        <h2>Probleem 1: Hyprland start niet</h2>
+        <p>Controleer of je grafische stuurprogramma's goed zijn geïnstalleerd. Controleer ook of je <code>hyprland.conf</code> goed is geconfigureerd.</p>
+        <p><strong>Oplossing:</strong></p>
+        <ul>
+            <li>Controleer de logbestanden met <code>journalctl -xe</code>.</li>
+            <li>Controleer of <code>wlroots</code> en <code>mesa</code> correct zijn geïnstalleerd.</li>
+            <li>Controleer of je display manager Hyprland ondersteunt.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Probleem 2: Waybar werkt niet</h2>
+        <p>Controleer of je Waybar correct hebt geïnstalleerd en geconfigureerd.</p>
+        <p><strong>Oplossing:</strong></p>
+        <ul>
+            <li>Controleer de configuratie in <code>~/.config/waybar/config</code>.</li>
+            <li>Controleer de logbestanden met <code>journalctl -xe</code>.</li>
+            <li>Installeer ontbrekende dependencies zoals <code>gtk-layer-shell</code>.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Probleem 3: Toetsenbordindeling werkt niet</h2>
+        <p>De toetsenbordindeling is niet correct ingesteld in Hyprland.</p>
+        <p><strong>Oplossing:</strong></p>
+        <ul>
+            <li>Voeg de volgende regel toe aan je <code>hyprland.conf</code>:</li>
+            <pre>
+input {
+    kb_layout = "us"
+}
+            </pre>
+            <li>Pas de indeling aan naar jouw voorkeur, bijvoorbeeld <code>nl</code> voor Nederlands.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Probleem 4: Laggy prestaties</h2>
+        <p>Hyprland voelt traag of stottert tijdens gebruik.</p>
+        <p><strong>Oplossing:</strong></p>
+        <ul>
+            <li>Controleer of je grafische stuurprogramma's up-to-date zijn.</li>
+            <li>Schakel compositor-optimalisaties in door de volgende regel toe te voegen aan <code>hyprland.conf</code>:</li>
+            <pre>
+compositor {
+    vsync = true
+    render_time = 1
+}
+            </pre>
+            <li>Verminder de resolutie of verversingssnelheid van je monitor.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Probleem 5: Applicaties starten niet</h2>
+        <p>Applicaties starten niet vanuit Hyprland.</p>
+        <p><strong>Oplossing:</strong></p>
+        <ul>
+            <li>Controleer of de applicatie correct is geïnstalleerd.</li>
+            <li>Controleer of de <code>exec</code> regel in <code>hyprland.conf</code> correct is geconfigureerd:</li>
+            <pre>
+exec-once = alacritty &
+            </pre>
+            <li>Probeer de applicatie handmatig te starten vanuit een terminal.</li>
+        </ul>
+    </section>
+
+    <footer>
+        <a class="button" href="wiki.html">Terug naar de hoofdpagina</a>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

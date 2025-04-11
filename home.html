@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ontdek alles over Hyprland-configuraties, dotfiles, en Linux-tips in de Breun Dotfiles Wiki. Leer hoe je je workflow kunt optimaliseren.">
+    <meta name="keywords" content="Hyprland, Dotfiles, Linux, Configuratie, Arch Linux, Wayland, Workflow, Optimalisatie">
+    <meta name="author" content="Teun Henderik">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="Breun Dotfiles Wiki - Hyprland Configuraties en Tips">
+    <meta property="og:description" content="Ontdek alles over Hyprland-configuraties, dotfiles, en Linux-tips in de Breun Dotfiles Wiki. Leer hoe je je workflow kunt optimaliseren.">
+    <meta property="og:image" content="https://example.com/images/og-image.jpg">
+    <meta property="og:url" content="https://example.com/home.html">
+    <meta property="og:type" content="website">
+    <title>Breun Dotfiles Wiki - Hyprland Configuraties en Tips</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Dark mode styles for dropdown */
+        body.dark-mode .dropdown-content {
+            background-color: #1e1e1e; /* Donkere achtergrondkleur */
+            color: #ffffff; /* Witte tekstkleur */
+            border: 1px solid #333; /* Donkere randkleur */
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #ffffff; /* Witte tekstkleur voor links */
+        }
+
+        body.dark-mode .dropdown-content a:hover {
+            background-color: #333; /* Donkerdere hoverkleur */
+            color: #88c0d0; /* Hoverkleur voor links */
+        }
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle">🌙</button>
+    <header>
+        <h1>Welkom bij de Breun Dotfiles Site</h1>
+        <p class="post-meta">Hier kan je alles vinden over archlinux en hyprland. Plus mijn eigen dotfiles kan je hier vinden</p>
+        <div>
+            <input type="text" id="search" placeholder="Zoek in de blogs en nieuws..." onkeyup="zoekFunction()" aria-label="Zoekveld">
+            <ul id="search-results" class="dropdown-content"></ul>
+        </div>
+        <nav>
+            <button class="dropdown-btn" onclick="toggleDropdown()">Menu</button>
+            <div id="myDropdown" class="dropdown-content">
+                <a class="dropmenufont" href="archlinuxnews.html">Archlinux nieuws</a>
+                <a class="dropmenufont" href="hyprlandnews.html">Hyprland nieuws</a>
+                <a class="dropmenufont" href="wiki.html">Wiki</a>
+                <a class="dropmenufont" href="blog.html">Blog</a>
+                <a class="dropmenufont" href="aboutme.html">Over mij</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="blog-posts">
+            <h2>Recente blogposts</h2>
+            <ul>
+                <li class="blog-item">
+                    <h3>Hoe ik mijn Hyprland dotfiles optimaliseerde</h3>
+                    <p class="preview">In deze blogpost bespreek ik hoe ik mijn Hyprland-dotfiles heb geoptimaliseerd...</p>
+                    <a href="post3.html" aria-label="Lees meer over Hoe ik mijn Hyprland dotfiles optimaliseerde">Lees meer &raquo;</a>
+                </li>
+                <li class="blog-item">
+                    <h3>Waybar: Mijn favoriete widgets</h3>
+                    <p class="preview">Waybar is een van de populairste werkbalken voor Hyprland. In deze post deel ik mijn favoriete widgets...</p>
+                    <a href="post2.html" aria-label="Lees meer over Waybar: Mijn favoriete widgets">Lees meer &raquo;</a>
+                </li>
+                <li class="blog-item">
+                    <h3>Waarom ik Rofi boven dmenu kies</h3>
+                    <p class="preview">In dit artikel leg ik uit waarom ik kies voor Rofi in plaats van dmenu voor het starten van applicaties...</p>
+                    <a href="post1.html" aria-label="Lees meer over Waarom ik Rofi boven dmenu kies">Lees meer &raquo;</a>
+                </li>
+                <a href="blog.html" aria-label="Bekijk alle blogposts">Zie alle blogposts &raquo;</a>
+            </ul>
+        </section>
+        <section id="arch-news-home">
+            <h2>Laatste Arch Linux Nieuws</h2>
+            <ul id="arch-news-list-home">
+                <li>
+                    <details>
+                        <summary>Nieuws wordt geladen...</summary>
+                        <p>Even geduld, de laatste nieuwsitems worden opgehaald.</p>
+                        <a href="#" target="_blank">Lees meer &raquo;</a>
+                    </details>
+                </li>
+            </ul>
+            <a href="archlinuxnews.html" aria-label="Bekijk alle Arch Linux updates">Bekijk alle Arch Linux updates &raquo;</a>
+        </section>
+        <section id="hyprland-news-home">
+            <h2>Laatste Hyprland Releases</h2>
+            <ul id="hyprland-news-list-home">
+                <li>Nieuws wordt geladen...</li>
+            </ul>
+            <a href="hyprlandnews.html" aria-label="Bekijk alle Hyprland releases">Bekijk alle releases &raquo;</a>
+        </section>
+        <section id="changelog-home">
+            <h2>Laatste Wijzigingen</h2>
+            <ul>
+                <li>
+                    <strong>10/04/2025:</strong> Beteren support voor mobile, tablets en pc's met groteren schermen.
+                </li>
+                <li>
+                    <strong>10/04/2025:</strong> Alle wiki paginas gevuld en nieuwe wiki paginas aan gemaakt.
+                </li>
+                <li>
+                    <strong>10/04/2025:</strong> De zoek functie gefixd op de wiki.
+                </li>
+            </ul>
+            <a href="changelog.html" aria-label="Bekijk de volledige changelog">Bekijk de volledige changelog &raquo;</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Teun Henderik. Alle rechten voorbehouden.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breun Dotfiles Wiki</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="dark-mode-toggle">🌙</button>
+    <div id="expert-popup" class="popup">
+        <div class="popup-content">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p><strong>WAARSCHUWING:</strong> Deze wiki bevat geavanceerde Linux-configuraties die alleen bedoeld zijn voor ervaren gebruikers. Onjuist gebruik kan leiden tot systeemproblemen!</p>
+            <button onclick="closePopup()">Ik begrijp het risico</button>
+        </div>
+    </div>
+    <header>
+        <h1>Welkom bij mijn Breun Dotfiles Wiki</h1>
+        <p class="post-meta">Hier kan je alles vinden om mijn dotfiles te gebruiken.</p>
+        <a class="button" href="home.html">Terug naar de homepagina</a>
+        <div>
+            <input type="text" id="search" placeholder="Zoek in de Wiki..." onkeyup="zoekWikiLinks()">
+            <ul id="search-results" class="dropdown-content"></ul>
+        </div>
+    </header>
+
+    <section>
+        <h2>Wiki Inhoud</h2>
+        <ul class="wiki-menu">
+            <li>
+                <button class="menu-button" onclick="toggleSubmenu(this)" aria-expanded="false">Installatie <span class="submenu-indicator">▼</span></button>
+                <ul class="submenu">
+                    <li><a href="installatie-arch.html">Basis archlinux installatie</a></li>
+                    <li><a href="installatie-hyprland.html">Basis hyprland installatie</a></li>
+                </ul>
+            </li>
+            <li>
+                <button class="menu-button" onclick="toggleSubmenu(this)" aria-expanded="false">Dotfiles <span class="submenu-indicator">▼</span></button>
+                <ul class="submenu">
+                    <li><a href="dotfiles.html">Basis dotfiles configuratie</a></li>
+                </ul>
+            </li>
+            <li>
+                <button class="menu-button" onclick="toggleSubmenu(this)" aria-expanded="false">Scripting <span class="submenu-indicator">▼</span></button>
+                <ul class="submenu">
+                    <li><a href="scripting.html">Basis Scripting</a></li>
+                    <li><a href="geavanceerd-scripting.html">Geavanceerd Scripting</a></li>
+                </ul>
+            </li>
+            <li>
+                <button class="menu-button" onclick="toggleSubmenu(this)" aria-expanded="false">Problemen oplossen <span class="submenu-indicator">▼</span></button>
+                <ul class="submenu">
+                    <li><a href="problemen.html">Veel voorkomende Problemen</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Teun Henderik. Alle rechten voorbehouden.</p>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        // Dynamically search through wiki menu items
+        function zoekWikiLinks() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = ''; // Clear previous results
+
+            if (input) {
+                resultsContainer.style.display = 'block';
+                resultsContainer.style.visibility = 'visible';
+            } else {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+
+            // Fetch all wiki menu links dynamically
+            const wikiLinks = Array.from(document.querySelectorAll('.wiki-menu a')).map(link => ({
+                text: link.textContent.trim(),
+                href: link.getAttribute('href')
+            }));
+
+            wikiLinks.forEach(link => {
+                if (link.text.toLowerCase().includes(input)) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${link.href}">${link.text}</a>`;
+                    resultsContainer.appendChild(li);
+                }
+            });
+
+            if (!resultsContainer.hasChildNodes()) {
+                const li = document.createElement('li');
+                li.textContent = 'Geen resultaten gevonden.';
+                resultsContainer.appendChild(li);
+            }
+        }
+    </script>
+</body>
+</html>

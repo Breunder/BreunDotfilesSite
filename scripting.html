@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyprland Dotfiles Configureren</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="dark-mode-toggle">🌙</button>
+    <header>
+        <h1>Hyprland Dotfiles Basis Scripting</h1>
+        <p class="post-meta">In deze sectie bespreek ik hoe je je scripts configureert voor Hyprland.</p>
+    </header>
+
+    <!-- Systeem Update Script -->
+    <section>
+        <h2>1. Systeem Update Script</h2>
+        <p>Dit script houdt je systeem up-to-date door zowel de systeempakketten via <code>pacman</code> als de AUR-pakketten via <code>yay</code> bij te werken:</p>
+        <pre>
+#!/bin/bash
+
+# Update systeem
+sudo pacman -Syu
+
+# Update AUR packages
+yay -Syu
+        </pre>
+        <p>Plaats dit script in een bestand genaamd bijvoorbeeld <code>update.sh</code>, maak het uitvoerbaar met:</p>
+        <pre>
+chmod +x update.sh
+        </pre>
+        <p>En voer het uit met:</p>
+        <pre>
+./update.sh
+        </pre>
+    </section>
+
+    <!-- Systeem Herstarten of Afsluiten -->
+    <section>
+        <h2>2. Systeem Herstarten of Afsluiten</h2>
+        <p>Met dit script kun je snel je systeem herstarten of afsluiten. Je kunt de regels ontcommentariëren afhankelijk van je keuze:</p>
+        <pre>
+#!/bin/bash
+
+# Systeem herstarten
+sudo reboot
+
+# Of afsluiten
+# sudo poweroff
+        </pre>
+        <p>Dit script is handig voor het automatiseren van deze veelgebruikte acties.</p>
+    </section>
+
+    <!-- Starten van Veelgebruikte Programma's -->
+    <section>
+        <h2>3. Starten van Veelgebruikte Programma's</h2>
+        <p>Wil je verschillende applicaties tegelijk starten? Dit script opent bijvoorbeeld je favoriete browser, terminal en muziekspeler:</p>
+        <pre>
+#!/bin/bash
+
+# Open Firefox
+firefox &
+
+# Open Kitty terminal
+kitty &
+
+# Open Spotify
+spotify &
+        </pre>
+        <p>Pas dit script aan door je favoriete applicaties toe te voegen en voer het uit om ze automatisch te starten.</p>
+    </section>
+
+    <!-- Scherm Resolutie Instellen -->
+    <section>
+        <h2>4. Scherm Resolutie Instellen</h2>
+        <p>Met <code>xrandr</code> kun je de resolutie van je scherm aanpassen. Dit is handig als je meerdere monitors gebruikt:</p>
+        <pre>
+#!/bin/bash
+
+# Stel de resolutie van HDMI-1 in
+xrandr --output HDMI-1 --mode 1920x1080 --rate 60
+        </pre>
+        <p>Pas de uitvoer naar jouw situatie aan (monitornaam en gewenste resolutie).</p>
+    </section>
+
+    <!-- Schakelen tussen Lichte en Donkere Modus -->
+    <section>
+        <h2>5. Schakelen tussen Lichte en Donkere Modus</h2>
+        <p>Met dit script kun je snel schakelen tussen een lichte en een donkere modus op je systeem:</p>
+        <pre>
+#!/bin/bash
+
+# Controleer het huidige thema en wissel tussen licht en donker
+current_theme=$(cat ~/.config/hypr/theme)
+
+if [ "$current_theme" == "light" ]; then
+    # Zet om naar donker
+    echo "dark" > ~/.config/hypr/theme
+else
+    # Zet om naar licht
+    echo "light" > ~/.config/hypr/theme
+fi
+        </pre>
+        <p>Dit is een handige manier om je werkruimte snel aan te passen op basis van je voorkeuren voor de dag of nacht.</p>
+    </section>
+
+    <!-- Automatisch Verbinden met een Wi-Fi Netwerk -->
+    <section>
+        <h2>6. Automatisch Verbinden met een Wi-Fi Netwerk</h2>
+        <p>Met behulp van <code>nmcli</code> kun je automatisch verbinden met een Wi-Fi-netwerk bij het opstarten van je systeem:</p>
+        <pre>
+#!/bin/bash
+
+# Verbind met Wi-Fi netwerk
+nmcli device wifi connect "JouwWiFiNetwerk" password "JouwWachtwoord"
+        </pre>
+        <p>Pas de netwerknaam en het wachtwoord aan naar jouw eigen instellingen.</p>
+    </section>
+
+    <footer>
+        <a class="button" href="wiki.html">Terug naar de hoofdpagina</a>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

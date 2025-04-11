@@ -1,2 +1,1 @@
-# BreunDotfilesSite2
-Project voor informatica
+De Hyprland dotfiles site van mij :)

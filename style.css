@@ -1,0 +1,1155 @@
+/* Algemene stijlen */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Algemene body stijl */
+body {
+    font-family: 'Arial', sans-serif; /* Zorg voor een consistent font */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #1b1b1b;
+    color: #ffffff; /* Maak de tekst wit in dark mode */
+}
+
+body.dark-mode header,
+body.dark-mode code,
+body.dark-mode div {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+body.dark-mode section,
+body.dark-mode footer,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode strong {
+    color: #ffffff;
+}
+
+body.dark-mode .blog-post section h2,
+body.dark-mode .blog-post section p,
+body.dark-mode blockquote {
+    color: #ffffff; /* Ensure h2 text is white in dark mode */
+}
+
+body.dark-mode a {
+    color: #90b5da;
+}
+
+body.dark-mode a:hover {
+    color: #88c0d0;
+}
+ 
+body.dark-mode .read-more {
+    background-color: #333;
+    color: #e0e0e0;
+}
+ 
+body.dark-mode .read-more:hover {
+    background-color: #444;
+}
+
+body.dark-mode pre {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+body.dark-mode .dropdown-content {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+body.dark-mode .popup-content {
+    background-color: #332701;
+    border-color: #665201;
+}
+
+body.dark-mode .popup-content p {
+    color: #fff3cd;
+}
+
+/* Dark mode styles voor submenu's */
+body.dark-mode .submenu {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+}
+
+/* Verwijder de donkere stijl voor menu knoppen en gebruik de standaard stijl */
+.menu-button {
+    display: block;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    text-align: left;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.menu-button:hover {
+    background-color: #0056b3;
+}
+
+/* Behoud de donkere stijl voor submenu links */
+body.dark-mode .submenu li a {
+    color: #90b5da;
+}
+
+body.dark-mode .submenu li a:hover {
+    background-color: #333;
+    color: #88c0d0;
+}
+
+/* Verwijder de darkmode stijl voor de indicator en gebruik de standaard kleur */
+.submenu-indicator {
+    color: #fff;
+}
+
+/* Adjust other specific elements for dark mode */
+body.dark-mode .blog-item,
+body.dark-mode #arch-news-list-home li,
+body.dark-mode #hyprland-news-list-home li,
+body.dark-mode article,
+body.dark-mode ul#hyprland-news-full li,
+body.dark-mode ul#arch-news-list li {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode ul#hyprland-news-full li:hover,
+body.dark-mode ul#arch-news-list li:hover,
+body.dark-mode .blog-item:hover,
+body.dark-mode #arch-news-list-home li:hover,
+body.dark-mode #hyprland-news-list-home li:hover {
+    background-color: #2d2d2d;
+    border-color: #444;
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode ul#hyprland-news-full li {
+    background-color: #1e1e1e;
+    border-color: #1e1e1e;
+}
+
+body.dark-mode ul#arch-news-list li {
+    background-color: #1e1e1e;
+    border-color: #1e1e1e;
+}
+
+body.dark-mode #arch-news-list li {
+    background-color: #2a2a2a; /* Donkere achtergrondkleur voor lijstitems */
+    border: 1px solid #1e1e1e; /* Donkere randkleur */
+}
+
+body.dark-mode #arch-news-list li:hover {
+    background-color: #1e1e1e; /* Hoverkleur voor lijstitems */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); /* Hover schaduw */
+}
+
+body.dark-mode section {
+    background-color: #1e1e1e; /* Donkere achtergrondkleur voor sections in dark mode */
+    color: #ffffff; /* Zorg dat de tekst wit blijft */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Pas schaduw aan voor donkere achtergrond */
+}
+
+body.dark-mode main {
+    background-color: #1e1e1e; /* Donkere achtergrondkleur voor main in dark mode */
+    color: #ffffff; /* Witte tekstkleur */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Pas schaduw aan */
+}
+
+body.dark-mode ul li {
+    background-color: #2a2a2a; /* Donkere achtergrondkleur voor lijstitems */
+    border: 1px solid #333; /* Donkere randkleur */
+}
+
+body.dark-mode ul li:hover {
+    background-color: #333; /* Hoverkleur voor lijstitems */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); /* Hover schaduw */
+}
+
+body.dark-mode details summary {
+    color: #ffffff; /* Witte tekstkleur voor samenvattingen */
+    background-color: #1e1e1e;
+    border-color: #1e1e1e;
+}
+
+body.dark-mode details summary:hover {
+    color: #ffffff; /* Witte tekstkleur voor samenvattingen */
+    background-color: #2d2d2d;
+    border-color: #444;
+}
+
+body.dark-mode details p {
+    color: #cccccc; /* Lichtere tekstkleur voor paragrafen */
+}
+
+body.dark-mode footer {
+    background-color: #1e1e1e; /* Donkere achtergrondkleur voor de footer */
+    color: #ffffff; /* Witte tekstkleur */
+    border-top: 1px solid #333; /* Optionele rand voor scheiding */
+}
+
+body.dark-mode #search-results {
+    background-color: #1e1e1e; /* Donkere achtergrondkleur voor zoekresultaten */
+    color: #ffffff; /* Witte tekstkleur */
+    border: 1px solid #333; /* Donkere randkleur */
+}
+
+body.dark-mode #search-results li {
+    background-color: #2a2a2a; /* Donkere achtergrondkleur voor lijstitems */
+    border-bottom: 1px solid #444; /* Donkere scheidingslijn */
+}
+
+body.dark-mode #search-results li a {
+    color: #81a1c1; /* Kleur voor links in zoekresultaten */
+}
+
+body.dark-mode #search-results li a:hover {
+    background-color: #333; /* Hoverkleur voor lijstitems */
+    color: #88c0d0; /* Hoverkleur voor links */
+}
+
+/* Zoekresultaten */
+#search-results {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-height: 400px;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 400px; /* Match search input width */
+    z-index: 9999;
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0;
+    visibility: visible;
+    opacity: 1;
+}
+
+.search-result-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.search-result-item h4 {
+    margin: 0 0 5px 0;
+    color: #007bff;
+}
+
+.search-result-item p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.no-results {
+    padding: 10px;
+    text-align: center;
+    color: #666;
+}
+
+/* Dark mode aanpassingen */
+body.dark-mode #search-results {
+    background: #1e1e1e;
+    border-color: #333;
+}
+
+body.dark-mode .search-result-item {
+    border-bottom-color: #333;
+}
+
+body.dark-mode .search-result-item h4 {
+    color: #90b5da;
+}
+
+body.dark-mode .search-result-item p {
+    color: #aaa;
+}
+
+/* Header stijl */
+header {
+    background-color: #2e3440;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    animation: fadeIn 1s ease-in-out;
+    position: relative;
+}
+
+/* Zoekveld container */
+.search-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+/* Zoek input */
+#search {
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 2px solid #333;
+    margin: 10px auto 20px;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+#search:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Koppen */
+h2 {
+    color: #2e3440;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #81a1c1;
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    font-size: 1.3em;
+    margin: 20px 0 10px;
+}
+
+/* Post meta info */
+.post-meta {
+    color: #ffffff;
+    font-size: 1em;
+    margin-bottom: 15px;
+}
+
+/* Sectie stijl */
+section {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Lijsten */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+ul li details summary {
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+}
+
+ul li details summary::after {
+    content: '▼';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8em;
+    color: #666;
+    transition: transform 0.3s ease;
+}
+
+details[open] summary::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+body.dark-mode ul li details summary::after {
+    color: #aaa;
+}
+
+ul li details summary em {
+    font-weight: normal;
+    font-size: 0.85em;
+    color: #666;
+    margin-top: 3px;
+}
+
+body.dark-mode ul li details summary em {
+    color: #aaa;
+}
+
+ul li:hover,
+ul li:hover details summary {
+    background-color: #f0f8ff;
+    transform: scale(1.02);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.blog-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.blog-item:hover {
+    background-color: #f0f8ff;
+    transform: scale(1.02);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-color: #ddd;
+}
+
+.blog-item:last-child {
+    border-bottom: none;
+}
+
+/* Links */
+a {
+    color: #5e81ac;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.blog-title {
+    font-size: 1.5em;
+    color: #007bff;
+    display: block;
+    margin-bottom: 5px;
+}
+
+blog-title:hover {
+    text-decoration: underline;
+}
+
+/* Knoppen */
+.button, .read-more {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1em;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover, .read-more:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Zoekveld */
+.search-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+#search {
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 2px solid #333;
+    margin: 10px auto 20px;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+#search:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Dropdown menu */
+.dropdown-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dropdown-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for centering */
+    border-radius: 5px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-content.show {
+    display: block;
+    opacity: 1;
+    transform: translateX(-50%) translateY(10px);
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Wiki submenu */
+.wiki-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.wiki-menu > li {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+/* Submenu standaard verborgen */
+.submenu {
+    display: none;
+}
+
+/* Submenu geopend */
+.submenu.open {
+    display: block;
+}
+
+/* Submenu geopend via de 'open' klasse */
+.submenu.open {
+    display: block;
+}
+
+/* Verwijder hover-effect voor submenu's */
+.wiki-menu > li:hover .submenu {
+    display: none;
+}
+
+/* Submenu indicator */
+.submenu-indicator {
+    font-size: 0.8em;
+    color: #fff;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+}
+
+.menu-button .submenu-indicator {
+    transform: rotate(0deg);
+}
+
+.menu-button[aria-expanded="true"] .submenu-indicator {
+    transform: rotate(180deg);
+}
+
+.wiki-menu > li:hover > a .submenu-indicator {
+    transform: rotate(90deg);
+    transition: transform 0.3s ease;
+}
+
+/* Wiki menu knoppen */
+.menu-button {
+    display: block;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    text-align: left;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.menu-button:hover {
+    background-color: #0056b3;
+}
+
+.submenu-link {
+    display: none;
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.menu-button + .submenu-link {
+    display: block;
+}
+
+.submenu {
+    display: none;
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.submenu-indicator {
+    float: right;
+    font-size: 0.8em;
+    color: #fff;
+    margin-left: 5px;
+}
+
+.submenu.open {
+    display: block;
+}
+
+/* Nieuws items */
+.post-date {
+    color: #777;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.preview {
+    margin: 10px 0;
+    font-size: 1em;
+    color: #555;
+}
+
+/* Release body voor Hyprland nieuws */
+.release-body {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: #444;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.release-body p {
+    margin: 0.5em 0;
+}
+
+.release-body ul {
+    margin-top: 0.5rem;
+    padding-left: 1.2rem;
+}
+
+/* Blog en nieuws secties */
+.blog-item, #arch-news-list-home li, #hyprland-news-list-home li {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease; /* Één consistente transitie voor alle eigenschappen */
+}
+
+.blog-item, #arch-news-list-home li, #hyprland-news-list-home li {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.blog-item:hover, #arch-news-list-home li:hover, #hyprland-news-list-home li:hover {
+    background-color: #f0f8ff;
+    transform: scale(1.02);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-color: #ddd;
+}
+
+/* Dark mode hover effects */
+body.dark-mode .blog-item,
+body.dark-mode #arch-news-list-home li,
+body.dark-mode #hyprland-news-list-home li {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode ul li {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+
+body.dark-mode ul li:hover,
+body.dark-mode ul li:hover details summary {
+    background-color: #2d2d2d;
+    border-color: #444;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Blogpost container */
+.blog-post {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Blogpost header */
+.blog-post header {
+    background-color: #2e3440;
+    color: white;
+    padding: 2rem;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Blogpost sections */
+.blog-post section {
+    margin-bottom: 2rem;
+}
+
+.blog-post section h2 {
+    font-size: 1.8rem;
+    color: #2e3440;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #81a1c1;
+    padding-bottom: 0.5rem;
+}
+
+.blog-post section p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.blog-post section ul,
+.blog-post section ol {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.blog-post section ul li,
+.blog-post section ol li {
+    margin-bottom: 0.5rem;
+}
+
+.blog-post blockquote {
+    border-left: 4px solid #88c0d0;
+    padding-left: 15px;
+    margin: 15px 0;
+    color: #555;
+    font-style: italic;
+}
+
+/* Blogpost footer blending */
+.blog-post footer {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 0.1rem;
+    border-radius: 0 0 5px 5px;
+}
+
+/* Footer link */
+.blog-post footer a {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.blog-post footer a:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Footer stijl */
+footer {
+    text-align: center;
+    padding: 0.1rem;
+    margin-top: 1rem;
+    background-color: #f9f9f9;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    body {
+        font-size: 0.9em;
+    }
+
+    header {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    section {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    #search {
+        width: 90%; /* Zorg dat het zoekveld bijna de volledige breedte gebruikt */
+        font-size: 0.9em; /* Maak de tekst iets kleiner */
+    }
+
+    #search-results {
+        width: 90%;
+        max-width: 360px; /* 90% of 400px */
+        max-height: 300px; /* Vergroot de maximale hoogte op mobiele apparaten */
+    }
+
+    #search-results li {
+        padding: 8px; /* Maak de items compacter */
+    }
+
+    .dropdown-content {
+        width: 90%;
+    }
+
+    nav .dropdown-btn {
+        font-size: 0.9em;
+        padding: 8px 16px;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    body {
+        font-size: 1em;
+    }
+
+    header {
+        padding: 2rem;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    section {
+        margin: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    #search {
+        width: 80%;
+        font-size: 1em;
+    }
+
+    #search-results {
+        width: 80%;
+        max-width: 400px;
+        max-height: 350px;
+    }
+
+    nav .dropdown-btn {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+}
+
+@media (min-width: 1025px) {
+    body {
+        font-size: 1.1em;
+    }
+
+    header {
+        padding: 3rem;
+    }
+
+    h1 {
+        font-size: 2.5em;
+    }
+
+    section {
+        max-width: 1000px;
+        padding: 2rem 3rem;
+    }
+
+    #search {
+        width: 60%;
+        font-size: 1.1em;
+    }
+
+    #search-results {
+        width: 60%;
+        max-width: 400px;
+        max-height: 400px;
+    }
+
+    nav .dropdown-btn {
+        font-size: 1.1em;
+        padding: 12px 24px;
+    }
+}
+
+@media (min-width: 1600px) {
+    body {
+        font-size: 1.2em;
+    }
+
+    header {
+        padding: 4rem;
+    }
+
+    section {
+        max-width: 1200px;
+        padding: 3rem 4rem;
+    }
+
+    h1 {
+        font-size: 3em;
+    }
+
+    #search {
+        width: 50%;
+        font-size: 1.2em;
+    }
+
+    #search-results {
+        width: 50%;
+        max-width: 400px;
+        max-height: 500px;
+    }
+}
+
+/* Specifieke stijlen voor code blocks */
+pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f5f5f5;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+/* Article stijlen voor blogposts */
+article section {
+    margin: 20px 0;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+}
+
+blockquote {
+    border-left: 4px solid #88c0d0;
+    padding-left: 15px;
+    margin: 15px 0;
+    color: #555;
+    font-style: italic;
+}
+
+/* Stijl voor <strong> */
+strong {
+    font-weight: bold;
+    color: #2e3440; /* Zelfde kleur als koppen in home.html */
+}
+
+/* Animaties */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Popup stijlen */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-20px); /* Start position for slide-down effect */
+    transition: visibility 0s, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.popup.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0); /* End position for slide-down effect */
+}
+
+.popup-content {
+    background-color: #fff3cd;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    border: 2px solid #ffeeba;
+    animation: popupBounce 0.5s ease;
+}
+
+.popup-content p {
+    color: #000000;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+.popup-content button {
+    margin-top: 15px;
+    padding: 10px 25px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.popup-content button:hover {
+    background-color: #c82333;
+}
+
+.popup-content i {
+    font-size: 2em;
+    color: #dc3545;
+    margin-bottom: 15px;
+    display: block;
+}
+
+@keyframes popupBounce {
+    0% {
+        transform: scale(0.9);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Dark mode toggle button */
+.dark-mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 1000;
+}
+
+.dark-mode-toggle:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
