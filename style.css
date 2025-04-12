@@ -300,6 +300,73 @@ body.dark-mode .search-result-item p {
     color: #aaa;
 }
 
+/* Breadcrumb stijlen */
+.breadcrumb {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85em;
+    z-index: 10;
+    max-width: calc(100% - 80px); /* Ruimte voor dark mode toggle */
+}
+
+.breadcrumb ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px; /* Consistent spacing tussen items */
+}
+
+.breadcrumb li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.breadcrumb li:not(:last-child)::after {
+    content: "›";
+    margin: 0 4px;
+    color: #666;
+}
+
+.breadcrumb a {
+    color: #5e81ac;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb .current {
+    color: #666;
+}
+
+/* Dark mode aanpassingen */
+body.dark-mode .breadcrumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .breadcrumb li:not(:last-child)::after {
+    color: #888;
+}
+
+body.dark-mode .breadcrumb .current {
+    color: #aaa;
+}
+
 /* Header stijl */
 header {
     background-color: #2e3440;
@@ -308,6 +375,7 @@ header {
     padding: 2rem;
     animation: fadeIn 1s ease-in-out;
     position: relative;
+    padding-top: 60px; /* Ruimte maken voor breadcrumb */
 }
 
 /* Zoekveld container */
@@ -859,6 +927,7 @@ footer {
 
     header {
         padding: 1.5rem;
+        padding-top: 45px; /* Aangepaste padding voor mobile */
     }
 
     h1 {
@@ -892,6 +961,30 @@ footer {
     nav .dropdown-btn {
         font-size: 0.9em;
         padding: 8px 16px;
+    }
+
+    .breadcrumb {
+        top: 10px;
+        left: 10px;
+        font-size: 0.75em;
+        padding: 4px 8px;
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+        margin: 0 2px;
+    }
+
+    /* Verberg middelste delen van lange breadcrumbs */
+    .breadcrumb li:not(:first-child):not(:last-child) {
+        max-width: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Zorg ervoor dat de laatste (huidige) pagina altijd zichtbaar is */
+    .breadcrumb li:last-child {
+        max-width: none;
+        flex-shrink: 0;
     }
 }
 
