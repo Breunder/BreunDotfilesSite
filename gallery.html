@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dotfiles Gallerij</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: zoom-in;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 4;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            opacity: 1;
+        }
+
+        /* Style voor klikbare links */
+        .gallery-caption a {
+            position: relative;
+            z-index: 5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-caption a:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        body.dark-mode .gallery-caption a {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .gallery-caption a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Click indicator overlay */
+        .gallery-item::before {
+            content: "🔍";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        /* Semi-transparent overlay on hover */
+        .gallery-item::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+
+        /* Tooltip */
+        .gallery-item[data-tooltip]::before {
+            content: "Klik om te vergroten";
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .gallery-item:hover[data-tooltip]::before {
+            opacity: 1;
+        }
+
+        body.dark-mode .gallery-item {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+        }
+
+        body.dark-mode .gallery-caption {
+            background: rgba(0,0,0,0.8);
+        }
+
+        body.dark-mode .gallery-item[data-tooltip]::before {
+            background: rgba(255,255,255,0.9);
+            color: black;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            object-fit: contain;
+        }
+
+        .modal.show {
+            display: flex;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        body.dark-mode .modal {
+            background-color: rgba(0, 0, 0, 0.95);
+        }
+
+        .gallery-caption a {
+            color: #88c0d0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .gallery-caption a:hover {
+            color: #5e81ac;
+            text-decoration: underline;
+        }
+
+        body.dark-mode .gallery-caption a {
+            color: #81a1c1;
+        }
+
+        body.dark-mode .gallery-caption a:hover {
+            color: #88c0d0;
+        }
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle">🌙</button>
+    <header>
+        <h1>Breun Gallerij</h1>
+        <p class="post-meta">Een verzameling screenshots van verschillende Hyprland setup</p>
+    </header>
+
+    <main>
+        <section class="gallery">
+            <div class="gallery-item" data-tooltip>
+                <img src="images/plaatje1.png" alt="Desktop Screenshot 1">
+                <div class="gallery-caption">fufexan's setup - <a href="https://github.com/fufexan/dotfiles" target="_blank">fufexan/dotfiles</a></div>
+            </div>
+            <div class="gallery-item" data-tooltip>
+                <img src="images/plaatje2.png" alt="Desktop Screenshot 2">
+                <div class="gallery-caption">End_4's setup - <a href="https://github.com/end-4/dots-hyprland" target="_blank">end-4/dots-hyprland</a></div>
+            </div>
+            <div class="gallery-item" data-tooltip>
+                <img src="images/plaatje3.png" alt="Desktop Screenshot 3">
+                <div class="gallery-caption">flickowoa's setup - <a href="https://github.com/flickowoa/dotfiles" target="_blank">flickowoa/dotfiles</a></div>
+            </div>
+        </section>
+        <section class="gallery">
+            <div class="gallery-item" data-tooltip>
+                <img src="images/plaatje4.png" alt="Desktop Screenshot 4">
+                <div class="gallery-caption">notusknot's setup (Oud) - <a href="https://github.com/notusknot/dotfiles-nix" target="_blank">notusknot/dotfiles-nix</a></div>
+            </div>
+            <div class="gallery-item" data-tooltip>
+                <img src="images/plaatje5.png" alt="Desktop Screenshot 5">
+                <div class="gallery-caption">coffebar's setup - <a href="https://github.com/coffebar/dotfiles" target="_blank">coffebar/dotfiles</a></div>
+            </div>
+            <div class="gallery-item" data-tooltip>
+                <img src="images/plaatje6.png" alt="Desktop Screenshot 6">
+                <div class="gallery-caption">Stephan Raabe's setup - <a href="https://github.com/mylinuxforwork/dotfiles" target="_blank">mylinuxforwork/dotfiles</a></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add modal container -->
+    <div id="imageModal" class="modal">
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <footer>
+        <a class="button" href="home.html">Terug naar de hoofdpagina</a>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        // Modal functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            galleryItems.forEach(item => {
+                const img = item.querySelector('img');
+                if (img) {
+                    item.addEventListener('click', function(e) {
+                        // Voorkom modal als er op een link wordt geklikt
+                        if (e.target.tagName.toLowerCase() === 'a') {
+                            return;
+                        }
+                        e.preventDefault();
+                        modal.classList.add('show');
+                        modalImg.src = img.src;
+                        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+                    });
+                }
+            });
+
+            // Close modal when clicking outside the image
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Close modal with escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+
+            // Function to close modal
+            function closeModal() {
+                modal.classList.remove('show');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        });
+    </script>
+</body>
+</html>
