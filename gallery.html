@@ -43,10 +43,32 @@
             padding: 10px;
             opacity: 0;
             transition: opacity 0.3s ease;
+            z-index: 4;
         }
 
         .gallery-item:hover .gallery-caption {
             opacity: 1;
+        }
+
+        /* Style voor klikbare links */
+        .gallery-caption a {
+            position: relative;
+            z-index: 5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-caption a:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        body.dark-mode .gallery-caption a {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .gallery-caption a:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         /* Click indicator overlay */
@@ -157,45 +179,62 @@
         body.dark-mode .modal {
             background-color: rgba(0, 0, 0, 0.95);
         }
+
+        .gallery-caption a {
+            color: #88c0d0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .gallery-caption a:hover {
+            color: #5e81ac;
+            text-decoration: underline;
+        }
+
+        body.dark-mode .gallery-caption a {
+            color: #81a1c1;
+        }
+
+        body.dark-mode .gallery-caption a:hover {
+            color: #88c0d0;
+        }
     </style>
 </head>
 <body>
     <button class="dark-mode-toggle">🌙</button>
     <header>
-        <h1>Dotfiles Gallerij</h1>
-        <p class="post-meta">Een verzameling screenshots van mijn Hyprland setup</p>
+        <h1>Breun Gallerij</h1>
+        <p class="post-meta">Een verzameling screenshots van verschillende Hyprland setup</p>
     </header>
 
     <main>
         <section class="gallery">
             <div class="gallery-item" data-tooltip>
                 <img src="images/plaatje1.png" alt="Desktop Screenshot 1">
-                <div class="gallery-caption">Mijn hoofdwerkruimte met Waybar</div>
+                <div class="gallery-caption">fufexan's setup - <a href="https://github.com/fufexan/dotfiles" target="_blank">fufexan/dotfiles</a></div>
             </div>
             <div class="gallery-item" data-tooltip>
-                <img src="images/desktop2.jpg" alt="Desktop Screenshot 2">
-                <div class="gallery-caption">Code editing setup met Neovim</div>
+                <img src="images/plaatje2.png" alt="Desktop Screenshot 2">
+                <div class="gallery-caption">End_4's setup - <a href="https://github.com/end-4/dots-hyprland" target="_blank">end-4/dots-hyprland</a></div>
             </div>
             <div class="gallery-item" data-tooltip>
-                <img src="images/desktop3.jpg" alt="Desktop Screenshot 3">
-                <div class="gallery-caption">Terminal setup met custom prompt</div>
+                <img src="images/plaatje3.png" alt="Desktop Screenshot 3">
+                <div class="gallery-caption">flickowoa's setup - <a href="https://github.com/flickowoa/dotfiles" target="_blank">flickowoa/dotfiles</a></div>
             </div>
-            <!-- Voeg meer gallery-items toe zoals nodig -->
         </section>
         <section class="gallery">
             <div class="gallery-item" data-tooltip>
-                <img src="images/desktop1.jpg" alt="Desktop Screenshot 1">
-                <div class="gallery-caption">Mijn hoofdwerkruimte met Waybar</div>
+                <img src="images/plaatje4.png" alt="Desktop Screenshot 4">
+                <div class="gallery-caption">notusknot's setup (Oud) - <a href="https://github.com/notusknot/dotfiles-nix" target="_blank">notusknot/dotfiles-nix</a></div>
             </div>
             <div class="gallery-item" data-tooltip>
-                <img src="images/desktop2.jpg" alt="Desktop Screenshot 2">
-                <div class="gallery-caption">Code editing setup met Neovim</div>
+                <img src="images/plaatje5.png" alt="Desktop Screenshot 5">
+                <div class="gallery-caption">coffebar's setup - <a href="https://github.com/coffebar/dotfiles" target="_blank">coffebar/dotfiles</a></div>
             </div>
             <div class="gallery-item" data-tooltip>
-                <img src="images/desktop3.jpg" alt="Desktop Screenshot 3">
-                <div class="gallery-caption">Terminal setup met custom prompt</div>
+                <img src="images/plaatje6.png" alt="Desktop Screenshot 6">
+                <div class="gallery-caption">Stephan Raabe's setup - <a href="https://github.com/mylinuxforwork/dotfiles" target="_blank">mylinuxforwork/dotfiles</a></div>
             </div>
-            <!-- Voeg meer gallery-items toe zoals nodig -->
         </section>
     </main>
 
@@ -219,6 +258,10 @@
                 const img = item.querySelector('img');
                 if (img) {
                     item.addEventListener('click', function(e) {
+                        // Voorkom modal als er op een link wordt geklikt
+                        if (e.target.tagName.toLowerCase() === 'a') {
+                            return;
+                        }
                         e.preventDefault();
                         modal.classList.add('show');
                         modalImg.src = img.src;
