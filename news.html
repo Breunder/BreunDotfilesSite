@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nieuws</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Bestaande algemene stijlen behouden */
+        body {
+            font-family: sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Tab stijlen */
+        .tab-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #f0f0f0;
+            color: #333;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            border: 1px solid #e0e0e0;
+        }
+
+        .tab-button.active {
+            background-color: #0080ff;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        #arch-news-list li,
+        #hyprland-news-full li {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        #arch-news-list li:hover,
+        #hyprland-news-full li:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark mode aanpassingen */
+        body.dark-mode {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+
+        body.dark-mode .tab-container {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+        }
+
+        body.dark-mode main {
+            background-color: #1e1e1e;
+        }
+
+        body.dark-mode .tab-button {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            border: 1px solid #333;
+        }
+
+        body.dark-mode .tab-button.active {
+            background-color: #333;
+            color: #88c0d0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode #arch-news-list li,
+        body.dark-mode #hyprland-news-full li {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            border: 1px solid #404040;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode #arch-news-list li:hover,
+        body.dark-mode #hyprland-news-full li:hover {
+            background-color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        body.dark-mode li details summary em {
+            color: #888;
+        }
+
+        body.dark-mode li details p {
+            color: #ffffff;
+        }
+
+        body.dark-mode header {
+            background-color: #1e1e1e;
+        }
+
+        body.dark-mode .button {
+            background-color: #333;
+            color: #88c0d0;
+        }
+
+        body.dark-mode .button:hover {
+            background-color: #444;
+        }
+
+        /* Soepele overgang voor dark mode */
+        body, main, .tab-button, li, header {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li class="current">Nieuws</li>
+        </ul>
+    </nav>
+    <button class="dark-mode-toggle">🌙</button>
+    <header>
+        <h1>Nieuws Overzicht</h1>
+        <p>Laatste nieuws van Arch Linux en Hyprland</p>
+    </header>
+
+    <main>
+        <div class="tab-container">
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('arch')">Arch Linux</button>
+                <button class="tab-button" onclick="showTab('hyprland')">Hyprland</button>
+            </div>
+
+            <div id="arch" class="tab-content active">
+                <h2>Arch Linux Nieuws</h2>
+                <ul id="arch-news-list">
+                    <li>
+                        <details>
+                            <summary>Nieuws wordt geladen...</summary>
+                            <p>Even geduld, de laatste nieuwsitems worden opgehaald.</p>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="hyprland" class="tab-content">
+                <h2>Hyprland Nieuws</h2>
+                <ul id="hyprland-news-full">
+                    <li>
+                        <details>
+                            <summary>Nieuws wordt geladen...</summary>
+                            <p>Even geduld, de laatste nieuwsitems worden opgehaald.</p>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <a class="button" href="home.html">Terug naar de homepagina</a>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Verberg alle tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Verwijder active class van alle tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Activeer de geselecteerde tab
+            document.getElementById(tabName).classList.add('active');
+            document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

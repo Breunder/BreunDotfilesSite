@@ -300,6 +300,112 @@ body.dark-mode .search-result-item p {
     color: #aaa;
 }
 
+/* Breadcrumb stijlen */
+.breadcrumb {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 0.85em;
+    z-index: 10;
+    max-width: calc(100% - 80px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.breadcrumb ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px; /* Consistent spacing tussen items */
+}
+
+.breadcrumb li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, text-shadow 0.2s ease;
+}
+
+.breadcrumb li:not(:last-child)::after {
+    content: "›";
+    margin: 0 6px;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.breadcrumb a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.breadcrumb a:hover {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    background-color: rgba(41, 41, 41, 0.15);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transform: translateY(-1px);
+    font-weight: 500;
+}
+
+.breadcrumb li:hover {
+    transform: translateY(-1px);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.breadcrumb .current {
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.2s ease;
+}
+
+.breadcrumb .current:hover {
+    color: rgba(0, 0, 0, 0.9);
+}
+
+/* Dark mode aanpassingen */
+body.dark-mode .breadcrumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .breadcrumb a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+body.dark-mode .breadcrumb a:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .breadcrumb .current {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+body.dark-mode .breadcrumb .current:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+body.dark-mode .breadcrumb li:not(:last-child)::after {
+    color: rgba(255, 255, 255, 0.6);
+}
+
 /* Header stijl */
 header {
     background-color: #2e3440;
@@ -308,6 +414,7 @@ header {
     padding: 2rem;
     animation: fadeIn 1s ease-in-out;
     position: relative;
+    padding-top: 60px; /* Ruimte maken voor breadcrumb */
 }
 
 /* Zoekveld container */
@@ -859,6 +966,7 @@ footer {
 
     header {
         padding: 1.5rem;
+        padding-top: 45px; /* Aangepaste padding voor mobile */
     }
 
     h1 {
@@ -892,6 +1000,30 @@ footer {
     nav .dropdown-btn {
         font-size: 0.9em;
         padding: 8px 16px;
+    }
+
+    .breadcrumb {
+        top: 10px;
+        left: 10px;
+        font-size: 0.75em;
+        padding: 4px 8px;
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+        margin: 0 2px;
+    }
+
+    /* Verberg middelste delen van lange breadcrumbs */
+    .breadcrumb li:not(:first-child):not(:last-child) {
+        max-width: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Zorg ervoor dat de laatste (huidige) pagina altijd zichtbaar is */
+    .breadcrumb li:last-child {
+        max-width: none;
+        flex-shrink: 0;
     }
 }
 
