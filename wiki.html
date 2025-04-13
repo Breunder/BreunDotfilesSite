@@ -82,7 +82,6 @@
                 return;
             }
 
-            // Fetch all wiki menu links dynamically
             const wikiLinks = Array.from(document.querySelectorAll('.wiki-menu a')).map(link => ({
                 text: link.textContent.trim(),
                 href: link.getAttribute('href')
@@ -91,7 +90,8 @@
             wikiLinks.forEach(link => {
                 if (link.text.toLowerCase().includes(input)) {
                     const li = document.createElement('li');
-                    li.innerHTML = `<a href="${link.href}">${link.text}</a>`;
+                    const highlightedText = link.text.replace(new RegExp(input, 'gi'), match => `<mark>${match}</mark>`);
+                    li.innerHTML = `<a href="${link.href}">${highlightedText}</a>`;
                     resultsContainer.appendChild(li);
                 }
             });
