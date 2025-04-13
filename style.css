@@ -384,12 +384,26 @@ body.dark-mode .breadcrumb {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-body.dark-mode .breadcrumb li:not(:last-child)::after {
-    color: #888;
+body.dark-mode .breadcrumb a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+body.dark-mode .breadcrumb a:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 body.dark-mode .breadcrumb .current {
-    color: #aaa;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+body.dark-mode .breadcrumb .current:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+body.dark-mode .breadcrumb li:not(:last-child)::after {
+    color: rgba(255, 255, 255, 0.6);
 }
 
 /* Header stijl */
