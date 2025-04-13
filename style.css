@@ -356,7 +356,7 @@ body.dark-mode .search-result-item p {
 }
 
 .breadcrumb a:hover {
-    color: rgba(255, 255, 255, 1);
+    color: rgb(0, 0, 0);
     text-decoration: none;
     background-color: rgba(41, 41, 41, 0.15);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
