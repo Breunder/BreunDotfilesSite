@@ -36,7 +36,7 @@
 <body>
     <nav class="breadcrumb">
         <ul>
-            <li class="current">Home</li>
+            <li><a class="current">Home</a></li>
         </ul>
     </nav>
     <button class="dark-mode-toggle">🌙</button>
@@ -105,13 +105,13 @@
             <h2>Laatste Wijzigingen</h2>
             <ul>
                 <li>
+                    <strong>13/04/2025:</strong> breadcrumb navigatie verbeterd en zoekfunctie gefixd en verbeterd
+                </li>
+                <li>
                     <strong>12/04/2025:</strong> Archlinuxnews en hyprlandnews paginas samen gevoegd in "Nieuws" pagina.
                 </li>
                 <li>
                     <strong>12/04/2025:</strong> Nieuwe "breadcrumb" navigatie toegevoegd.
-                </li>
-                <li>
-                    <strong>11/04/2025:</strong> Nieuwe pagina "Gallerij" toegevoegd.
                 </li>
             </ul>
             <a href="changelog.html" aria-label="Bekijk de volledige changelog">Bekijk de volledige changelog &raquo;</a>
@@ -122,5 +122,80 @@
         <p>&copy; 2025 Teun Henderik. Alle rechten voorbehouden.</p>
     </footer>
     <script src="script.js"></script>
+    <script>
+        function zoekFunction() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = ''; // Clear previous results
+
+            if (input) {
+                resultsContainer.style.display = 'block';
+                resultsContainer.style.visibility = 'visible';
+            } else {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+
+            // Helper function to escape HTML
+            const escapeHTML = (text) => text.replace(/[&<>"']/g, (char) => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[char]));
+
+            // Helper function to highlight matches
+            const highlightText = (text, query) => text.replace(new RegExp(query, 'gi'), match => `<mark>${match}</mark>`);
+
+            // Search through blog items
+            const blogItems = Array.from(document.querySelectorAll('.blog-item')).map(item => ({
+                title: item.querySelector('h3')?.textContent.trim() || '',
+                link: item.querySelector('a')?.getAttribute('href') || '#'
+            }));
+
+            blogItems.forEach(item => {
+                if (item.title.toLowerCase().includes(input)) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${item.link}">${highlightText(escapeHTML(item.title), input)}</a>`;
+                    resultsContainer.appendChild(li);
+                }
+            });
+
+            // Search through Arch Linux news
+            const newsItems = Array.from(document.querySelectorAll('#arch-news-list-home li details summary')).map(item => ({
+                title: item.textContent.trim(),
+                link: item.closest('details')?.querySelector('a')?.getAttribute('href') || '#'
+            }));
+
+            newsItems.forEach(item => {
+                if (item.title.toLowerCase().includes(input)) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${item.link}">${highlightText(escapeHTML(item.title), input)}</a>`;
+                    resultsContainer.appendChild(li);
+                }
+            });
+
+            // Search through changelog items
+            const changelogItems = Array.from(document.querySelectorAll('#changelog-home ul li')).map(item => ({
+                title: item.textContent.trim() // Use textContent to avoid including HTML tags like <strong>
+            }));
+
+            changelogItems.forEach(item => {
+                if (item.title.toLowerCase().includes(input)) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="changelog.html">${highlightText(escapeHTML(item.title), input)}</a>`;
+                    resultsContainer.appendChild(li);
+                }
+            });
+
+            // Show a message if no results are found
+            if (!resultsContainer.hasChildNodes()) {
+                const li = document.createElement('li');
+                li.textContent = 'Geen resultaten gevonden.';
+                resultsContainer.appendChild(li);
+            }
+        }
+    </script>
 </body>
 </html>

@@ -303,17 +303,18 @@ body.dark-mode .search-result-item p {
 /* Breadcrumb stijlen */
 .breadcrumb {
     position: absolute;
-    top: 15px;
-    left: 15px;
-    background-color: rgba(255, 255, 255, 0.15);
-    padding: 5px 12px;
-    border-radius: 5px;
-    font-size: 0.85em;
+    top: 10px; /* Adjusted for a smaller margin */
+    left: 10px; /* Adjusted for a smaller margin */
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly lighter background */
+    padding: 5px 10px; /* Reduced padding */
+    border-radius: 6px; /* Slightly less rounded corners */
+    font-size: 0.8em; /* Reduced font size */
     z-index: 10;
-    max-width: calc(100% - 80px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    max-width: calc(100% - 60px); /* Adjusted for smaller size */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtler border */
+    backdrop-filter: blur(6px); /* Reduced blur effect */
+    -webkit-backdrop-filter: blur(6px);
+    color: #ffffff;
 }
 
 .breadcrumb ul {
@@ -348,20 +349,19 @@ body.dark-mode .search-result-item p {
 }
 
 .breadcrumb a {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9); /* Brighter link color */
     text-decoration: none;
-    padding: 2px 4px;
-    border-radius: 3px;
+    padding: 3px 6px; /* Slightly larger padding for links */
+    border-radius: 4px;
     transition: all 0.2s ease;
 }
 
 .breadcrumb a:hover {
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-    background-color: rgba(41, 41, 41, 0.15);
+    color: #000000;
+    background-color: rgba(255, 255, 255, 0.3); /* More visible hover background */
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     transform: translateY(-1px);
-    font-weight: 500;
+    font-weight: bold; /* Make hovered links bold */
 }
 
 .breadcrumb li:hover {
@@ -370,12 +370,15 @@ body.dark-mode .search-result-item p {
 }
 
 .breadcrumb .current {
-    color: rgba(255, 255, 255, 0.7);
-    transition: color 0.2s ease;
+    color: rgba(255, 255, 255, 0.8); /* Slightly brighter for better visibility */
+    font-weight: bold; /* Highlight the current page */
 }
 
 .breadcrumb .current:hover {
-    color: rgba(0, 0, 0, 0.9);
+    color: #000000; /* Ensure full visibility on hover */
+    background-color: rgba(255, 255, 255, 0.2); /* Add a subtle background for better contrast */
+    padding: 3px 6px; /* Match padding with links for consistency */
+    border-radius: 4px; /* Add rounded corners for better aesthetics */
 }
 
 /* Dark mode aanpassingen */
@@ -414,7 +417,7 @@ header {
     padding: 2rem;
     animation: fadeIn 1s ease-in-out;
     position: relative;
-    padding-top: 60px; /* Ruimte maken voor breadcrumb */
+    padding-top: 100px; /* Increased padding to avoid overlap with breadcrumb */
 }
 
 /* Zoekveld container */

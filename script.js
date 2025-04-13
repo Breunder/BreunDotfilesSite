@@ -76,7 +76,9 @@ function zoekFunction() {
     blogItems.forEach(item => {
         if (item.title.toLowerCase().includes(input) || item.preview.toLowerCase().includes(input)) {
             const li = document.createElement('li');
-            li.innerHTML = `<a href="${item.link}">${item.title}</a>`;
+            const highlightedTitle = item.title.replace(new RegExp(input, 'gi'), match => `<mark>${match}</mark>`);
+            const highlightedPreview = item.preview.replace(new RegExp(input, 'gi'), match => `<mark>${match}</mark>`);
+            li.innerHTML = `<a href="${item.link}">${highlightedTitle}</a><p>${highlightedPreview}</p>`;
             resultsContainer.appendChild(li);
         }
     });
@@ -169,7 +171,8 @@ function zoekWikiLinks() {
     wikiLinks.forEach(link => {
         if (link.text.toLowerCase().includes(input)) {
             const li = document.createElement('li');
-            li.innerHTML = `<a href="${link.link}">${link.text}</a>`;
+            const highlightedText = link.text.replace(new RegExp(input, 'gi'), match => `<mark>${match}</mark>`);
+            li.innerHTML = `<a href="${link.link}">${highlightedText}</a>`;
             resultsContainer.appendChild(li);
         }
     });
@@ -183,7 +186,8 @@ function zoekWikiLinks() {
     dynamicWikiItems.forEach(item => {
         if (item.text.toLowerCase().includes(input)) {
             const li = document.createElement('li');
-            li.innerHTML = `<a href="${item.link}">${item.text}</a>`;
+            const highlightedText = item.text.replace(new RegExp(input, 'gi'), match => `<mark>${match}</mark>`);
+            li.innerHTML = `<a href="${item.link}">${highlightedText}</a>`;
             resultsContainer.appendChild(li);
         }
     });
