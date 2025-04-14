@@ -302,19 +302,30 @@ body.dark-mode .search-result-item p {
 
 /* Breadcrumb stijlen */
 .breadcrumb {
-    position: absolute;
-    top: 10px; /* Adjusted for a smaller margin */
-    left: 10px; /* Adjusted for a smaller margin */
-    background-color: rgba(0, 0, 0, 0.6); /* Slightly lighter background */
-    padding: 5px 10px; /* Reduced padding */
-    border-radius: 6px; /* Slightly less rounded corners */
-    font-size: 0.8em; /* Reduced font size */
+    position: fixed; /* Ensure consistent placement across pages */
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.8em;
     z-index: 10;
-    max-width: calc(100% - 60px); /* Adjusted for smaller size */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtler border */
-    backdrop-filter: blur(6px); /* Reduced blur effect */
+    max-width: calc(100% - 60px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     color: #ffffff;
+}
+
+.blog-post {
+    margin-top: 60px; /* Ensure breadcrumbs do not overlap with blog posts */
+}
+
+header .breadcrumb {
+    position: relative; /* Scoped to header to avoid conflicts */
+    top: auto;
+    left: auto;
+    margin-bottom: 10px;
 }
 
 .breadcrumb ul {
@@ -337,15 +348,13 @@ body.dark-mode .search-result-item p {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease, text-shadow 0.2s ease;
+    transition: transform 0.2s ease;
 }
 
 .breadcrumb li:not(:last-child)::after {
     content: "›";
     margin: 0 6px;
     color: rgba(255, 255, 255, 0.8);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .breadcrumb a {
@@ -357,16 +366,15 @@ body.dark-mode .search-result-item p {
 }
 
 .breadcrumb a:hover {
-    color: #000000;
-    background-color: rgba(255, 255, 255, 0.3); /* More visible hover background */
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    color: #ffffff; /* Make only the text white */
+    background-color: transparent; /* Remove background color change */
     transform: translateY(-1px);
-    font-weight: bold; /* Make hovered links bold */
+    font-weight: bold;
 }
 
 .breadcrumb li:hover {
     transform: translateY(-1px);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .breadcrumb .current {
@@ -375,10 +383,9 @@ body.dark-mode .search-result-item p {
 }
 
 .breadcrumb .current:hover {
-    color: #000000; /* Ensure full visibility on hover */
-    background-color: rgba(255, 255, 255, 0.2); /* Add a subtle background for better contrast */
-    padding: 3px 6px; /* Match padding with links for consistency */
-    border-radius: 4px; /* Add rounded corners for better aesthetics */
+    color: #ffffff; /* Ensure full visibility for the current item */
+    background-color: rgba(255, 255, 255, 0.2); /* Subtle background for contrast */
+    border-radius: 4px;
 }
 
 /* Dark mode aanpassingen */
@@ -392,9 +399,10 @@ body.dark-mode .breadcrumb a {
 }
 
 body.dark-mode .breadcrumb a:hover {
-    color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.1);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    color: #ffffff; /* Ensure text is clearly visible */
+    background-color: rgba(255, 255, 255, 0.2); /* Brighter hover background */
+    transform: translateY(-1px);
+    font-weight: bold;
 }
 
 body.dark-mode .breadcrumb .current {
@@ -402,7 +410,9 @@ body.dark-mode .breadcrumb .current {
 }
 
 body.dark-mode .breadcrumb .current:hover {
-    color: rgba(255, 255, 255, 0.9);
+    color: #ffffff; /* Ensure full visibility for the current item */
+    background-color: rgba(255, 255, 255, 0.2); /* Subtle background for contrast */
+    border-radius: 4px;
 }
 
 body.dark-mode .breadcrumb li:not(:last-child)::after {
@@ -877,6 +887,7 @@ body.dark-mode ul li:hover details summary {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 50px; /* Add margin to avoid overlap with breadcrumbs */
 }
 
 /* Blogpost header */
@@ -1006,10 +1017,28 @@ footer {
     }
 
     .breadcrumb {
-        top: 10px;
-        left: 10px;
-        font-size: 0.75em;
-        padding: 4px 8px;
+        top: 15px; /* Ensure consistent alignment */
+        left: 15px;
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+
+    .dark-mode-toggle {
+        top: 15px; /* Match breadcrumb height */
+        right: 15px; /* Adjust for better alignment */
+    }
+
+    .breadcrumb ul {
+        gap: 6px; /* Increased spacing between breadcrumb items */
+    }
+
+    .breadcrumb a {
+        padding: 6px 10px; /* Larger touch target for links */
+        border-radius: 8px; /* More rounded corners for a modern look */
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+        margin: 0 4px; /* Adjusted spacing for better readability */
     }
 
     .breadcrumb li:not(:last-child)::after {
