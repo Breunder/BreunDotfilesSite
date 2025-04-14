@@ -1017,10 +1017,28 @@ footer {
     }
 
     .breadcrumb {
-        top: 10px;
-        left: 10px;
-        font-size: 0.75em;
-        padding: 4px 8px;
+        top: 15px; /* Ensure consistent alignment */
+        left: 15px;
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+
+    .dark-mode-toggle {
+        top: 15px; /* Match breadcrumb height */
+        right: 15px; /* Adjust for better alignment */
+    }
+
+    .breadcrumb ul {
+        gap: 6px; /* Increased spacing between breadcrumb items */
+    }
+
+    .breadcrumb a {
+        padding: 6px 10px; /* Larger touch target for links */
+        border-radius: 8px; /* More rounded corners for a modern look */
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+        margin: 0 4px; /* Adjusted spacing for better readability */
     }
 
     .breadcrumb li:not(:last-child)::after {
