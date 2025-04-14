@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyprland Configuratie Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Inline styles voor deze pagina */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: #1b1b1b;
+            color: #e0e0e0;
+        }
+
+        header {
+            background-color: #2e3440;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-bottom: 4px solid #81a1c1;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode header {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode main {
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        fieldset {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.dark-mode fieldset {
+            background-color: #1e1e1e;
+            border-color: #444;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #2e3440;
+            padding: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode legend {
+            color: #81a1c1;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: white;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+
+        button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        body.dark-mode button {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        body.dark-mode button:hover {
+            background-color: #007bff;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #2e3440;
+            color: white;
+            margin-top: 2rem;
+            border-top: 4px solid #81a1c1;
+        }
+
+        footer a {
+            color: #81a1c1;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .config-output {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode .config-output {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="wiki.html">Wiki</a></li>
+            <li class="current">Hyprland Configuratie Generator</li>
+        </ul>
+    </nav>
+    <button class="dark-mode-toggle">🌙</button>
+    <header>
+        <h1>Hyprland Configuratie Generator</h1>
+        <p class="post-meta">Maak eenvoudig een uitgebreide Hyprland-configuratie met deze generator.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Configuratie Opties</h2>
+            <form id="config-form">
+                <fieldset>
+                    <legend>Algemene Instellingen</legend>
+                    <label for="workspace">Aantal werkruimtes:</label>
+                    <input type="number" id="workspace" name="workspace" min="1" max="10" value="2">
+                    <br><br>
+
+                    <label for="terminal">Terminal (bijv. Kitty):</label>
+                    <input type="text" id="terminal" name="terminal" placeholder="Kitty">
+                    <br><br>
+
+                    <label for="wallpaper">Achtergrondpad:</label>
+                    <input type="text" id="wallpaper" name="wallpaper" placeholder="/path/to/wallpaper.jpg">
+                    <br><br>
+
+                    <label for="vsync">V-Sync inschakelen:</label>
+                    <select id="vsync" name="vsync">
+                        <option value="true">Ja</option>
+                        <option value="false">Nee</option>
+                    </select>
+                </fieldset>
+                <br>
+
+                <fieldset>
+                    <legend>Keybindings</legend>
+                    <label for="keybinding-launcher">Applicatiestarter (bijv. Rofi):</label>
+                    <input type="text" id="keybinding-launcher" name="keybinding-launcher" placeholder="rofi -show drun">
+                    <br><br>
+
+                    <label for="keybinding-close">Venster sluiten:</label>
+                    <input type="text" id="keybinding-close" name="keybinding-close" placeholder="killactive">
+                </fieldset>
+                <br>
+
+                <fieldset>
+                    <legend>Monitor Instellingen</legend>
+                    <label for="monitor">Monitornaam (bijv. DP-1):</label>
+                    <input type="text" id="monitor" name="monitor" placeholder="DP-1">
+                    <br><br>
+
+                    <label for="resolution">Resolutie (bijv. 1920x1080):</label>
+                    <input type="text" id="resolution" name="resolution" placeholder="1920x1080">
+                    <br><br>
+
+                    <label for="refresh-rate">Verversingssnelheid (Hz):</label>
+                    <input type="number" id="refresh-rate" name="refresh-rate" min="30" max="240" value="60">
+                </fieldset>
+                <br>
+
+                <fieldset>
+                    <legend>Decoraties</legend>
+                    <label for="rounding">Hoekafronding (px):</label>
+                    <input type="number" id="rounding" name="rounding" min="0" max="50" value="10">
+                    <br><br>
+
+                    <label for="border-size">Randdikte (px):</label>
+                    <input type="number" id="border-size" name="border-size" min="0" max="10" value="2">
+                    <br><br>
+
+                    <label for="active-color">Actieve kleur:</label>
+                    <input type="color" id="active-color" name="active-color" value="#51a1c1">
+                    <br><br>
+
+                    <label for="inactive-color">Inactieve kleur:</label>
+                    <input type="color" id="inactive-color" name="inactive-color" value="#2e3440">
+                </fieldset>
+                <br>
+
+                <fieldset>
+                    <legend>Geavanceerde Instellingen</legend>
+                    <div id="advanced-settings-container">
+                        <div class="advanced-setting">
+                            <label for="exec-once-0">Exec-once (bijv. Waybar):</label>
+                            <input type="text" id="exec-once-0" name="exec-once" placeholder="waybar &">
+                            <button type="button" onclick="duplicateField(this, 'exec-once', 'Exec-once (bijv. Waybar):')">+ Voeg meer toe</button>
+                            <br><br>
+
+                            <label for="exec-always-0">Exec-always (bijv. Polybar):</label>
+                            <input type="text" id="exec-always-0" name="exec-always" placeholder="polybar &">
+                            <button type="button" onclick="duplicateField(this, 'exec-always', 'Exec-always (bijv. Polybar):')">+ Voeg meer toe</button>
+                            <br><br>
+
+                            <label for="input-config-0">Input Configuratie:</label>
+                            <textarea id="input-config-0" name="input-config" rows="4" placeholder="kb_layout = us"></textarea>
+                            <button type="button" onclick="duplicateField(this, 'input-config', 'Input Configuratie:')">+ Voeg meer toe</button>
+                            <br><br>
+
+                            <label for="custom-config-0">Aangepaste Configuratie:</label>
+                            <textarea id="custom-config-0" name="custom-config" rows="6" placeholder="# Voeg hier je aangepaste configuratie toe"></textarea>
+                            <button type="button" onclick="duplicateField(this, 'custom-config', 'Aangepaste Configuratie:')">+ Voeg meer toe</button>
+                            <br><br>
+                        </div>
+                    </div>
+                    <div id="duplicated-settings-container">
+                        <h3>Gedupliceerde Instellingen</h3>
+                    </div>
+                </fieldset>
+                <br>
+
+                <button type="button" onclick="generateConfig()">Genereer Configuratie</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Gegenereerde Configuratie</h2>
+            <pre id="generated-config" class="config-output">Hier verschijnt je configuratie...</pre>
+            <button onclick="downloadConfig()">Download Configuratie</button>
+        </section>
+    </main>
+
+    <footer>
+        <a href="wiki.html">Terug naar de hoofdpagina</a>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        function generateConfig() {
+            const workspaceCount = document.getElementById('workspace').value;
+            const terminal = document.getElementById('terminal').value || 'Kitty';
+            const wallpaper = document.getElementById('wallpaper').value || '/path/to/wallpaper.jpg';
+            const vsync = document.getElementById('vsync').value;
+            const launcher = document.getElementById('keybinding-launcher').value || 'rofi -show drun';
+            const closeWindow = document.getElementById('keybinding-close').value || 'killactive';
+            const monitor = document.getElementById('monitor').value || 'DP-1';
+            const resolution = document.getElementById('resolution').value || '1920x1080';
+            const refreshRate = document.getElementById('refresh-rate').value || '60';
+            const rounding = document.getElementById('rounding').value || '10';
+            const borderSize = document.getElementById('border-size').value || '2';
+            const activeColor = document.getElementById('active-color').value || '#51a1c1';
+            const inactiveColor = document.getElementById('inactive-color').value || '#2e3440';
+
+            let config = `# Hyprland Configuratie\n\n`;
+            config += `# Werkruimtes\n`;
+            for (let i = 1; i <= workspaceCount; i++) {
+                config += `workspace = ${i}, ${monitor}\n`;
+            }
+            config += `\n# Terminal\n`;
+            config += `bind = SUPER, Return, exec, ${terminal}\n`;
+            config += `\n# Achtergrond\n`;
+            config += `exec-once = swww img ${wallpaper}\n`;
+            config += `\n# Compositor\n`;
+            config += `compositor {\n    vsync = ${vsync}\n}\n`;
+            config += `\n# Keybindings\n`;
+            config += `bind = SUPER, D, exec, ${launcher}\n`;
+            config += `bind = SUPER, Q, ${closeWindow}\n`;
+            config += `\n# Monitor\n`;
+            config += `monitor = ${monitor}, ${resolution}@${refreshRate}Hz\n`;
+            config += `\n# Decoraties\n`;
+            config += `decoration {\n    rounding = ${rounding}\n    border_size = ${borderSize}\n    active_color = ${activeColor}\n    inactive_color = ${inactiveColor}\n}\n`;
+
+            // Verwerk originele en gedupliceerde geavanceerde instellingen
+            const allSettings = document.querySelectorAll('.advanced-setting');
+            let settingIndex = 1; // Start de nummering voor geavanceerde instellingen
+            allSettings.forEach((setting) => {
+                const execOnce = setting.querySelector(`[id^="exec-once-"]`)?.value || '';
+                const execAlways = setting.querySelector(`[id^="exec-always-"]`)?.value || '';
+                const inputConfig = setting.querySelector(`[id^="input-config-"]`)?.value || '';
+                const customConfig = setting.querySelector(`[id^="custom-config-"]`)?.value || '';
+
+                if (execOnce) {
+                    config += `\n# Exec-once (${settingIndex})\n`;
+                    config += `exec-once = ${execOnce}\n`;
+                }
+                if (execAlways) {
+                    config += `\n# Exec-always (${settingIndex})\n`;
+                    config += `exec-always = ${execAlways}\n`;
+                }
+                if (inputConfig) {
+                    config += `\n# Input Configuratie (${settingIndex})\n`;
+                    config += `input {\n${inputConfig.split('\n').map(line => `    ${line}`).join('\n')}\n}\n`;
+                }
+                if (customConfig) {
+                    config += `\n# Aangepaste Configuratie (${settingIndex})\n`;
+                    config += `${customConfig}\n`;
+                }
+
+                // Verhoog de index alleen als er een van de velden is ingevuld
+                if (execOnce || execAlways || inputConfig || customConfig) {
+                    settingIndex++;
+                }
+            });
+
+            document.getElementById('generated-config').textContent = config;
+        }
+
+        function downloadConfig() {
+            const config = document.getElementById('generated-config').textContent;
+            const blob = new Blob([config], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'hyprland.conf';
+            link.click();
+        }
+
+        function addAdvancedSetting() {
+            const container = document.getElementById('advanced-settings-container');
+            const index = container.children.length;
+
+            const newSetting = document.createElement('div');
+            newSetting.classList.add('advanced-setting');
+            newSetting.innerHTML = `
+                <label for="exec-once-${index}">Exec-once (bijv. Waybar):</label>
+                <input type="text" id="exec-once-${index}" name="exec-once" placeholder="waybar &">
+                <br><br>
+
+                <label for="exec-always-${index}">Exec-always (bijv. Polybar):</label>
+                <input type="text" id="exec-always-${index}" name="exec-always" placeholder="polybar &">
+                <br><br>
+
+                <label for="input-config-${index}">Input Configuratie:</label>
+                <textarea id="input-config-${index}" name="input-config" rows="4" placeholder="kb_layout = us"></textarea>
+                <br><br>
+
+                <label for="custom-config-${index}">Aangepaste Configuratie:</label>
+                <textarea id="custom-config-${index}" name="custom-config" rows="6" placeholder="# Voeg hier je aangepaste configuratie toe"></textarea>
+                <br><br>
+            `;
+            container.appendChild(newSetting);
+        }
+
+        function duplicateField(button, fieldName, labelText) {
+            const parentDiv = button.parentElement; // Het originele item
+            const duplicatedContainer = document.getElementById('duplicated-settings-container'); // Container voor gedupliceerde velden
+            const index = duplicatedContainer.querySelectorAll(`[id^="${fieldName}-"]`).length;
+
+            // Maak een nieuw label
+            const newLabel = document.createElement('label');
+            newLabel.setAttribute('for', `${fieldName}-${index}`);
+            newLabel.textContent = labelText;
+
+            // Maak een nieuw veld
+            const newField = document.createElement(fieldName === 'input-config' || fieldName === 'custom-config' ? 'textarea' : 'input');
+            newField.id = `${fieldName}-${index}`;
+            newField.name = fieldName;
+            newField.placeholder = parentDiv.querySelector(`[id^="${fieldName}-0"]`).placeholder;
+            if (fieldName === 'input-config' || fieldName === 'custom-config') {
+                newField.rows = fieldName === 'input-config' ? 4 : 6;
+            } else {
+                newField.type = 'text';
+            }
+
+            // Maak een nieuwe knop
+            const newButton = document.createElement('button');
+            newButton.type = 'button';
+            newButton.textContent = '+ Voeg meer toe';
+            newButton.onclick = () => duplicateField(newButton, fieldName, labelText);
+
+            // Maak een nieuwe container voor het gedupliceerde item
+            const newContainer = document.createElement('div');
+            newContainer.classList.add('advanced-setting');
+            newContainer.appendChild(newLabel);
+            newContainer.appendChild(newField);
+            newContainer.appendChild(newButton);
+            newContainer.appendChild(document.createElement('br'));
+            newContainer.appendChild(document.createElement('br'));
+
+            // Voeg het nieuwe item toe aan de gedupliceerde instellingen container
+            duplicatedContainer.appendChild(newContainer);
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            sessionStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            updateDarkModeButton();
+        }
+
+        function updateDarkModeButton() {
+            const darkModeButton = document.querySelector('.dark-mode-toggle');
+            if (darkModeButton) {
+                darkModeButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkMode = sessionStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+            }
+            updateDarkModeButton();
+
+            const darkModeButton = document.querySelector('.dark-mode-toggle');
+            if (darkModeButton) {
+                darkModeButton.addEventListener('click', toggleDarkMode);
+            }
+        });
+    </script>
+</body>
+</html>
+``` 
