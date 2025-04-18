@@ -424,7 +424,7 @@ body.dark-mode .breadcrumb li:not(:last-child)::after {
 
 /* Header stijl */
 header {
-    background-color: #2e3440;
+    background-color: #0B0E1E;
     color: white;
     text-align: center;
     padding: 2rem;
