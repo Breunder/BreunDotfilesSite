@@ -13,6 +13,9 @@ body {
     padding: 0;
     background-color: #f9f9f9;
     color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for dark mode */
+    background-image: url("images/hyprland.jpg");
+    background-size: cover
 }
 
 /* Dark mode styles */
@@ -421,7 +424,7 @@ body.dark-mode .breadcrumb li:not(:last-child)::after {
 
 /* Header stijl */
 header {
-    background-color: #2e3440;
+    background-color: #0B0E1E;
     color: white;
     text-align: center;
     padding: 2rem;
