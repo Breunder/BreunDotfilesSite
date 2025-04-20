@@ -119,30 +119,6 @@
             background-color: #007bff;
         }
 
-        .dark-mode-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .dark-mode-toggle:hover {
-            background-color: #0056b3;
-            transform: scale(1.1);
-        }
-
         footer {
             text-align: center;
             padding: 1rem;
@@ -301,13 +277,6 @@
 
         body.dark-mode .preview-note {
             color: #aaa;
-        }
-        .dark-mode-toggle {
-             background-color: #444;
-        }
-
-        body.dark-mode .dark-mode-toggle {
-            background-color: #666;
         }
     </style>
 </head>
@@ -529,7 +498,7 @@
     </main>
     
     <footer>
-        <a href="wiki.html">Terug naar de hoofdpagina</a>
+        <a class="button" href="wiki.html">Terug naar de hoofdpagina</a>
     </footer>
     <script src="script.js"></script>
     <script>
