@@ -176,6 +176,139 @@
             background-color: #1e1e1e;
             color: #e0e0e0;
         }
+        .preview-container {
+            width: 100%;
+            height: 300px;
+            background-color: #1e1e2e;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark-mode .preview-container {
+            background-color: #11111b;
+        }
+
+        .preview-window {
+            width: 70%;
+            height: 60%;
+            background-color: #333;
+            border-radius: 8px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .preview-titlebar {
+            height: 30px;
+            background-color: #2e3440;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            justify-content: space-between;
+        }
+
+        .preview-window-controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .preview-window-close,
+        .preview-window-minimize,
+        .preview-window-maximize {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .preview-window-close {
+            background-color: #ff5f56;
+        }
+
+        .preview-window-minimize {
+            background-color: #ffbd2e;
+        }
+
+        .preview-window-maximize {
+            background-color: #27c93f;
+        }
+
+        .preview-window-title {
+            color: #d8dee9;
+            font-size: 12px;
+        }
+
+        .preview-window-content {
+            height: calc(100% - 30px);
+            background-color: #2e3440;
+            padding: 10px;
+            color: #d8dee9;
+            font-family: monospace;
+            overflow: auto;
+        }
+
+        .preview-terminal {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .preview-prompt {
+            color: #a3be8c;
+        }
+
+        .preview-cursor {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .preview-workspace {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .preview-workspace-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            background-color: #5e81ac;
+            margin-right: 5px;
+        }
+
+        .preview-note {
+            text-align: center;
+            font-style: italic;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        body.dark-mode .preview-note {
+            color: #aaa;
+        }
+        .dark-mode-toggle {
+             background-color: #444;
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background-color: #666;
+        }
     </style>
 </head>
 <body>
@@ -274,7 +407,87 @@
                     <input type="color" id="inactive-color" name="inactive-color" value="#2e3440">
                 </fieldset>
                 <br>
+            
+                <fieldset>
+                    <legend>Animaties</legend>
+                    <label for="animations-enabled">Animaties inschakelen:</label>
+                    <select id="animations-enabled" name="animations-enabled">
+                        <option value="true">Ja</option>
+                        <option value="false">Nee</option>
+                    </select>
+                    <br><br>
                 
+                    <label for="animation-style">Animatiestijl:</label>
+                    <select id="animation-style" name="animation-style">
+                        <option value="default">Standaard</option>
+                        <option value="fade">Fade</option>
+                        <option value="slide">Slide</option>
+                        <option value="zoom">Zoom</option>
+                        <option value="popin">Pop In</option>
+                    </select>
+                    <br><br>
+                
+                    <label for="animation-speed">Animatiesnelheid (ms):</label>
+                    <input type="number" id="animation-speed" name="animation-speed" min="50" max="1000" value="300">
+                    <br><br>
+                
+                    <label for="animation-curve">Animatiecurve:</label>
+                    <select id="animation-curve" name="animation-curve">
+                        <option value="default">Standaard</option>
+                        <option value="linear">Lineair</option>
+                        <option value="easeInOut">Ease In Out</option>
+                        <option value="easeIn">Ease In</option>
+                        <option value="easeOut">Ease Out</option>
+                    </select>
+
+                    <label for="window-open-animation">Venster openen animatie:</label>
+                    <select id="window-open-animation" name="window-open-animation">
+                        <option value="slide">Slide</option>
+                        <option value="popin">Pop In</option>
+                        <option value="fade">Fade</option>
+                    </select>
+                    
+                    <label for="window-close-animation">Venster sluiten animatie:</label>
+                    <select id="window-close-animation" name="window-close-animation">
+                        <option value="slide">Slide</option>
+                        <option value="popout">Pop Out</option>
+                        <option value="fade">Fade</option>
+                    </select>
+                    
+                    <label for="workspace-switch-animation">Werkruimte wissel animatie:</label>
+                    <select id="workspace-switch-animation" name="workspace-switch-animation">
+                        <option value="slide">Slide</option>
+                        <option value="fade">Fade</option>
+                        <option value="zoom">Zoom</option>
+                    </select>
+                </fieldset>               
+                
+                <fieldset>
+                    <legend>Live Preview</legend>
+                    <div class="preview-container">
+                        <div class="preview-window" id="preview-window">
+                            <div class="preview-titlebar">
+                                <div class="preview-window-controls">
+                                    <span class="preview-window-close"></span>
+                                    <span class="preview-window-minimize"></span>
+                                    <span class="preview-window-maximize"></span>
+                                </div>
+                                <div class="preview-window-title">Terminal</div>
+                            </div>
+                            <div class="preview-window-content">
+                                <div class="preview-terminal">
+                                    <span class="preview-prompt">user@hyprland:~$</span> <span class="preview-cursor">_</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="preview-workspace" id="preview-workspace">
+                            <div class="preview-workspace-indicator">Workspace 1</div>
+                        </div>
+                    </div>
+                    <p class="preview-note">Dit is een vereenvoudigde weergave van hoe je Hyprland configuratie eruit zou kunnen zien.</p>
+                </fieldset>
+                <br>
+
                 <fieldset>
                     <legend>Geavanceerde Instellingen</legend>
                     <div id="advanced-settings-container">
@@ -334,6 +547,14 @@
             const borderSize = document.getElementById('border-size').value || '2';
             const activeColor = document.getElementById('active-color').value || '#51a1c1';
             const inactiveColor = document.getElementById('inactive-color').value || '#2e3440';
+            const animationsEnabled = document.getElementById('animations-enabled').value;
+            const animationStyle = document.getElementById('animation-style').value;
+            const animationSpeed = document.getElementById('animation-speed').value;
+            const animationCurve = document.getElementById('animation-curve').value;
+            const windowOpenAnimation = document.getElementById('window-open-animation')?.value || 'slide';
+            const windowCloseAnimation = document.getElementById('window-close-animation')?.value || 'slide';
+            const workspaceSwitchAnimation = document.getElementById('workspace-switch-animation')?.value || 'slide';
+
 
             let config = `# Hyprland Configuratie\n\n`;
             config += `# Werkruimtes\n`;
@@ -353,6 +574,22 @@
             config += `monitor = ${monitor}, ${resolution}@${refreshRate}Hz\n`;
             config += `\n# Decoraties\n`;
             config += `decoration {\n    rounding = ${rounding}\n    border_size = ${borderSize}\n    active_color = ${activeColor}\n    inactive_color = ${inactiveColor}\n}\n`;
+            config += `\n# Animaties\n`;
+            config += `animations {\n`;
+            config += `    enabled = ${animationsEnabled}\n`;
+            if (animationsEnabled === 'true') {
+                config += `    animation = windows, 1, ${animationSpeed}, ${animationCurve}, ${animationStyle}\n`;
+                config += `    animation = windowsOut, 1, ${animationSpeed}, ${animationCurve}, ${animationStyle}Out\n`;
+                config += `    animation = border, 1, ${animationSpeed}, ${animationCurve}\n`;
+                config += `    animation = fade, 1, ${animationSpeed}, ${animationCurve}\n`;
+                config += `    animation = workspaces, 1, ${animationSpeed}, ${animationCurve}, slide\n`;
+                config += `    animation = windows, 1, ${animationSpeed}, ${animationCurve}, ${windowOpenAnimation}\n`;
+                config += `    animation = windowsOut, 1, ${animationSpeed}, ${animationCurve}, ${windowCloseAnimation}\n`;
+                config += `    animation = border, 1, ${animationSpeed}, ${animationCurve}\n`;
+                config += `    animation = fade, 1, ${animationSpeed}, ${animationCurve}\n`;
+                config += `    animation = workspaces, 1, ${animationSpeed}, ${animationCurve}, ${workspaceSwitchAnimation}\n`;
+            }
+            config += `}\n`;
 
             // Verwerk originele en gedupliceerde geavanceerde instellingen
             const allSettings = document.querySelectorAll('.advanced-setting');
@@ -502,7 +739,11 @@
                     rounding: 5,
                     borderSize: 1,
                     activeColor: '#ffffff',
-                    inactiveColor: '#888888'
+                    inactiveColor: '#888888',
+                    animationsEnabled: 'true',
+                    animationStyle: 'fade',
+                    animationSpeed: 200,
+                    animationCurve: 'easeOut'
                 },
                 gaming: {
                     workspace: 3,
@@ -517,7 +758,11 @@
                     rounding: 10,
                     borderSize: 2,
                     activeColor: '#ff0000',
-                    inactiveColor: '#333333'
+                    inactiveColor: '#333333',
+                    animationsEnabled: 'true',
+                    animationStyle: 'slide',
+                    animationSpeed: 150,
+                    animationCurve: 'linear'
                 },
                 productivity: {
                     workspace: 4,
@@ -532,7 +777,11 @@
                     rounding: 8,
                     borderSize: 2,
                     activeColor: '#00ff00',
-                    inactiveColor: '#444444'
+                    inactiveColor: '#444444',
+                    animationsEnabled: 'true',
+                    animationStyle: 'default',
+                    animationSpeed: 300,
+                    animationCurve: 'easeInOut'
                 }
             };
 
@@ -551,6 +800,10 @@
                 document.getElementById('border-size').value = config.borderSize;
                 document.getElementById('active-color').value = config.activeColor;
                 document.getElementById('inactive-color').value = config.inactiveColor;
+                document.getElementById('animations-enabled').value = config.animationsEnabled;
+                document.getElementById('animation-style').value = config.animationStyle;
+                document.getElementById('animation-speed').value = config.animationSpeed;
+                document.getElementById('animation-curve').value = config.animationCurve;
 
                 generateConfig(); // Update the live preview
             }
@@ -617,6 +870,146 @@
             // Update the live preview in real-time as the user interacts with the form
             document.getElementById('config-form').addEventListener('input', generateConfig);
         });
+        function updateLivePreview() {
+            // Haal de waarden op van de formulierelementen
+            const rounding = document.getElementById('rounding').value;
+            const borderSize = document.getElementById('border-size').value;
+            const activeColor = document.getElementById('active-color').value;
+            const inactiveColor = document.getElementById('inactive-color').value;
+            const animationsEnabled = document.getElementById('animations-enabled').value === 'true';
+            const animationStyle = document.getElementById('animation-style').value;
+            
+            // Update de preview window
+            const previewWindow = document.getElementById('preview-window');
+            if (previewWindow) {
+                // Pas border radius toe op basis van rounding
+                previewWindow.style.borderRadius = `${rounding}px`;
+                
+                // Pas border toe op basis van border size en active color
+                previewWindow.style.border = `${borderSize}px solid ${activeColor}`;
+                
+                // Voeg animatie toe als deze is ingeschakeld
+                if (animationsEnabled) {
+                    let animationClass = '';
+                    switch(animationStyle) {
+                        case 'fade':
+                            animationClass = 'preview-animation-fade';
+                            break;
+                        case 'slide':
+                            animationClass = 'preview-animation-slide';
+                            break;
+                        case 'zoom':
+                            animationClass = 'preview-animation-zoom';
+                            break;
+                        case 'popin':
+                            animationClass = 'preview-animation-popin';
+                            break;
+                        default:
+                            animationClass = '';
+                    }
+                    
+                    // Verwijder bestaande animatie classes
+                    previewWindow.classList.remove(
+                        'preview-animation-fade',
+                        'preview-animation-slide',
+                        'preview-animation-zoom',
+                        'preview-animation-popin'
+                    );
+                    
+                    // Voeg nieuwe animatie class toe
+                    if (animationClass) {
+                        previewWindow.classList.add(animationClass);
+                    }
+                }
+            }
+            
+            // Update de workspace indicator
+            const workspaceCount = document.getElementById('workspace').value;
+            const workspaceIndicator = document.querySelector('.preview-workspace-indicator');
+            if (workspaceIndicator) {
+                workspaceIndicator.textContent = `Workspace 1/${workspaceCount}`;
+                workspaceIndicator.style.backgroundColor = activeColor;
+            }
+        }
+
+        // Voeg animatie classes toe aan de <style> sectie
+        document.head.insertAdjacentHTML('beforeend', `
+        <style>
+        .preview-animation-fade {
+            animation: preview-fade 2s infinite alternate;
+        }
+
+        .preview-animation-slide {
+            animation: preview-slide 2s infinite alternate;
+        }
+
+        .preview-animation-zoom {
+            animation: preview-zoom 2s infinite alternate;
+        }
+
+        .preview-animation-popin {
+            animation: preview-popin 2s infinite alternate;
+        }
+
+        @keyframes preview-fade {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes preview-slide {
+            0% { transform: translate(-55%, -50%); }
+            100% { transform: translate(-45%, -50%); }
+        }
+
+        @keyframes preview-zoom {
+            0% { transform: translate(-50%, -50%) scale(0.95); }
+            100% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        @keyframes preview-popin {
+            0% { transform: translate(-50%, -50%) scale(0.9); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+        </style>
+        `);
+
+        // Voeg event listeners toe om de preview bij te werken wanneer instellingen veranderen
+        document.addEventListener('DOMContentLoaded', () => {
+            // Bestaande DOMContentLoaded code...
+            
+            // Initialiseer de live preview
+            updateLivePreview();
+            
+            // Update de preview wanneer relevante instellingen veranderen
+            const previewElements = [
+                'rounding', 'border-size', 'active-color', 'inactive-color',
+                'animations-enabled', 'animation-style', 'workspace'
+            ];
+            
+            previewElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', updateLivePreview);
+                    element.addEventListener('change', updateLivePreview);
+                }
+            });
+            
+            // Update ook de preview wanneer een preset wordt toegepast
+            const presetSelect = document.getElementById('preset-config');
+            if (presetSelect) {
+                presetSelect.addEventListener('change', function() {
+                    // Wacht even tot de preset is toegepast
+                    setTimeout(updateLivePreview, 100);
+                });
+            }
+        });
+
+        // Wijzig de bestaande generateConfig functie om ook de preview bij te werken
+        const originalGenerateConfig = generateConfig;
+        generateConfig = function() {
+            originalGenerateConfig();
+            updateLivePreview();
+        };
     </script>
 </body>
 </html>
