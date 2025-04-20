@@ -347,32 +347,3 @@ document.addEventListener('DOMContentLoaded', () => {
         darkModeButton.addEventListener('click', toggleDarkMode);
     }
 });
-document.addEventListener('DOMContentLoaded', function() {
-    // Controleer of de afbeelding al in cache staat
-    const cachedImage = localStorage.getItem('backgroundImage');
-    
-    if (cachedImage) {
-        // Gebruik de gecachte afbeelding direct
-        document.body.style.backgroundImage = `url(${cachedImage})`;
-    } else {
-        // Laad de afbeelding en sla deze op in localStorage
-        const img = new Image();
-        img.onload = function() {
-            // Converteer de afbeelding naar een data URL
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            
-            // Sla de data URL op in localStorage
-            try {
-                const dataURL = canvas.toDataURL('image/jpeg');
-                localStorage.setItem('backgroundImage', dataURL);
-            } catch (e) {
-                console.error('Kan afbeelding niet cachen:', e);
-            }
-        };
-        img.src = 'images/hyprland.jpg';
-    }
-});
