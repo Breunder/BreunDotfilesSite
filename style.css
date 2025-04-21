@@ -24,9 +24,7 @@ body.dark-mode {
     color: #ffffff; /* Maak de tekst wit in dark mode */
 }
 
-body.dark-mode header,
-body.dark-mode code,
-body.dark-mode div {
+body.dark-mode code  {
     background-color: #1e1e1e;
     color: #ffffff;
 }
@@ -171,12 +169,6 @@ body.dark-mode section {
     background-color: #1e1e1e; /* Donkere achtergrondkleur voor sections in dark mode */
     color: #ffffff; /* Zorg dat de tekst wit blijft */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Pas schaduw aan voor donkere achtergrond */
-}
-
-body.dark-mode main {
-    background-color: #1e1e1e; /* Donkere achtergrondkleur voor main in dark mode */
-    color: #ffffff; /* Witte tekstkleur */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Pas schaduw aan */
 }
 
 body.dark-mode ul li {
@@ -970,8 +962,8 @@ footer {
     text-align: center;
     padding: 0.1rem;
     margin-top: 1rem;
-    background-color: #f9f9f9;
-    color: #555;
+    background-color: #0B0E1E;
+    color: #ffffff;
     font-size: 0.9rem;
 }
 
