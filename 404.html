@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Not Found - BreunDotfilesSite</title>
+    <title>Pagina Niet Gevonden - BreunDotfilesSite</title>
     <link rel="stylesheet" href="style.css">
     <style>
         body {
@@ -14,6 +14,7 @@
             margin: 0 auto;
             padding: 2rem;
             text-align: center;
+            background-color: #f8f9fa;
         }
         h1 {
             font-size: 3rem;
@@ -59,13 +60,43 @@
             font-weight: bold;
             color: #e74c3c;
         }
+        .available-pages {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        .available-pages h2 {
+            margin-top: 0;
+            color: #3498db;
+        }
+        .available-pages ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .available-pages li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .available-pages li:last-child {
+            border-bottom: none;
+        }
+        .available-pages a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .available-pages a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="emoji">🤔</div>
     <h1>404</h1>
     <div class="message">
-        <p>Oops! Het bestand dat je zoekt is niet gevonden.</p>
+        <p>Oeps! De pagina die je zoekt is niet gevonden.</p>
         <p>Je probeerde: <span id="requested-url">onbekend pad</span></p>
     </div>
     
@@ -82,21 +113,67 @@
         <p>No such file or directory</p>
     </div>
     
+    <div class="available-pages">
+        <h2>Beschikbare pagina's:</h2>
+        <ul id="available-pages-list">
+            <!-- Deze lijst wordt dynamisch gevuld door JavaScript -->
+        </ul>
+    </div>
+    
     <a href="home.html" class="button">Terug naar Home</a>
 
     <script>
-        // Toon het pad dat de gebruiker probeerde te bereiken
+        // Lijst van beschikbare pagina's in je site met titels
+        const availablePages = [
+            { url: 'home.html', title: 'Home' },
+            { url: 'aboutme.html', title: 'Over Mij' },
+            { url: 'blog.html', title: 'Blog' },
+            { url: 'changelog.html', title: 'Changelog' },
+            { url: 'Bash-SoftwareInstallatie-Generator.html', title: 'Software-Installatie-Generator' },
+            { url: 'dotfiles.html', title: 'Dotfiles' },
+            { url: 'gallery.html', title: 'Gallery' },
+            { url: 'geavanceerd-scripting.html', title: 'Geavanceerd Scripting' },
+            { url: 'hyprland-config-generator.html', title: 'hyprland config generator' },
+            { url: 'installatie-arch.html', title: 'Installatie Arch' },
+            { url: 'installatie-hyprland.html', title: 'Installatie Hyprland' },
+            { url: 'news.html', title: 'News' },
+            { url: 'post1.html', title: 'Post 1' },
+            { url: 'post2.html', title: 'Post 2' },
+            { url: 'post3.html', title: 'Post 3' },
+            { url: 'problemen.html', title: 'Problemen' },
+            { url: 'scripting.html', title: 'Scripting' },
+            { url: 'waybar-config-generator.html', title: 'Waybar config generator' },
+            { url: 'wiki.html', title: 'Wiki' },
+        ];
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Haal de URL op uit localStorage (indien beschikbaar)
-            const requestedUrl = localStorage.getItem('lastRequestedUrl') || 'onbekend pad';
+            // Toon het pad dat de gebruiker probeerde te bereiken
+            let requestedUrl = sessionStorage.getItem('requestedUrl');
+            
+            // Als er geen opgeslagen URL is, gebruik dan het huidige pad
+            if (!requestedUrl) {
+                requestedUrl = window.location.pathname.split('/').pop() || 'onbekend pad';
+            } else {
+                // Verwijder de opgeslagen URL na gebruik
+                sessionStorage.removeItem('requestedUrl');
+            }
+            
             document.getElementById('requested-url').textContent = requestedUrl;
             
             // Haal de bestandsnaam uit de URL voor in de terminal
             const filename = requestedUrl.split('/').pop();
             document.getElementById('terminal-filename').textContent = filename || 'het-bestand-dat-je-zocht';
             
-            // Verwijder de opgeslagen URL
-            localStorage.removeItem('lastRequestedUrl');
+            // Vul de lijst met beschikbare pagina's
+            const pagesList = document.getElementById('available-pages-list');
+            availablePages.forEach(page => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = page.url;
+                a.textContent = page.title;
+                li.appendChild(a);
+                pagesList.appendChild(li);
+            });
         });
     </script>
 </body>
