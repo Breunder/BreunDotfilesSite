@@ -41,12 +41,27 @@
                 </li>
                 <li>
                     <label>
-                        <input type="checkbox" name="software" value="wofi"> Wofi
+                        <input type="checkbox" name="software" value="rofi"> Rofi
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" name="software" value="rofi-wayland"> Rofi (wayland)
                     </label>
                 </li>
                 <li>
                     <label>
                         <input type="checkbox" name="software" value="swww"> SWWW (Wallpaper)
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" name="software" value="sddm"> sddm (login manager)
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" name="software" value="swaync"> Swaync (notification manager)
                     </label>
                 </li>
             </ul>
@@ -102,7 +117,12 @@
                     </li>
                     <li>
                         <label>
-                            <input type="checkbox" name="software" value="wl-clipboard"> wl-clipboard
+                            <input type="checkbox" name="software" value="cups"> CUPS (pinter)
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="cliphist"> Cliphist
                         </label>
                     </li>
                     <li>
@@ -118,6 +138,81 @@
                     <li>
                         <label>
                             <input type="checkbox" name="software" value="network-manager"> NetworkManager
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="flatpak"> Flatpak
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="ark"> Ark (7Zip)
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="firewalld"> Firewalld 
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="kdepolkit"> KDE Polkit (Authentication)
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="blueman"> Blueman (bluetooth control)
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="pavucontrol"> pavucontrol (volume control)
+                        </label>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Apps</h2>
+                <ul class="software-list">
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="firefox"> Firefox (Browser)
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="thunderbird"> Thunderbird (mail)
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="steam"> Steam
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="libreoffice"> Libreoffice (Office suite)
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="kdenlive"> Kdenlive
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="gimp"> Gimp
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="qbittorrent"> Qbittorrent
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="picard"> Picard (muziek tagger`)
                         </label>
                     </li>
                 </ul>
@@ -173,12 +268,68 @@ echo "=== Systeem updaten ==="
 `;
 
         // Package manager detection
-        script += `
+    script += `
 # Detecteer package manager
 if command -v pacman &> /dev/null; then
     PKG_MANAGER="pacman"
     INSTALL_CMD="sudo pacman -S --noconfirm"
     UPDATE_CMD="sudo pacman -Syu --noconfirm"
+    
+    # Controleer geactiveerde repositories in Arch Linux
+    echo "Controleren van geactiveerde repositories..."
+    if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
+        echo "Waarschuwing: multilib repository is niet ingeschakeld."
+        echo "Sommige software vereist mogelijk de multilib repository."
+        echo "Wil je multilib inschakelen? (j/n)"
+        read -r enable_multilib
+        if [[ "$enable_multilib" == "j" ]]; then
+            echo "Multilib repository inschakelen..."
+            sudo sed -i "/\\[multilib\\]/,/Include/s/^#//" /etc/pacman.conf
+            sudo pacman -Sy
+            echo "Multilib repository is nu ingeschakeld."
+        fi
+    else
+        echo "Multilib repository is ingeschakeld."
+    fi
+    
+    # Controleer of AUR helper is geïnstalleerd
+    if ! command -v yay &> /dev/null && ! command -v paru &> /dev/null; then
+        echo "Geen AUR helper (yay of paru) gevonden."
+        echo "Sommige software is mogelijk alleen beschikbaar via AUR."
+        echo "Wil je een AUR helper installeren? (j/n)"
+        read -r install_aur
+        if [[ "$install_aur" == "j" ]]; then
+            echo "Welke AUR helper wil je installeren? (yay/paru)"
+            read -r aur_helper
+            if [[ "$aur_helper" == "yay" ]]; then
+                echo "Yay installeren..."
+                sudo pacman -S --needed git base-devel
+                git clone https://aur.archlinux.org/yay.git
+                cd yay
+                makepkg -si
+                cd ..
+                rm -rf yay
+                echo "Yay is geïnstalleerd."
+                INSTALL_CMD="yay -S --noconfirm"
+            elif [[ "$aur_helper" == "paru" ]]; then
+                echo "Paru installeren..."
+                sudo pacman -S --needed git base-devel
+                git clone https://aur.archlinux.org/paru.git
+                cd paru
+                makepkg -si
+                cd ..
+                rm -rf paru
+                echo "Paru is geïnstalleerd."
+                INSTALL_CMD="paru -S --noconfirm"
+            fi
+        fi
+    elif command -v yay &> /dev/null; then
+        echo "Yay is geïnstalleerd. AUR packages kunnen worden gebruikt."
+        INSTALL_CMD="yay -S --noconfirm"
+    elif command -v paru &> /dev/null; then
+        echo "Paru is geïnstalleerd. AUR packages kunnen worden gebruikt."
+        INSTALL_CMD="paru -S --noconfirm"
+    fi
 elif command -v apt &> /dev/null; then
     PKG_MANAGER="apt"
     INSTALL_CMD="sudo apt install -y"
@@ -195,6 +346,7 @@ fi
 echo "Gedetecteerde package manager: $PKG_MANAGER"
 $UPDATE_CMD
 `;
+
 
         // Add installation commands for each selected software
         selectedSoftware.forEach(software => {
@@ -214,10 +366,16 @@ $UPDATE_CMD
                     script += `echo "Waybar configuratie aangemaakt in ~/.config/waybar/"\n`;
                     break;
                     
-                case 'wofi':
-                    script += `$INSTALL_CMD wofi\n`;
-                    script += `mkdir -p ~/.config/wofi\n`;
-                    script += `echo "Wofi configuratie aangemaakt in ~/.config/wofi/"\n`;
+                case 'rofi':
+                    script += `$INSTALL_CMD rofi\n`;
+                    script += `mkdir -p ~/.config/rofi\n`;
+                    script += `echo "Rofi configuratie aangemaakt in ~/.config/rofi/"\n`;
+                    break;
+
+                case 'rofi-wayland':
+                    script += `$INSTALL_CMD rofi-wayland\n`;
+                    script += `mkdir -p ~/.config/rofi\n`;
+                    script += `echo "Rofi configuratie aangemaakt in ~/.config/rofi/"\n`;
                     break;
                     
                 case 'swww':
@@ -303,10 +461,6 @@ $UPDATE_CMD
                     script += `echo "Node.js $(node -v) en NPM $(npm -v) geïnstalleerd."\n`;
                     break;
                     
-                case 'firefox':
-                    script += `$INSTALL_CMD firefox\n`;
-                    break;
-                    
                 case 'vlc':
                     script += `$INSTALL_CMD vlc\n`;
                     break;
@@ -326,12 +480,9 @@ $UPDATE_CMD
                     script += `fi\n`;
                     break;
                     
-                case 'gimp':
-                    script += `$INSTALL_CMD gimp\n`;
-                    break;
-                    
                 case 'btop':
                     script += `$INSTALL_CMD btop\n`;
+                    script += `echo "Btop++ geïnstalleerd"\n`;
                     break;
                     
                 case 'thunar':
@@ -349,9 +500,9 @@ $UPDATE_CMD
                     script += `echo "Slurp geïnstalleerd voor het selecteren van gebieden in Wayland."\n`;
                     break;
                     
-                case 'wl-clipboard':
-                    script += `$INSTALL_CMD wl-clipboard\n`;
-                    script += `echo "wl-clipboard geïnstalleerd voor klembord functionaliteit in Wayland."\n`;
+                case 'cliphist':
+                    script += `$INSTALL_CMD cliphist\n`;
+                    script += `echo "cliphist geïnstalleerd voor klembord functionaliteit in Wayland."\n`;
                     break;
                     
                 case 'pipewire':
@@ -378,7 +529,116 @@ $UPDATE_CMD
                     script += `fi\n`;
                     script += `echo "NetworkManager geïnstalleerd en service ingeschakeld."\n`;
                     break;
-                    
+
+                case 'flatpak':
+                    script += `$INSTALL_CMD flatpak\n`;
+                    script += `echo "Flatpak geïnstalleerd en klaar om te gebruiken."\n`;
+                    break;
+
+                case 'ark':
+                    script += `$INSTALL_CMD ark\n`;
+                    script += `echo "Ark archiefbeheerder geïnstalleerd."\n`;
+                    break;
+
+                case 'thunderbird':
+                    script += `$INSTALL_CMD thunderbird\n`;
+                    script += `echo "Thunderbird geïnstalleerd"\n`;
+                    break;
+                
+                case 'steam':
+                    script += `if [ "$PKG_MANAGER" = "pacman" ]; then\n`;
+                    script += `  # Voor Arch Linux is multilib repository nodig\n`;
+                    script += `  if ! grep -q "^\\[multilib\\]" /etc/pacman.conf; then\n`;
+                    script += `    echo "Multilib repository is vereist voor Steam maar is niet ingeschakeld."\n`;
+                    script += `    echo "Wil je multilib inschakelen? (j/n)"\n`;
+                    script += `    read -r enable_multilib\n`;
+                    script += `    if [[ "$enable_multilib" == "j" ]]; then\n`;
+                    script += `      echo "Multilib repository inschakelen..."\n`;
+                    script += `      sudo sed -i "/\\[multilib\\]/,/Include/s/^#//" /etc/pacman.conf\n`;
+                    script += `      sudo pacman -Sy\n`;
+                    script += `      echo "Multilib repository is nu ingeschakeld."\n`;
+                    script += `    else\n`;
+                    script += `      echo "Multilib is vereist voor Steam. Installatie wordt overgeslagen."\n`;
+                    script += `      break\n`;
+                    script += `    fi\n`;
+                    script += `  fi\n`;
+                    script += `  $INSTALL_CMD steam\n`;
+                    script += `elif [ "$PKG_MANAGER" = "apt" ]; then\n`;
+                    script += `  # Voor Debian/Ubuntu\n`;
+                    script += `  sudo add-apt-repository multiverse\n`;
+                    script += `  sudo apt update\n`;
+                    script += `  $INSTALL_CMD steam\n`;
+                    script += `elif [ "$PKG_MANAGER" = "dnf" ]; then\n`;
+                    script += `  # Voor Fedora\n`;
+                    script += `  sudo dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm\n`;
+                    script += `  $INSTALL_CMD steam\n`;
+                    script += `else\n`;
+                    script += `  echo "Installatie van Steam voor deze package manager is niet geïmplementeerd."\n`;
+                    script += `fi\n`;
+                    script += `echo "Steam is geïnstalleerd. Je kunt het starten vanuit het menu of met het commando 'steam'."\n`;
+                    break;
+
+                case 'libreoffice':
+                    script += `$INSTALL_CMD libreoffice-still\n`;
+                    script += `echo "Libreoffice geïnstalleerd"\n`;
+                    break;
+
+                case 'firefox':
+                    script += `$INSTALL_CMD firefox\n`;
+                    script += `echo "firefox geïnstalleerd"\n`;
+                    break;
+
+                case 'qbittorrent':
+                    script += `$INSTALL_CMD qbittorrent\n`;
+                    script += `echo "Qbittorrent geïnstalleerd"\n`;
+                    break;
+
+                case 'gimp':
+                    script += `$INSTALL_CMD gimp\n`;
+                    script += `echo "Gimp geïnstalleerd"\n`;
+                    break;
+
+                case 'picard':
+                    script += `$INSTALL_CMD picard\n`;
+                    script += `echo "Picard geïnstalleerd"\n`;
+                    break;
+
+                case 'sddm':
+                    script += `$INSTALL_CMD sddm\n`;
+                    script += `  sudo systemctl enable --now sddm.service\n`;
+                    script += `echo "Sddm geïnstalleerd en servicess ingeschakeld."\n`;
+                    break;
+
+                case 'firewalld':
+                    script += `$INSTALL_CMD firewalld\n`;
+                    script += `if [ "$PKG_MANAGER" = "pacman" ] || [ "$PKG_MANAGER" = "apt" ] || [ "$PKG_MANAGER" = "dnf" ]; then\n`;
+                    script += `  sudo systemctl enable --now firewalld.service\n`;
+                    script += `  sudo systemctl enable --now nftables.service\n`;
+                    script += `fi\n`;
+                    script += `echo "Firewalld geïnstalleerd en servicess ingeschakeld."\n`;
+                    break;
+
+                case 'kdepolkit':
+                    script += `$INSTALL_CMD polkit-kde-agent\n`;
+                    script += `echo "KDE Polkit authentication agent geïnstalleerd. Je moet zelf de polkit aan zetten!"\n`;
+                    break;
+
+                case 'blueman':
+                    script += `$INSTALL_CMD blueman\n`;
+                    script += `echo "blueman geïnstalleerd."\n`;
+                    break;
+
+                case 'pavucontrol':
+                    script += `$INSTALL_CMD pavucontrol\n`;
+                    script += `echo "pavucontrol geïnstalleerd."\n`;
+                    break;
+
+                case 'swaync':
+                    script += `$INSTALL_CMD swaync\n`;
+                    script += `mkdir -p ~/.config/swaync\n`;
+                    script += `echo "Swaync geïnstalleerd en configuratiemap aangemaakt in ~/.config/swaync/. Je moet het wel zelf aan zetten!"\n`;
+                    break;
+
                 default:
                     script += `$INSTALL_CMD ${software}\n`;
             }
