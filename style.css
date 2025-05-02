@@ -1406,3 +1406,16 @@ body.dark-mode .script-output {
         grid-template-columns: 1fr;
     }
 }
+
+/* Protected link styling */
+.protected-link {
+    position: relative;
+    padding-right: 25px !important;
+}
+
+.protected-link::after {
+    content: "🔒";
+    position: absolute;
+    right: 5px;
+    font-size: 14px;
+}

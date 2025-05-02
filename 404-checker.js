@@ -20,7 +20,8 @@
             'scripting.html',
             'waybar-config-generator.html',
             'wiki.html',
-            'page-checker.html'
+            'page-checker.html',
+            'mijndotfiles.html'
         ];
         
         // Controleer of de huidige pagina in de lijst staat
