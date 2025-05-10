@@ -328,10 +328,17 @@ function updateDarkModeButton() {
 
 // Initialize dark mode
 document.addEventListener('DOMContentLoaded', () => {
-    const darkMode = sessionStorage.getItem('darkMode') === 'true';
-    if (darkMode) {
+    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const darkMode = sessionStorage.getItem('darkMode');
+    
+    if (darkMode === null) {
+        if (prefersDarkMode) {
+            document.body.classList.add('dark-mode');
+        }
+    } else if (darkMode === 'true') {
         document.body.classList.add('dark-mode');
     }
+
     updateDarkModeButton();
 
     // Add click handler to button

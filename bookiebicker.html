@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="secret-checker.js"></script>
+    <title>Bookie Clicker</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            grid-gap: 20px;
+            overflow: hidden;
+        }
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .side-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: 100%;
+        }
+        #cookie {
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        #cookie:active {
+            transform: scale(0.95);
+        }
+        #counter, #cps {
+            font-size: 24px;
+            margin: 10px;
+            color: #333;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        #upgrades, #producers {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            max-height: calc(50vh - 40px);
+        }
+        .upgrade, .producer {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: transform 0.2s;
+        }
+        .upgrade:hover, .producer:hover {
+            transform: scale(1.02);
+        }
+        .upgrade:disabled, .producer:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .achievement {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="main-content">
+        <h1>Bookie Clicker</h1>
+        <div id="counter">Cookies: 0</div>
+        <div id="cps">Per seconde: 0</div>
+        <i id="cookie" class="fas fa-cookie" style="font-size: 200px; color: #8B4513;"></i>
+            <button id="showAchievements" class="button" onclick="showAllAchievements()">Toon Achievements</button>
+            <button id="saveGame" class="button" onclick="saveGameState()">Save Game</button>
+            <button id="loadGame" class="button" onclick="loadGameState()">Load Game</button>
+
+            <script>
+            function showAllAchievements() {
+                let message = "Achievements:\n";
+                achievements.forEach(achievement => {
+                    const unlocked = achievementsUnlocked.has(achievement.name);
+                    message += `${achievement.name}: ${unlocked ? '✓' : '✗'} (${achievement.requirement} cookies needed)\n`;
+                });
+                alert(message);
+            }
+
+            function saveGameState() {
+                const gameState = JSON.stringify({
+                    count,
+                    cookiesPerClick,
+                    cookiesPerSecond,
+                    producers,
+                    achievementsUnlocked: Array.from(achievementsUnlocked)
+                });
+                
+                const blob = new Blob([gameState], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'cookieclicker_save.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                alert('Game saved!');
+            }
+
+            function loadGameState() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                
+                input.onchange = function(e) {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const gameState = JSON.parse(e.target.result);
+                        count = gameState.count;
+                        cookiesPerClick = gameState.cookiesPerClick;
+                        cookiesPerSecond = gameState.cookiesPerSecond;
+                        producers = gameState.producers;
+                        achievementsUnlocked = new Set(gameState.achievementsUnlocked);
+                        counter.textContent = 'Cookies: ' + Math.floor(count);
+                        updateCookiesPerSecond();
+                        alert('Game loaded!');
+                    };
+                    
+                    reader.readAsText(file);
+                };
+                
+                input.click();
+            }
+            </script>        
+            <a href="secret.html" class="button">Terug naar Secret</a>
+    </div>
+    <div class="side-content">
+        <div>
+            <div class="section-title">Upgrades</div>
+            <div id="upgrades"></div>
+        </div>
+        <div>
+            <div class="section-title">Producers</div>
+            <div id="producers"></div>
+        </div>
+    </div>
+    <div id="achievement" class="achievement"></div>
+</body>
+    <script>
+        let count = 0;
+        let cookiesPerClick = 1;
+        let cookiesPerSecond = 0;
+        let goldenCookieChance = 0.1;
+        let clickMultiplier = 1;
+        let achievementsUnlocked = new Set();
+        
+        const cookie = document.getElementById('cookie');
+        const counter = document.getElementById('counter');
+        const cpsCounter = document.getElementById('cps');
+        const upgradesDiv = document.getElementById('upgrades');
+        const producersDiv = document.getElementById('producers');
+        const achievementDiv = document.getElementById('achievement');
+
+        const achievements = [
+            { name: "Cookie Rookie", requirement: 100, message: "Bak je eerste 100 cookies!" },
+            { name: "Cookie Master", requirement: 1000, message: "Bereik 1,000 cookies!" },
+            { name: "Cookie Mogul", requirement: 10000, message: "Bereik 10,000 cookies!" },
+            { name: "Cookie Emperor", requirement: 100000, message: "Bereik 100,000 cookies!" },
+            { name: "Cookie God", requirement: 1000000, message: "Bereik 1,000,000 cookies!" }
+        ];
+
+        const upgrades = [
+            {
+                name: '<i class="fas fa-cookie-bite"></i> Dubbele Cookies',
+                cost: 50,
+                multiplier: 2,
+                description: "Krijg 2x zoveel cookies per klik"
+            },
+            {
+                name: '<i class="fas fa-cookie-bite"></i> Triple Cookies',
+                cost: 200,
+                multiplier: 3,
+                description: "Krijg 3x zoveel cookies per klik"
+            },
+            {
+                name: '<i class="fas fa-cookie-bite"></i> Super Cookies',
+                cost: 1000,
+                multiplier: 5,
+                description: "Krijg 5x zoveel cookies per klik"
+            },
+            {
+                name: '<i class="fas fa-cookie-bite"></i> Mega Cookies',
+                cost: 5000,
+                multiplier: 10,
+                description: "Krijg 10x zoveel cookies per klik"
+            },
+            {
+                name: '<i class="fas fa-cookie-bite"></i> Ultra Cookies',
+                cost: 25000,
+                multiplier: 20,
+                description: "Krijg 20x zoveel cookies per klik"
+            },
+            {
+                name: '<i class="fas fa-star"></i> Golden Touch',
+                cost: 10000,
+                multiplier: 1,
+                goldenBonus: true,
+                description: "Verhoog de kans op Golden Cookies"
+            }
+        ];
+
+        const producers = [
+            {
+                name: '<i class="fas fa-user-alt"></i> Cookie Oma',
+                baseCost: 15,
+                cost: 15,
+                cps: 0.1,
+                description: "Een lieve oma die cookies bakt",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-store"></i> Cookie Bakkerij',
+                baseCost: 100,
+                cost: 100,
+                cps: 1,
+                description: "Een kleine bakkerij die cookies produceert",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-industry"></i> Cookie Fabriek',
+                baseCost: 1100,
+                cost: 1100,
+                cps: 8,
+                description: "Een grote fabriek vol cookie machines",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-building"></i> Cookie Imperium',
+                baseCost: 12000,
+                cost: 12000,
+                cps: 47,
+                description: "Een wereldwijd cookie bedrijf",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-university"></i> Cookie Bank',
+                baseCost: 130000,
+                cost: 130000,
+                cps: 260,
+                description: "Investeert in cookie futures",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-place-of-worship"></i> Cookie Tempel',
+                baseCost: 1400000,
+                cost: 1400000,
+                cps: 1400,
+                description: "Aanbidt de cookie goden",
+                multiplier: 1
+            }
+        ];
+
+        function showAchievement(message) {
+            achievementDiv.textContent = "Achievement: " + message;
+            achievementDiv.style.display = 'block';
+            setTimeout(() => {
+                achievementDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function checkAchievements() {
+            achievements.forEach(achievement => {
+                if (!achievementsUnlocked.has(achievement.name) && count >= achievement.requirement) {
+                    achievementsUnlocked.add(achievement.name);
+                    showAchievement(achievement.message);
+                }
+            });
+        }
+
+        function updateCookiesPerSecond() {
+            cookiesPerSecond = producers.reduce((total, producer) => {
+                return total + (producer.cps * producer.multiplier * (producer.amount || 0));
+            }, 0);
+            cpsCounter.textContent = 'Per seconde: ' + cookiesPerSecond.toFixed(1);
+        }
+
+        function spawnGoldenCookie() {
+            if (Math.random() < goldenCookieChance) {
+                const goldenCookie = document.createElement('i');
+                goldenCookie.className = 'fas fa-cookie';
+                goldenCookie.style.position = 'absolute';
+                goldenCookie.style.fontSize = '50px';
+                goldenCookie.style.color = 'gold';
+                goldenCookie.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+                goldenCookie.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+                goldenCookie.style.cursor = 'pointer';
+                goldenCookie.style.zIndex = '1000';
+
+                goldenCookie.onclick = () => {
+                    const bonus = Math.floor(Math.random() * 3);
+                    switch(bonus) {
+                        case 0:
+                            const bonus = cookiesPerSecond * 900;
+                            count += bonus;
+                            showAchievement(`+${Math.floor(bonus)} cookies!`);
+                            break;
+                        case 1:
+                            cookiesPerSecond *= 2;
+                            showAchievement("2x productie voor 30 seconden!");
+                            setTimeout(() => cookiesPerSecond /= 2, 30000);
+                            break;
+                        case 2:
+                            clickMultiplier *= 7;
+                            showAchievement("7x klik kracht voor 30 seconden!");
+                            setTimeout(() => clickMultiplier /= 7, 30000);
+                            break;
+                    }
+                    goldenCookie.remove();
+                };
+
+                document.body.appendChild(goldenCookie);
+                setTimeout(() => goldenCookie.remove(), 10000);
+            }
+        }
+
+        setInterval(spawnGoldenCookie, 30000);
+
+        upgrades.forEach(upgrade => {
+            const button = document.createElement('button');
+            button.className = 'upgrade';
+            button.innerHTML = `${upgrade.name}<br>Kost: ${upgrade.cost} cookies<br>${upgrade.description}`;
+            button.disabled = true;
+
+            button.addEventListener('click', () => {
+                if (count >= upgrade.cost) {
+                    count -= upgrade.cost;
+                    if (upgrade.goldenBonus) {
+                        goldenCookieChance *= 2;
+                    } else {
+                        cookiesPerClick *= upgrade.multiplier;
+                    }
+                    counter.textContent = 'Cookies: ' + Math.floor(count);
+                    upgradesDiv.removeChild(button);
+                }
+            });
+
+            upgradesDiv.appendChild(button);
+            
+            setInterval(() => {
+                button.disabled = count < upgrade.cost;
+            }, 100);
+        });
+
+        producers.forEach(producer => {
+            producer.amount = 0;
+            const button = document.createElement('button');
+            button.className = 'producer';
+            button.innerHTML = `${producer.name}<br>Kost: ${producer.cost} cookies<br>${producer.description}<br>+${producer.cps} cookies/sec`;
+            button.disabled = true;
+
+            button.addEventListener('click', () => {
+                if (count >= producer.cost) {
+                    count -= producer.cost;
+                    producer.amount++;
+                    producer.cost = Math.floor(producer.baseCost * Math.pow(1.15, producer.amount));
+                    updateCookiesPerSecond();
+                    counter.textContent = 'Cookies: ' + Math.floor(count);
+                    button.innerHTML = `${producer.name}<br>Kost: ${producer.cost} cookies<br>${producer.description}<br>+${producer.cps * producer.multiplier} cookies/sec<br>Aantal: ${producer.amount}`;
+                }
+            });
+
+            producersDiv.appendChild(button);
+            
+            setInterval(() => {
+                button.disabled = count < producer.cost;
+            }, 100);
+        });
+
+        cookie.addEventListener('click', () => {
+            count += cookiesPerClick * clickMultiplier;
+            counter.textContent = 'Cookies: ' + Math.floor(count);
+            checkAchievements();
+        });
+
+        setInterval(() => {
+            count += cookiesPerSecond;
+            counter.textContent = 'Cookies: ' + Math.floor(count);
+            checkAchievements();
+        }, 1000);
+
+    </script>
+</body>
+</html>
