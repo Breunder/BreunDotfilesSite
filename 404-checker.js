@@ -21,7 +21,11 @@
             'waybar-config-generator.html',
             'wiki.html',
             'page-checker.html',
-            'mijndotfiles.html'
+            'mijndotfiles.html',
+            'secret.html',
+            'rong.html',
+            'betris.html',
+            'bookiebicker.html',
         ];
         
         // Controleer of de huidige pagina in de lijst staat

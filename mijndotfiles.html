@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beveiligde Pagina - Breun Dotfiles Wiki</title>
+    <title>Breun Dotfiles Wiki</title>
     <link rel="stylesheet" href="style.css">
+    <script src="404-checker.js"></script>
     <style>
-
         /* Terminal Emulator Styling */
         .terminal-header {
             background-color: #3b4252;
@@ -69,84 +69,10 @@
             outline: none;
             caret-color: #88c0d0;
         }
-        #password-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .password-container {
-            background-color: #2e3440;
-            padding: 30px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-        
-        .password-container h2 {
-            margin-top: 0;
-            color: #88c0d0;
-        }
-        
-        .password-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 15px 0;
-            border: none;
-            background-color: #3b4252;
-            color: #e5e9f0;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        
-        .password-container button {
-            background-color: #5e81ac;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        .password-container button:hover {
-            background-color: #81a1c1;
-        }
-        
-        .password-container .error-message {
-            color: #bf616a;
-            margin-top: 10px;
-            display: none;
-        }
-        
-        .hidden-content {
-            display: none;
-        }
     </style>
 </head>
 <body>
-    <div id="password-overlay">
-        <div class="password-container">
-            <h2>Beveiligde Pagina</h2>
-            <p>Voer de toegangscode in om mijn persoonlijke dotfiles te bekijken.</p>
-            <input type="password" id="access-password" placeholder="Toegangscode">
-            <p id="error-message" class="error-message">Onjuiste toegangscode. Probeer het opnieuw.</p>
-            <button onclick="checkPassword()">Toegang</button>
-            <p><a href="wiki.html" style="color: #88c0d0;">Terug naar Wiki</a></p>
-        </div>
-    </div>
-
-    <div id="page-content" class="hidden-content">
+    <div id="page-content">
         <nav class="breadcrumb">
             <ul>
                 <li><a href="home.html">Home</a></li>
@@ -277,7 +203,7 @@ animations {
                     <li>Ligatuur-ondersteunende fonts</li>
                     <li>Tab- en layoutbeheer</li>
                 </ul>
-                <!-- Voeg dit toe aan de pagina-inhoud, bijvoorbeeld na de "Configuraties" sectie -->
+
 <section>
     <h2>Probeer het uit</h2>
     <p>Experimenteer met enkele basis commando's in deze terminal emulator:</p>
@@ -303,6 +229,17 @@ Type 'help' voor een lijst met beschikbare commando's.</div>
 </section>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Genereer een willekeurig wachtwoord als het nog niet bestaat
+    if (!localStorage.getItem('randomPassword')) {
+        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let password = '';
+        for (let i = 0; i < 10; i++) {
+            password += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        localStorage.setItem('randomPassword', password);
+    }
+});
     // Terminal emulator functionaliteit
     document.addEventListener('DOMContentLoaded', function() {
         const terminalInput = document.getElementById('terminal-input');
@@ -341,6 +278,7 @@ Type 'help' voor een lijst met beschikbare commando's.</div>
                     output = `Beschikbare commando's:
 - help: Toon deze help
 - ls: Toon bestanden
+- cat: Toon bestanden
 - cat config.conf: Toon configuratiebestand
 - fastfetch: Toon systeeminformatie
 - clear: Wis terminal
@@ -354,7 +292,7 @@ Type 'help' voor een lijst met beschikbare commando's.</div>
                     break;
                     
                 case 'ls':
-                    output = `config/  scripts/  wallpapers/  install.sh  README.md`;
+                    output = `config/  scripts/  wallpapers/  install.sh password.log README.md`;
                     break;
                     
                 case 'cat config.conf':
@@ -369,6 +307,9 @@ general {
 }`;
                     break;
                     
+                case 'cat password.log':
+                    output = localStorage.getItem('randomPassword') || 'Error: Password file corrupted';
+                    break;
                 case 'fastfetch':
                     output = `                    -@                    breun@hyprland
                     .##@                   --------------
@@ -394,7 +335,7 @@ general {
                     return;
                     
                 case 'secret':
-                    output = `Je hebt een geheim ontdekt! Hier is een extra toegangscode: "hyprawesome"`;
+                    output = `wow je hebt een <a href="secret.html">link</a> gevonden!`;
                     break;
 
                 case 'pwd':
@@ -493,63 +434,6 @@ PID   USER     CPU%   MEM%   Command
             <p>&copy; 2025 Teun Henderik. Alle rechten voorbehouden.</p>
         </footer>
     </div>
-
-    <script>
-        // Password check function
-        function checkPassword() {
-            const password = document.getElementById('access-password').value;
-            const correctPassword = "breundotfiles"; // Change this to your desired password
-            
-            if (password === correctPassword) {
-                document.getElementById('password-overlay').style.display = 'none';
-                document.getElementById('page-content').classList.remove('hidden-content');
-                
-                // Save access in session storage so refresh doesn't require re-entry
-                sessionStorage.setItem('dotfilesAccess', 'granted');
-            } else {
-                document.getElementById('error-message').style.display = 'block';
-                setTimeout(() => {
-                    document.getElementById('error-message').style.display = 'none';
-                }, 3000);
-            }
-        }
-        
-        // Check if user already has access
-        document.addEventListener('DOMContentLoaded', function() {
-            if (sessionStorage.getItem('dotfilesAccess') === 'granted') {
-                document.getElementById('password-overlay').style.display = 'none';
-                document.getElementById('page-content').classList.remove('hidden-content');
-            }
-            
-            // Allow Enter key to submit password
-            document.getElementById('access-password').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    checkPassword();
-                }
-            });
-        });
-        
-        // Konami code implementation
-        let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        let konamiPosition = 0;
-        
-        document.addEventListener('keydown', function(e) {
-            // Check if the key matches the next key in the Konami code
-            if (e.key === konamiCode[konamiPosition]) {
-                konamiPosition++;
-                
-                // If the entire code is entered correctly
-                if (konamiPosition === konamiCode.length) {
-                    document.getElementById('password-overlay').style.display = 'none';
-                    document.getElementById('page-content').classList.remove('hidden-content');
-                    sessionStorage.setItem('dotfilesAccess', 'granted');
-                    konamiPosition = 0;
-                }
-            } else {
-                konamiPosition = 0;
-            }
-        });
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
