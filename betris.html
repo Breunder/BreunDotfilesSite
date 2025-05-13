@@ -2,57 +2,226 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris</title>
+    <link rel="stylesheet" href="style.css">
     <script src="secret-checker.js"></script>
-    <title>Tetris Clone</title>
     <style>
-        body {
-            display: flex;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+        canvas {
+            border: 2px solid #007bff;
+            background: black;
+            margin: 0 auto;
+            display: block;
+            max-width: 100%;
         }
+
+        body.dark-mode canvas {
+            border-color: #88c0d0;
+            box-shadow: 0 0 15px rgba(136, 192, 208, 0.2);
+        }
+
         #game-container {
             display: flex;
+            flex-direction: row;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
             margin: 20px auto;
+            max-width: 800px;
+            position: relative;
         }
-        #tetris-board {
-            width: 300px;
-            height: 600px;
-            border: 2px solid black;
-            background-color: black;
-        }
+
         #controls {
-            margin-left: 20px;
-            padding: 10px;
-            background-color: #e0e0e0;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
             border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
+
+        body.dark-mode #controls {
+            background-color: rgba(30, 30, 30, 0.95);
+            color: #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode #game-status {
+            color: #e0e0e0;
+        }
+
         #score-display {
             font-size: 24px;
             margin-bottom: 10px;
+            font-weight: bold;
         }
-        #game-status {
+
+        body.dark-mode #score-display {
+            color: #e0e0e0;
+        }
+
+        .game-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: calc(100vh - 100px);
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            #game-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            #controls {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        .mobile-controls {
+            display: none;
+            position: absolute;
+            top: 75%;
+            right: 50px;
+            transform: translateY(-50%);
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(2px);
+            border-radius: 10px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .touch-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 5px;
+        }
+
+        .mobile-controls button {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 123, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: white;
             font-size: 18px;
-            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-controls button:active {
+            transform: scale(0.95);
+            background: rgba(0, 90, 200, 0.8);
+        }
+
+        body.dark-mode .mobile-controls {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .mobile-controls button {
+            background: rgba(136, 192, 208, 0.8);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .mobile-controls button:active {
+            background: rgba(100, 150, 170, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-controls {
+                display: block;
+            }
+
+            #game-container {
+                margin-bottom: 100px;
+            }
+
+            #controls p {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-controls {
+                padding: 5px;
+            }
+
+            .touch-buttons {
+                gap: 5px;
+            }
+
+            .mobile-controls button {
+                width: 45px;
+                height: 45px;
+                min-width: 45px;
+                font-size: 18px;
+            }
+
+            #game-container {
+                margin-bottom: 80px;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .mobile-controls {
+                display: block;
+            }
+            
+            #controls p {
+                display: none;
+            }
+
+            .content {
+                margin-bottom: 100px;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="game-container">
-        <canvas id="tetris-board" width="300" height="600"></canvas>
-        <div id="controls">
-            <div id="score-display">Score: 0</div>
-            <div id="game-status">Start Game</div>
-            <h3>Controls:</h3>
-            <p>← : Move Left</p>
-            <p>→ : Move Right</p>
-            <p>↓ : Move Down</p>
-            <p>↑ : Rotate</p>
-            <p>Space : Drop</p>
-            <button id="start-btn">Start Game</button>
-            <button id="restart-btn" style="display:none;">Restart</button>
-            <button id="back-btn">Back to Secret</button>
-        </div>
-    </div>
+    <nav class="breadcrumb">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="secret.html">Secret</a></li>
+            <li class="current">Tetris</li>
+        </ul>
+    </nav>
+    <button class="dark-mode-toggle">🌙</button>
+
+    <main>
+        <section>
+            <div class="game-wrapper">
+                <div id="game-container">
+                    <canvas id="tetris-board" width="300" height="600"></canvas>
+                    <div class="mobile-controls">
+                        <div class="touch-buttons">
+                            <button ontouchstart="handleTouch('a')" onclick="handleTouch('a')" aria-label="Move Left">←</button>
+                            <button ontouchstart="handleTouch('w')" onclick="handleTouch('w')" aria-label="Rotate">↻</button>
+                            <button ontouchstart="handleTouch('d')" onclick="handleTouch('d')" aria-label="Move Right">→</button>
+                            <button ontouchstart="handleTouch('s')" onclick="handleTouch('s')" aria-label="Move Down">↓</button>
+                            <button ontouchstart="handleTouch(' ')" onclick="handleTouch(' ')" aria-label="Drop">⟱</button>
+                        </div>
+                    </div>
+                    <div id="controls">
+                        <div id="score-display">Score: 0</div>
+                        <div id="game-status">Start Game</div>
+                        <h3>Controls:</h3>
+                        <p>A : Move Left</p>
+                        <p>D : Move Right</p>
+                        <p>S : Move Down</p>
+                        <p>W : Rotate</p>
+                        <p>Space : Drop</p>
+                        <button class="menu-button" id="start-btn">Start Game</button>
+                        <button class="menu-button" id="restart-btn" style="display:none;">Restart</button>
+                        <a href="secret.html" class="button">Terug naar Secret</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <script>
         const canvas = document.getElementById('tetris-board');
@@ -61,7 +230,6 @@
         const gameStatusDisplay = document.getElementById('game-status');
         const startBtn = document.getElementById('start-btn');
         const restartBtn = document.getElementById('restart-btn');
-        const backBtn = document.getElementById('back-btn');
 
         class Tetris {
             constructor() {
@@ -260,23 +428,45 @@
             gameStatusDisplay.textContent = 'Playing';
         });
 
-        backBtn.addEventListener('click', () => {
-            window.location.href = 'secret.html';
-        });
-
         document.addEventListener('keydown', (e) => {
             if (game && !game.gameOver) {
-                switch(e.key) {
-                    case 'ArrowLeft': game.moveLeft(); break;
-                    case 'ArrowRight': game.moveRight(); break;
-                    case 'ArrowDown': game.moveDown(); break;
-                    case 'ArrowUp': game.rotate(); break;
+                switch(e.key.toLowerCase()) {
+                    case 'a': game.moveLeft(); break;
+                    case 'd': game.moveRight(); break;
+                    case 's': game.moveDown(); break;
+                    case 'w': game.rotate(); break;
                     case ' ': 
                         game.dropPiece();
                         break;
                 }
             }
         });
+
+        function handleTouch(key) {
+            if (game && !game.gameOver) {
+                switch(key) {
+                    case 'a': game.moveLeft(); break;
+                    case 'd': game.moveRight(); break;
+                    case 's': game.moveDown(); break;
+                    case 'w': game.rotate(); break;
+                    case ' ': game.dropPiece(); break;
+                }
+            }
+        }
+
+        // Prevent scrolling on touch devices during gameplay
+        document.addEventListener('touchmove', function(e) {
+            if (game && !game.gameOver) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchstart', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                e.preventDefault();
+            }
+        }, { passive: false });
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
