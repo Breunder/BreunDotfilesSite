@@ -9,7 +9,6 @@
     <link rel="preload" href="images/hyprland.jpg" as="image" type="image/jpeg" crossorigin>
 </head>
 <body>
-    <!-- Breadcrumb navigation -->
     <nav class="breadcrumb">
         <ul>
             <li><a href="home.html">Home</a></li>
@@ -18,7 +17,6 @@
         </ul>
     </nav>
 
-    <!-- Dark mode toggle button -->
     <button class="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
 
     <header>
@@ -217,6 +215,31 @@
                     </li>
                 </ul>
             </section>
+            <section>
+                <h2>Flatpak Apps</h2>
+                <ul class="software-list">
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="flatpak-discord"> Discord (Flatpak)
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="flatpak-spotify"> Spotify (Flatpak)
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="flatpak-obsidian"> Obsidian (Flatpak)
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="software" value="flatpak-vscode"> VS Code (Flatpak)
+                        </label>
+                    </li>
+                </ul>
+            </section>
             <section class="action-section">
                 <div id="script-container" style="display: none;">
                     <h3>Gegenereerd Script</h3>
@@ -295,7 +318,7 @@ if command -v pacman &> /dev/null; then
     # Controleer of AUR helper is geïnstalleerd
     if ! command -v yay &> /dev/null && ! command -v paru &> /dev/null; then
         echo "Geen AUR helper (yay of paru) gevonden."
-        echo "Sommige software is mogelijk alleen beschikbaar via AUR."
+        echo "Sommige software vereist mogelijk de AUR."
         echo "Wil je een AUR helper installeren? (j/n)"
         read -r install_aur
         if [[ "$install_aur" == "j" ]]; then
@@ -305,29 +328,27 @@ if command -v pacman &> /dev/null; then
                 echo "Yay installeren..."
                 sudo pacman -S --needed git base-devel
                 git clone https://aur.archlinux.org/yay.git
-                cd yay
-                makepkg -si
-                cd ..
+                cd yay || exit
+                makepkg -si --noconfirm
+                cd .. || exit
                 rm -rf yay
-                echo "Yay is geïnstalleerd."
                 INSTALL_CMD="yay -S --noconfirm"
+                echo "Yay is geïnstalleerd."
             elif [[ "$aur_helper" == "paru" ]]; then
                 echo "Paru installeren..."
                 sudo pacman -S --needed git base-devel
                 git clone https://aur.archlinux.org/paru.git
-                cd paru
-                makepkg -si
-                cd ..
+                cd paru || exit
+                makepkg -si --noconfirm
+                cd .. || exit
                 rm -rf paru
-                echo "Paru is geïnstalleerd."
                 INSTALL_CMD="paru -S --noconfirm"
+                echo "Paru is geïnstalleerd."
             fi
         fi
     elif command -v yay &> /dev/null; then
-        echo "Yay is geïnstalleerd. AUR packages kunnen worden gebruikt."
         INSTALL_CMD="yay -S --noconfirm"
     elif command -v paru &> /dev/null; then
-        echo "Paru is geïnstalleerd. AUR packages kunnen worden gebruikt."
         INSTALL_CMD="paru -S --noconfirm"
     fi
 elif command -v apt &> /dev/null; then
@@ -531,8 +552,47 @@ $UPDATE_CMD
                     break;
 
                 case 'flatpak':
-                    script += `$INSTALL_CMD flatpak\n`;
-                    script += `echo "Flatpak geïnstalleerd en klaar om te gebruiken."\n`;
+                    script += `if ! command -v flatpak &> /dev/null; then\n`;
+                    script += `    $INSTALL_CMD flatpak\n`;
+                    script += `fi\n`;
+                    script += `flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n`;
+                    script += `echo "Flatpak geïnstalleerd en Flathub repository toegevoegd."\n`;
+                    break;
+
+                case 'flatpak-discord':
+                    script += `if ! command -v flatpak &> /dev/null; then\n`;
+                    script += `    echo "Flatpak is niet geïnstalleerd. Installeer eerst Flatpak."\n`;
+                    script += `    if [[ "$PKG_MANAGER" = "pacman" ]]; then\n`;
+                    script += `        $INSTALL_CMD flatpak\n`;
+                    script += `    else\n`;
+                    script += `        echo "Installeer flatpak handmatig voor je distributie."\n`;
+                    script += `        break\n`;
+                    script += `    fi\n`;
+                    script += `fi\n`;
+                    script += `flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n`;
+                    script += `flatpak install -y flathub com.discordapp.Discord\n`;
+                    break;
+
+                case 'flatpak-spotify':
+                    script += `if ! command -v flatpak &> /dev/null; then\n`;
+                    script += `    echo "Flatpak is niet geïnstalleerd. Installeer eerst Flatpak."\n`;
+                    script += `    if [[ "$PKG_MANAGER" = "pacman" ]]; then\n`;
+                    script += `        $INSTALL_CMD flatpak\n`;
+                    script += `    else\n`;
+                    script += `        echo "Installeer flatpak handmatig voor je distributie."\n`;
+                    script += `        break\n`;
+                    script += `    fi\n`;
+                    script += `fi\n`;
+                    script += `flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n`;
+                    script += `flatpak install -y flathub com.spotify.Client\n`;
+                    break;
+
+                case 'flatpak-obsidian':
+                    script += `flatpak install -y flathub md.obsidian.Obsidian\n`;
+                    break;
+
+                case 'flatpak-vscode':
+                    script += `flatpak install -y flathub com.visualstudio.code\n`;
                     break;
 
                 case 'ark':
@@ -694,4 +754,3 @@ echo "Bedankt voor het gebruik van de BreunDotfilesSite Software Installer Gener
         </script>
     </body>
     </html>
-    

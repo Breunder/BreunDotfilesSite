@@ -670,24 +670,87 @@
         }
 
         function prestige() {
-            const newPoints = Math.floor(Math.log10(count) - 5);
-            if (newPoints <= 0) {
-                alert("You need at least 100,000 cookies to prestige!");
-                return;
-            }
+    const newPoints = Math.floor(Math.log10(count) - 5);
+    if (newPoints <= 0) {
+        alert("You need at least 100,000 cookies to prestige!");
+        return;
+    }
 
-            if (confirm(`Are you sure you want to prestige? You'll earn ${newPoints} prestige points!`)) {
-                prestigePoints += newPoints;
-                prestigeMultiplier = 1 + (prestigePoints * 0.1);
-                count = 0;
-                cookiesPerClick = 1;
-                cookiesPerSecond = 0;
-                producers.forEach(p => p.amount = 0);
-                updateDisplay();
-                checkAchievements();
-            }
-        }
+    if (confirm(`Are you sure you want to prestige? You'll earn ${newPoints} prestige points!`)) {
+        prestigePoints += newPoints;
+        prestigeMultiplier = 1 + (prestigePoints * 0.1);
+        count = 0;
+        cookiesPerClick = 1;
+        cookiesPerSecond = 0;
+        
+        // Reset producers
+        producers.forEach(producer => {
+            producer.amount = 0;
+            producer.cost = producer.baseCost;
+        });
 
+        // Reset and recreate upgrades
+        upgradesDiv.innerHTML = '';
+        upgrades.forEach(upgrade => {
+            const button = document.createElement('button');
+            button.className = 'upgrade';
+            button.innerHTML = `${upgrade.name}<br>Kost: ${upgrade.cost} cookies<br>${upgrade.description}`;
+            button.disabled = true;
+
+            button.addEventListener('click', () => {
+                if (count >= upgrade.cost) {
+                    count -= upgrade.cost;
+                    if (upgrade.goldenBonus) {
+                        goldenCookieChance *= 2;
+                    } else {
+                        cookiesPerClick *= upgrade.multiplier;
+                    }
+                    counter.textContent = 'Cookies: ' + Math.floor(count);
+                    upgradesDiv.removeChild(button);
+                }
+            });
+
+            upgradesDiv.appendChild(button);
+            
+            setInterval(() => {
+                button.disabled = count < upgrade.cost;
+            }, 100);
+        });
+
+        // Reset producers div
+        producersDiv.innerHTML = '';
+        producers.forEach(producer => {
+            const button = document.createElement('button');
+            button.className = 'producer';
+            button.innerHTML = `${producer.name}<br>Kost: ${producer.cost} cookies<br>${producer.description}<br>+${producer.cps} cookies/sec`;
+            button.disabled = true;
+
+            button.addEventListener('click', () => {
+                if (count >= producer.cost) {
+                    count -= producer.cost;
+                    producer.amount++;
+                    producer.cost = Math.floor(producer.baseCost * Math.pow(1.15, producer.amount));
+                    updateCookiesPerSecond();
+                    counter.textContent = 'Cookies: ' + Math.floor(count);
+                    button.innerHTML = `${producer.name}<br>Kost: ${producer.cost} cookies<br>${producer.description}<br>+${producer.cps * producer.multiplier} cookies/sec<br>Aantal: ${producer.amount}`;
+                }
+            });
+
+            producersDiv.appendChild(button);
+            
+            setInterval(() => {
+                button.disabled = count < producer.cost;
+            }, 100);
+        });
+
+        // Reset all upgrade-related variables
+        clickMultiplier = 1;
+        goldenCookieChance = 0.1;
+
+        updateDisplay();
+        checkAchievements();
+    }
+}
         function updateMilk() {
             milkLevel = Math.floor(achievementsUnlocked.size * 0.2);
             milkMultiplier = 1 + (milkLevel * 0.1);
@@ -828,5 +891,4 @@
         }
     </script>
     <script src="script.js"></script>
-</body>
 </html>

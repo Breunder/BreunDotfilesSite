@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
     <script src="404-checker.js"></script>
     <style>
-        /* Terminal Emulator Styling */
         .terminal-header {
             background-color: #3b4252;
             padding: 8px;
@@ -91,13 +90,7 @@
             <section>
                 <h2>Overzicht</h2>
                 <p>Hier vind je een overzicht van mijn persoonlijke dotfiles configuratie voor Hyprland en andere tools die ik dagelijks gebruik. Deze configuraties zijn zorgvuldig afgestemd op mijn workflow en esthetische voorkeuren.</p>
-                
-                <div class="screenshot-container">
-                    <img src="images/dotfiles-screenshot.png" alt="Screenshot van mijn desktop setup" class="screenshot">
-                    <p class="caption">Mijn huidige desktop setup met Hyprland</p>
-                </div>
             </section>
-
             <section>
                 <h2>Belangrijkste componenten</h2>
                 <ul class="feature-list">
@@ -114,7 +107,7 @@
                         <strong>Rofi</strong> - Een veelzijdige applicatie launcher
                     </li>
                     <li>
-                        <strong>Dunst</strong> - Een lichtgewicht notificatiedaemon
+                        <strong>Swaync</strong> - Een lichtgewicht notificatiedaemon met een minimalistische interface
                     </li>
                     <li>
                         <strong>Persoonlijke scripts</strong> - Voor automatisering en workflow-verbetering
@@ -128,16 +121,10 @@
                 
                 <h3>1. Kloon de repository</h3>
                 <div class="code-block">
-                    <pre><code>git clone https://github.com/Breunder/dotfiles.git ~/.dotfiles</code></pre>
+                    <pre><code>git clone https://github.com/Breunder/Breundotfiles.git ~/.dotfiles</code></pre>
                 </div>
 
-                <h3>2. Installeer de benodigde pakketten</h3>
-                <div class="code-block">
-                    <pre><code>cd ~/.dotfiles
-./install-dependencies.sh</code></pre>
-                </div>
-
-                <h3>3. Installeer de dotfiles</h3>
+                <h3>2. Installeer de dotfiles</h3>
                 <div class="code-block">
                     <pre><code>./install.sh</code></pre>
                 </div>
@@ -163,7 +150,7 @@
 monitor=,preferred,auto,1
 
 # Autostart
-exec-once = waybar & hyprpaper & dunst
+exec-once = waybar & hyprpaper & swayncdeamon
 
 # Thema
 general {
@@ -400,33 +387,12 @@ PID   USER     CPU%   MEM%   Command
             <section>
                 <h2>Aanpassingen</h2>
                 <p>Mijn dotfiles zijn ontworpen om gemakkelijk aan te passen aan je eigen voorkeuren:</p>
-                
-                <h3>Kleuren aanpassen</h3>
-                <p>Bewerk het <code>~/.config/hypr/colors.conf</code> bestand om het kleurenschema aan te passen.</p>
-                
+                      
                 <h3>Waybar modules</h3>
                 <p>Voeg of verwijder modules in <code>~/.config/waybar/config</code> om de statusbalk aan te passen.</p>
-                
-                <h3>Keybindings</h3>
-                <p>Pas de toetsenbordsnelkoppelingen aan in <code>~/.config/hypr/keybindings.conf</code>.</p>
-            </section>
 
-            <section>
-                <h2>Meer screenshots</h2>
-                <div class="gallery">
-                    <div class="gallery-item">
-                        <img src="images/terminal.png" alt="Terminal setup">
-                        <p>Terminal met Neovim</p>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/rofi.png" alt="Rofi launcher">
-                        <p>Rofi applicatie launcher</p>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/workflow.png" alt="Workflow voorbeeld">
-                        <p>Voorbeeld workflow</p>
-                    </div>
-                </div>
+                <h3>Hyprland configuratie</h3>
+                <p>Pas je Hyprland instellingen aan in <code>~/.config/hypr/hyprland.conf</code> om je window manager te personaliseren. Hier kun je bijvoorbeeld sneltoetsen, animaties en workspaces configureren.</p>
             </section>
         </main>
 
