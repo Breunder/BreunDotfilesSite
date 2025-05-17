@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nieuws</title>
+    <script src="404-checker.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="preload" href="images/hyprland.jpg" as="image" type="image/jpeg" crossorigin>
     <style>
         /* Bestaande algemene stijlen behouden */
         body {
@@ -87,10 +89,6 @@
             padding: 25px;
         }
 
-        body.dark-mode main {
-            background-color: #1e1e1e;
-        }
-
         body.dark-mode .tab-button {
             background-color: #2d2d2d;
             color: #ffffff;
@@ -124,10 +122,6 @@
 
         body.dark-mode li details p {
             color: #ffffff;
-        }
-
-        body.dark-mode header {
-            background-color: #1e1e1e;
         }
 
         body.dark-mode .button {

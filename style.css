@@ -13,6 +13,9 @@ body {
     padding: 0;
     background-color: #f9f9f9;
     color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for dark mode */
+    background-image: url("images/hyprland.jpg");
+    background-size: cover
 }
 
 /* Dark mode styles */
@@ -21,9 +24,7 @@ body.dark-mode {
     color: #ffffff; /* Maak de tekst wit in dark mode */
 }
 
-body.dark-mode header,
-body.dark-mode code,
-body.dark-mode div {
+body.dark-mode code  {
     background-color: #1e1e1e;
     color: #ffffff;
 }
@@ -55,7 +56,9 @@ body.dark-mode .read-more {
     color: #e0e0e0;
 }
  
-body.dark-mode .read-more:hover {
+body.dark-mode .read-more:hover
+body.dark-mode .release-body
+body.dark-mode div {
     background-color: #444;
 }
 
@@ -168,12 +171,6 @@ body.dark-mode section {
     background-color: #1e1e1e; /* Donkere achtergrondkleur voor sections in dark mode */
     color: #ffffff; /* Zorg dat de tekst wit blijft */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Pas schaduw aan voor donkere achtergrond */
-}
-
-body.dark-mode main {
-    background-color: #1e1e1e; /* Donkere achtergrondkleur voor main in dark mode */
-    color: #ffffff; /* Witte tekstkleur */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Pas schaduw aan */
 }
 
 body.dark-mode ul li {
@@ -421,7 +418,7 @@ body.dark-mode .breadcrumb li:not(:last-child)::after {
 
 /* Header stijl */
 header {
-    background-color: #2e3440;
+    background-color: #0B0E1E;
     color: white;
     text-align: center;
     padding: 2rem;
@@ -967,8 +964,8 @@ footer {
     text-align: center;
     padding: 0.1rem;
     margin-top: 1rem;
-    background-color: #f9f9f9;
-    color: #555;
+    background-color: #0B0E1E;
+    color: #ffffff;
     font-size: 0.9rem;
 }
 
@@ -1332,4 +1329,132 @@ body.dark-mode .popup-content {
 .dark-mode-toggle:hover {
     background-color: #0056b3;
     transform: scale(1.1);
+}
+.software-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.software-list li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 0;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.software-list li:hover {
+    background-color: #f0f8ff;
+    transform: scale(1.02);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .software-list li {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+
+body.dark-mode .software-list li:hover {
+    background-color: #2d2d2d;
+    border-color: #444;
+}
+
+.software-list label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+}
+
+.software-list input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.action-section {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.script-output {
+    text-align: left;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    font-family: monospace;
+}
+
+body.dark-mode .script-output {
+    background-color: #1e1e1e;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+#script-container {
+    margin-top: 2rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@media (max-width: 600px) {
+    .software-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Protected link styling */
+.protected-link {
+    position: relative;
+    padding-right: 25px !important;
+}
+
+.protected-link::after {
+    content: "🔒";
+    position: absolute;
+    right: 5px;
+    font-size: 14px;
+}
+
+/* Secret page specific styles */
+.hidden {
+    display: none;
+}
+
+#passwordSection .search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+#passwordSection input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode #passwordSection input[type="password"] {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #ffffff;
+}
+
+#secretContent select.menu-button {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    display: block;
+    text-align: center;
 }
