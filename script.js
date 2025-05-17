@@ -266,7 +266,7 @@ function loadHyprlandNews() {
                                 <strong>${item.title}</strong>
                                 <em>${new Date(item.pubDate).toLocaleDateString('nl-NL')}</em>
                             </summary>
-                            <div class="release-body">${item.description}</div>
+                            <div>${item.description}</div>
                         </details>
                     `;
                     targetList.appendChild(li);

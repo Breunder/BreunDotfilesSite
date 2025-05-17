@@ -56,7 +56,9 @@ body.dark-mode .read-more {
     color: #e0e0e0;
 }
  
-body.dark-mode .read-more:hover {
+body.dark-mode .read-more:hover
+body.dark-mode .release-body
+body.dark-mode div {
     background-color: #444;
 }
 
