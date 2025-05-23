@@ -143,7 +143,6 @@ body.dark-mode #arch-news-list-home li:hover,
 body.dark-mode #hyprland-news-list-home li:hover {
     background-color: #2d2d2d;
     border-color: #444;
-    transform: scale(1.02);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -187,6 +186,7 @@ body.dark-mode details summary {
     color: #ffffff; /* Witte tekstkleur voor samenvattingen */
     background-color: #1e1e1e;
     border-color: #1e1e1e;
+    cursor: pointer;
 }
 
 body.dark-mode details summary:hover {
@@ -496,7 +496,6 @@ ul li {
     border-radius: 5px;
     padding: 15px;
     background-color: #f9f9f9;
-    cursor: pointer;
     transition: all 0.3s ease;
 }
 
@@ -543,7 +542,6 @@ body.dark-mode ul li details summary em {
 ul li:hover,
 ul li:hover details summary {
     background-color: #f0f8ff;
-    transform: scale(1.02);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -559,7 +557,6 @@ ul li:hover details summary {
 
 .blog-item:hover {
     background-color: #f0f8ff;
-    transform: scale(1.02);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     border-color: #ddd;
 }
@@ -852,6 +849,7 @@ blog-title:hover {
     background-color: #f0f8ff;
     transform: scale(1.02);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    cursor: default;
     border-color: #ddd;
 }
 
