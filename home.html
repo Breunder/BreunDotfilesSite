@@ -17,23 +17,6 @@
     <script src="404-checker.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="preload" href="images/hyprland.jpg" as="image" type="image/jpeg" crossorigin>
-    <style>
-        /* Dark mode styles for dropdown */
-        body.dark-mode .dropdown-content {
-            background-color: #1e1e1e; /* Donkere achtergrondkleur */
-            color: #ffffff; /* Witte tekstkleur */
-            border: 1px solid #333; /* Donkere randkleur */
-        }
-
-        body.dark-mode .dropdown-content a {
-            color: #ffffff; /* Witte tekstkleur voor links */
-        }
-
-        body.dark-mode .dropdown-content a:hover {
-            background-color: #333; /* Donkerdere hoverkleur */
-            color: #88c0d0; /* Hoverkleur voor links */
-        }
-    </style>
 </head>
 <body>
     <nav class="breadcrumb">
@@ -129,7 +112,7 @@
         function zoekFunction() {
             const input = document.getElementById('search').value.toLowerCase();
             const resultsContainer = document.getElementById('search-results');
-            resultsContainer.innerHTML = ''; // Clear previous results
+            resultsContainer.innerHTML = '';
 
             if (input) {
                 resultsContainer.style.display = 'block';
