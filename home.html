@@ -14,24 +14,9 @@
     <meta property="og:url" content="https://example.com/home.html">
     <meta property="og:type" content="website">
     <title>Breun Dotfiles Wiki - Hyprland Configuraties en Tips</title>
+    <script src="404-checker.js"></script>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Dark mode styles for dropdown */
-        body.dark-mode .dropdown-content {
-            background-color: #1e1e1e; /* Donkere achtergrondkleur */
-            color: #ffffff; /* Witte tekstkleur */
-            border: 1px solid #333; /* Donkere randkleur */
-        }
-
-        body.dark-mode .dropdown-content a {
-            color: #ffffff; /* Witte tekstkleur voor links */
-        }
-
-        body.dark-mode .dropdown-content a:hover {
-            background-color: #333; /* Donkerdere hoverkleur */
-            color: #88c0d0; /* Hoverkleur voor links */
-        }
-    </style>
+    <link rel="preload" href="images/hyprland.jpg" as="image" type="image/jpeg" crossorigin>
 </head>
 <body>
     <nav class="breadcrumb">
@@ -106,13 +91,13 @@
             <h2>Laatste Wijzigingen</h2>
             <ul>
                 <li>
-                    <strong>13/04/2025:</strong> Wat bugs gefixd.
+                    <strong>14/05/2025:</strong> Nieuwe secret toegevoegd :).
                 </li>
                 <li>
-                    <strong>13/04/2025:</strong> breadcrumb navigatie verbeterd en zoekfunctie gefixd en verbeterd
+                    <strong>21/04/2025:</strong> Nieuwe 404 pagina toegevoegd.
                 </li>
                 <li>
-                    <strong>12/04/2025:</strong> Archlinuxnews en hyprlandnews paginas samen gevoegd in "Nieuws" pagina.
+                    <strong>21/04/2025:</strong> Nieuwe paginas toegevoegd "Hyprland Config Generator","Waybar Config Generator" en "Software Installatie Generator" aan wiki in een nieuwe "Tools" dropdown.
                 </li>
             </ul>
             <a href="changelog.html" aria-label="Bekijk de volledige changelog">Bekijk de volledige changelog &raquo;</a>
@@ -127,7 +112,7 @@
         function zoekFunction() {
             const input = document.getElementById('search').value.toLowerCase();
             const resultsContainer = document.getElementById('search-results');
-            resultsContainer.innerHTML = ''; // Clear previous results
+            resultsContainer.innerHTML = '';
 
             if (input) {
                 resultsContainer.style.display = 'block';
