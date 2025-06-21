@@ -2606,3 +2606,15 @@ body.dark-mode .preview-bar {
     border: 1px solid #ddd;
     vertical-align: middle;
 }
+
+.software-list input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+.software-list label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+}
