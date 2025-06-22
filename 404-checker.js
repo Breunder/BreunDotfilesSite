@@ -16,6 +16,7 @@
             'post1.html',
             'post2.html',
             'post3.html',
+            'post4.html',
             'problemen.html',
             'scripting.html',
             'waybar-config-generator.html',
