@@ -1465,6 +1465,9 @@ body.dark-mode #passwordSection input[type="password"] {
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto !important;
+    display: block;
+    float: none;
 }
 
 div.tab-container{
@@ -2743,7 +2746,7 @@ ul li,
 
 body.dark-mode ul li,
 body.dark-mode .blog-item,
-body.dark-mode #arch-news-list-home li,
+body.dark_mode #arch-news-list-home li,
 body.dark_mode #hyprland-news-list-home li,
 body.dark_mode #arch-news-list li,
 body.dark_mode #hyprland-news-full li,
