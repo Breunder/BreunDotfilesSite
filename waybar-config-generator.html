@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waybar Configuratie Generator</title>
+    <script src="404-checker.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preload" href="images/hyprland.jpg" as="image" type="image/jpeg" crossorigin>
+    <link rel="icon" type="image/png" href="images/icon.png">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="wiki.html">Wiki</a></li>
+            <li class="current">Waybar Configuratie Generator</li>
+        </ul>
+    </nav>
+    <button class="dark-mode-toggle">🌙</button>
+    <header>
+        <h1>Waybar Configuratie Generator</h1>
+        <p class="post-meta">Maak eenvoudig een uitgebreide Waybar-configuratie met deze generator.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Preset Configuraties</h2>
+            <label for="preset-config">Kies een preset:</label>
+            <select id="preset-config" onchange="applyPresetConfig()">
+                <option value="">-- Selecteer een preset --</option>
+                <option value="minimal">Minimal</option>
+                <option value="full">Volledig</option>
+                <option value="gaming">Gaming</option>
+                <option value="productivity">Productiviteit</option>
+            </select>
+        </section>
+
+        <section>
+            <h2>Configuratie Opties</h2>
+            <form id="config-form" onsubmit="return validateForm()">
+                <div id="form-errors" style="color: red; margin-bottom: 1rem; display: none;"></div>
+                
+                <fieldset>
+                    <legend>Algemene Instellingen</legend>
+                    
+                    <label for="bar-position">Positie van de bar:</label>
+                    <select id="bar-position" name="bar-position">
+                        <option value="top">Boven</option>
+                        <option value="bottom">Onder</option>
+                        <option value="left">Links</option>
+                        <option value="right">Rechts</option>
+                    </select>
+                    <br><br>
+
+                    <label for="bar-height">Hoogte van de bar (px):</label>
+                    <input type="number" id="bar-height" name="bar-height" min="20" max="100" value="30">
+                    <br><br>
+
+                    <label for="bar-spacing">Ruimte tussen modules (px):</label>
+                    <input type="number" id="bar-spacing" name="bar-spacing" min="0" max="20" value="4">
+                    <br><br>
+
+                    <label for="bar-background">Achtergrondkleur:</label>
+                    <input type="color" id="bar-background" name="bar-background" value="#2e3440">
+                    <span class="color-preview" style="background-color: #2e3440;"></span>
+                    <br><br>
+
+                    <label for="bar-foreground">Tekstkleur:</label>
+                    <input type="color" id="bar-foreground" name="bar-foreground" value="#eceff4">
+                    <span class="color-preview" style="background-color: #eceff4;"></span>
+                    <br><br>
+
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="bar-rounded" name="bar-rounded" checked>
+                        <label for="bar-rounded">Afgeronde hoeken</label>
+                    </div>
+
+                    <label for="bar-radius">Hoekradius (px):</label>
+                    <input type="number" id="bar-radius" name="bar-radius" min="0" max="20" value="10">
+                    <br><br>
+
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="bar-transparent" name="bar-transparent">
+                        <label for="bar-transparent">Transparante achtergrond</label>
+                    </div>
+
+                    <label for="bar-opacity">Transparantie (0-100%):</label>
+                    <input type="range" id="bar-opacity" name="bar-opacity" min="0" max="100" value="90">
+                    <span id="opacity-value">90%</span>
+                </fieldset>
+                <br>
+                <fieldset>
+                    <legend>Modules</legend>
+                    <p>Selecteer de modules die je wilt toevoegen aan je Waybar:</p>
+                    
+                    <div id="modules-container">
+                        <div class="module-container" data-module="clock">
+                            <div class="module-header">
+                                <div class="module-title">Klok</div>
+                                <div class="module-actions">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="module-clock-enabled" name="module-clock-enabled" checked>
+                                        <label for="module-clock-enabled">Ingeschakeld</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="module-options">
+                                <label for="clock-format">Tijdformaat:</label>
+                                <input type="text" id="clock-format" name="clock-format" value="%H:%M">
+                                <p class="help-text">Gebruik %H voor uren, %M voor minuten, %S voor seconden, %d voor dag, %m voor maand, %Y voor jaar</p>
+                                
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="clock-seconds" name="clock-seconds">
+                                    <label for="clock-seconds">Toon seconden</label>
+                                </div>
+                                
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="clock-date" name="clock-date" checked>
+                                    <label for="clock-date">Toon datum</label>
+                                </div>
+                                
+                                <label for="clock-date-format">Datumformaat:</label>
+                                <input type="text" id="clock-date-format" name="clock-date-format" value="%d-%m-%Y">
+                            </div>
+                        </div>
+                        
+                        <div class="module-container" data-module="workspaces">
+                            <div class="module-header">
+                                <div class="module-title">Werkruimtes</div>
+                                <div class="module-actions">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="module-workspaces-enabled" name="module-workspaces-enabled" checked>
+                                        <label for="module-workspaces-enabled">Ingeschakeld</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="module-options">
+                                <label for="workspaces-count">Aantal werkruimtes:</label>
+                                <input type="number" id="workspaces-count" name="workspaces-count" min="1" max="10" value="5">
+                                
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="workspaces-show-names" name="workspaces-show-names">
+                                    <label for="workspaces-show-names">Toon werkruimtenamen</label>
+                                </div>
+                                
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="workspaces-show-icons" name="workspaces-show-icons" checked>
+                                    <label for="workspaces-show-icons">Toon pictogrammen</label>
+                                </div>
+                                
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="workspaces-all-outputs" name="workspaces-all-outputs" checked>
+                                    <label for="workspaces-all-outputs">Toon alle werkruimtes op alle schermen</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="module-container" data-module="battery">
+                            <div class="module-header">
+                                <div class="module-title">Batterij</div>
+                                <div class="module-actions">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="module-battery-enabled" name="module-battery-enabled" checked>
+                                        <label for="module-battery-enabled">Ingeschakeld</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="module-options">
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="battery-show-percentage" name="battery-show-percentage" checked>
+                                    <label for="battery-show-percentage">Toon percentage</label>
+                                </div>
+                                
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="battery-show-icon" name="battery-show-icon" checked>
+                                    <label for="battery-show-icon">Toon pictogram</label>
+                                </div>
+                                
+                                <label for="battery-interval">Update interval (seconden):</label>
+                                <input type="number" id="battery-interval" name="battery-interval" min="1" max="60" value="10">
+                                
+                                <label for="battery-states">Batterijniveaus (kommagescheiden):</label>
+                                <input type="text" id="battery-states" name="battery-states" value="warning: 30, critical: 15">
+                            </div>
+                        </div>
+                        
+                        <div class="module-container" data-module="network">
+                            <div class="module-header">
+                                <div class="module-title">Netwerk</div>
+                                <div class="module-actions">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="module-network-enabled" name="module-network-enabled" checked>
+                                        <label for="module-network-enabled">Ingeschakeld</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="module-options">
+                                <label for="network-interface">Netwerkinterface:</label>
+                                <input type="text" id="network-interface" name="network-interface" placeholder="wlan0">
+                                
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="network-show-ip" name="network-show-ip" checked>
+                                    <label for="network-show-ip">Toon IP-adres</label>
+                                </div>
+                                
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="network-show-speed" name="network-show-speed">
+                                    <label for="network-show-speed">Toon netwerksnelheid</label>
+                                </div>
+                                
+                                <label for="network-interval">Update interval (seconden):</label>
+                                <input type="number" id="network-interval" name="network-interval" min="1" max="60" value="5">
+                            </div>
+                        </div>
+                        
+                        <div class="module-container" data-module="cpu">
+                            <div class="module-header">
+                                <div class="module-title">CPU</div>
+                                <div class="module-actions">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="module-cpu-enabled" name="module-cpu-enabled">
+                                        <label for="module-cpu-enabled">Ingeschakeld</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="module-options">
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="cpu-show-percentage" name="cpu-show-percentage" checked>
+                                    <label for="cpu-show-percentage">Toon percentage</label>
+                                </div>
+                                
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="cpu-show-icon" name="cpu-show-icon" checked>
+                                    <label for="cpu-show-icon">Toon pictogram</label>
+                                </div>
+                                
+                                <label for="cpu-interval">Update interval (seconden):</label>
+                                <input type="number" id="cpu-interval" name="cpu-interval" min="1" max="60" value="5">
+                            </div>
+                        </div>
+                        
+                        <div class="module-container" data-module="memory">
+                            <div class="module-header">
+                                <div class="module-title">Geheugen</div>
+                                <div class="module-actions">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="module-memory-enabled" name="module-memory-enabled">
+                                        <label for="module-memory-enabled">Ingeschakeld</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="module-options">
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="memory-show-percentage" name="memory-show-percentage" checked>
+                                    <label for="memory-show-percentage">Toon percentage</label>
+                                </div>
+                                
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="memory-show-icon" name="memory-show-icon" checked>
+                                    <label for="memory-show-icon">Toon pictogram</label>
+                                </div>
+                                
+                                <label for="memory-interval">Update interval (seconden):</label>
+                                <input type="number" id="memory-interval" name="memory-interval" min="1" max="60" value="5">
+                            </div>
+                        </div>
+                        
+                        <button type="button" id="add-custom-module" onclick="addCustomModule()">+ Module Toevoegen</button>
+                    </div>
+                </fieldset>
+                <br>
+                <fieldset>
+                    <legend>Stijl Instellingen</legend>
+                    
+                    <label for="font-family">Lettertype:</label>
+                    <input type="text" id="font-family" name="font-family" value="Roboto, FontAwesome">
+                    <br><br>
+                    
+                    <label for="font-size">Lettergrootte (px):</label>
+                    <input type="number" id="font-size" name="font-size" min="8" max="24" value="12">
+                    <br><br>
+                    
+                    <label for="module-padding">Module padding (px):</label>
+                    <input type="number" id="module-padding" name="module-padding" min="0" max="20" value="8">
+                    <br><br>
+                    
+                    <label for="module-margin">Module marge (px):</label>
+                    <input type="number" id="module-margin" name="module-margin" min="0" max="20" value="4">
+                    <br><br>
+                    
+                    <label for="active-workspace-bg">Actieve werkruimte achtergrond:</label>
+                    <input type="color" id="active-workspace-bg" name="active-workspace-bg" value="#5e81ac">
+                    <span class="color-preview" style="background-color: #5e81ac;"></span>
+                    <br><br>
+                    
+                    <label for="inactive-workspace-bg">Inactieve werkruimte achtergrond:</label>
+                    <input type="color" id="inactive-workspace-bg" name="inactive-workspace-bg" value="#3b4252">
+                    <span class="color-preview" style="background-color: #3b4252;"></span>
+                    <br><br>
+                    
+                    <label for="urgent-workspace-bg">Urgente werkruimte achtergrond:</label>
+                    <input type="color" id="urgent-workspace-bg" name="urgent-workspace-bg" value="#bf616a">
+                    <span class="color-preview" style="background-color: #bf616a;"></span>
+                </fieldset>
+                <br>
+                
+                <fieldset>
+                    <legend>Voorbeeldweergave</legend>
+                    <div class="preview-bar" id="preview-bar">
+                        <div class="preview-left" id="preview-left">
+                            <span class="preview-module">Werkruimtes</span>
+                        </div>
+                        <div class="preview-center" id="preview-center">
+                            <span class="preview-module">Klok</span>
+                        </div>
+                        <div class="preview-right" id="preview-right">
+                            <span class="preview-module">Batterij</span>
+                            <span class="preview-module">Netwerk</span>
+                        </div>
+                    </div>
+                    <p class="preview-note">Dit is een vereenvoudigde weergave van hoe je Waybar eruit zou kunnen zien.</p>
+                </fieldset>
+                <br>
+            </form>
+        </section>
+
+        <section>
+            <h2>Gegenereerde Configuratie</h2>
+            <div class="config-tabs">
+                <button class="config-tab active" onclick="showConfigTab('config')">config</button>
+                <button class="config-tab" onclick="showConfigTab('style')">style.css</button>
+            </div>
+            <h2>Configuratie</h2>
+            <div id="config-tab-content" class="config-tab-content active">
+                <pre id="generated-config" class="config-output">Hier verschijnt je configuratie...</pre>
+            </div>
+            <h2>CSS stijl</h2>
+            <div id="style-tab-content" class="config-tab-content">
+                <pre id="generated-style" class="config-output">Hier verschijnt je CSS stijl...</pre>
+            </div>
+            <button onclick="downloadConfig('config')">Download Config</button>
+            <button onclick="downloadConfig('style')">Download Style.css</button>
+            <button onclick="downloadBoth()">Download Beide</button>
+        </section>
+    </main>
+    
+    <footer>
+        <a class="button" href="wiki.html">Terug naar de hoofdpagina</a>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        // Variabelen voor het bijhouden van aangepaste modules
+        let customModuleCount = 0;
+        
+        // Functie om de configuratie te genereren
+        function generateConfig() {
+            const barPosition = document.getElementById('bar-position').value;
+            const barHeight = document.getElementById('bar-height').value;
+            const barSpacing = document.getElementById('bar-spacing').value;
+            const barRounded = document.getElementById('bar-rounded').checked;
+            const barRadius = document.getElementById('bar-radius').value;
+            const barTransparent = document.getElementById('bar-transparent').checked;
+            const barOpacity = document.getElementById('bar-opacity').value;
+            
+            // Modules instellingen ophalen
+            const clockEnabled = document.getElementById('module-clock-enabled').checked;
+            const workspacesEnabled = document.getElementById('module-workspaces-enabled').checked;
+            const batteryEnabled = document.getElementById('module-battery-enabled').checked;
+            const networkEnabled = document.getElementById('module-network-enabled').checked;
+            const cpuEnabled = document.getElementById('module-cpu-enabled').checked;
+            const memoryEnabled = document.getElementById('module-memory-enabled').checked;
+            
+            // Configuratie JSON opbouwen
+            let config = {
+                "layer": "top",
+                "position": barPosition,
+                "height": parseInt(barHeight),
+                "spacing": parseInt(barSpacing),
+                "modules-left": [],
+                "modules-center": [],
+                "modules-right": []
+            };
+            
+            // Modules toevoegen op basis van selecties
+            if (workspacesEnabled) {
+                config["modules-left"].push("hyprland/workspaces");
+                
+                // Werkruimte configuratie
+                const workspacesCount = document.getElementById('workspaces-count').value;
+                const showNames = document.getElementById('workspaces-show-names').checked;
+                const showIcons = document.getElementById('workspaces-show-icons').checked;
+                const allOutputs = document.getElementById('workspaces-all-outputs').checked;
+                
+                config["hyprland/workspaces"] = {
+                    "all-outputs": allOutputs,
+                    "format": showIcons ? "{icon}" : "{name}",
+                    "format-icons": {
+                        "1": "1",
+                        "2": "2",
+                        "3": "3",
+                        "4": "4",
+                        "5": "5",
+                        "urgent": "",
+                        "active": "",
+                        "default": ""
+                    },
+                    "persistent-workspaces": {}
+                };
+                
+                // Persistente werkruimtes toevoegen
+                for (let i = 1; i <= workspacesCount; i++) {
+                    config["hyprland/workspaces"]["persistent-workspaces"][i] = [];
+                }
+            }
+            
+            if (clockEnabled) {
+                config["modules-center"].push("clock");
+                
+                // Klok configuratie
+                const clockFormat = document.getElementById('clock-format').value;
+                const showSeconds = document.getElementById('clock-seconds').checked;
+                const showDate = document.getElementById('clock-date').checked;
+                const dateFormat = document.getElementById('clock-date-format').value;
+                
+                let format = clockFormat;
+                if (showSeconds) {
+                    format = format.replace("%M", "%M:%S");
+                }
+                if (showDate) {
+                    format = `${format} ${dateFormat}`;
+                }
+                
+                config["clock"] = {
+                    "format": format,
+                    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+                };
+            }
+            if (batteryEnabled) {
+                config["modules-right"].push("battery");
+                
+                // Batterij configuratie
+                const showPercentage = document.getElementById('battery-show-percentage').checked;
+                const showIcon = document.getElementById('battery-show-icon').checked;
+                const interval = document.getElementById('battery-interval').value;
+                const states = document.getElementById('battery-states').value;
+                
+                let format = "";
+                if (showIcon) format += "{icon} ";
+                if (showPercentage) format += "{capacity}%";
+                
+                config["battery"] = {
+                    "format": format,
+                    "format-charging": " {capacity}%",
+                    "format-plugged": " {capacity}%",
+                    "format-icons": ["", "", "", "", ""],
+                    "interval": parseInt(interval)
+                };
+                
+                // Batterij states verwerken
+                if (states) {
+                    const statesObj = {};
+                    states.split(',').forEach(state => {
+                        const [key, value] = state.split(':').map(s => s.trim());
+                        statesObj[key] = parseInt(value);
+                    });
+                    config["battery"]["states"] = statesObj;
+                }
+            }
+            
+            if (networkEnabled) {
+                config["modules-right"].push("network");
+                
+                // Netwerk configuratie
+                const interface = document.getElementById('network-interface').value;
+                const showIp = document.getElementById('network-show-ip').checked;
+                const showSpeed = document.getElementById('network-show-speed').checked;
+                const interval = document.getElementById('network-interval').value;
+                
+                let format = "{ifname}";
+                if (showIp) format += " {ipaddr}";
+                if (showSpeed) format += " {bandwidthUpBits} {bandwidthDownBits}";
+                
+                config["network"] = {
+                    "interface": interface || "wlan0",
+                    "format": format,
+                    "format-wifi": " {essid} ({signalStrength}%)",
+                    "format-ethernet": " {ipaddr}",
+                    "format-disconnected": "Disconnected",
+                    "tooltip-format": "{ifname} via {gwaddr}",
+                    "interval": parseInt(interval)
+                };
+            }
+            
+            if (cpuEnabled) {
+                config["modules-right"].push("cpu");
+                
+                // CPU configuratie
+                const showPercentage = document.getElementById('cpu-show-percentage').checked;
+                const showIcon = document.getElementById('cpu-show-icon').checked;
+                const interval = document.getElementById('cpu-interval').value;
+                
+                let format = "";
+                if (showIcon) format += " ";
+                if (showPercentage) format += "{usage}%";
+                
+                config["cpu"] = {
+                    "format": format,
+                    "interval": parseInt(interval)
+                };
+            }
+            
+            if (memoryEnabled) {
+                config["modules-right"].push("memory");
+                
+                // Geheugen configuratie
+                const showPercentage = document.getElementById('memory-show-percentage').checked;
+                const showIcon = document.getElementById('memory-show-icon').checked;
+                const interval = document.getElementById('memory-interval').value;
+                
+                let format = "";
+                if (showIcon) format += " ";
+                if (showPercentage) format += "{percentage}%";
+                
+                config["memory"] = {
+                    "format": format,
+                    "interval": parseInt(interval)
+                };
+            }
+            
+            // Configuratie weergeven
+            document.getElementById('generated-config').textContent = JSON.stringify(config, null, 2);
+            
+            // CSS stijl genereren
+            generateStyle();
+            
+            // Voorbeeldweergave bijwerken
+            updatePreview();
+        }
+        function generateStyle() {
+            const barBackground = document.getElementById('bar-background').value;
+            const barForeground = document.getElementById('bar-foreground').value;
+            const barRounded = document.getElementById('bar-rounded').checked;
+            const barRadius = document.getElementById('bar-radius').value;
+            const barTransparent = document.getElementById('bar-transparent').checked;
+            const barOpacity = document.getElementById('bar-opacity').value;
+            const fontFamily = document.getElementById('font-family').value;
+            const fontSize = document.getElementById('font-size').value;
+            const modulePadding = document.getElementById('module-padding').value;
+            const moduleMargin = document.getElementById('module-margin').value;
+            const activeWorkspaceBg = document.getElementById('active-workspace-bg').value;
+            const inactiveWorkspaceBg = document.getElementById('inactive-workspace-bg').value;
+            const urgentWorkspaceBg = document.getElementById('urgent-workspace-bg').value;
+            
+            let opacity = barTransparent ? barOpacity / 100 : 1;
+            let bgColor = barBackground + (barTransparent ? Math.round(opacity * 255).toString(16).padStart(2, '0') : "");
+            
+            let css = `* {
+    font-family: ${fontFamily};
+    font-size: ${fontSize}px;
+}
+
+window#waybar {
+    background: ${bgColor};
+    color: ${barForeground};
+    ${barRounded ? `border-radius: ${barRadius}px;` : ''}
+}
+
+#workspaces button {
+    padding: ${modulePadding}px;
+    margin: ${moduleMargin}px;
+    background: ${inactiveWorkspaceBg};
+    color: ${barForeground};
+    border: none;
+    border-radius: 3px;
+}
+
+#workspaces button.active {
+    background: ${activeWorkspaceBg};
+}
+
+#workspaces button.urgent {
+    background: ${urgentWorkspaceBg};
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#network {
+    padding: ${modulePadding}px;
+    margin: ${moduleMargin}px;
+}
+
+#battery.warning {
+    color: #ffb86c;
+}
+
+#battery.critical {
+    color: #ff5555;
+}
+
+label:focus {
+    background-color: #000000;
+}`;
+            
+            document.getElementById('generated-style').textContent = css;
+        }
+        function updatePreview() {
+            const barBackground = document.getElementById('bar-background').value;
+            const barForeground = document.getElementById('bar-foreground').value;
+            const barPosition = document.getElementById('bar-position').value;
+            const barRounded = document.getElementById('bar-rounded').checked;
+            const barRadius = document.getElementById('bar-radius').value;
+            
+            const previewBar = document.getElementById('preview-bar');
+            previewBar.style.backgroundColor = barBackground;
+            previewBar.style.color = barForeground;
+            
+            if (barRounded) {
+                previewBar.style.borderRadius = `${barRadius}px`;
+            } else {
+                previewBar.style.borderRadius = '0';
+            }
+            
+            // Modules bijwerken in preview
+            const previewLeft = document.getElementById('preview-left');
+            const previewCenter = document.getElementById('preview-center');
+            const previewRight = document.getElementById('preview-right');
+            
+            previewLeft.innerHTML = '';
+            previewCenter.innerHTML = '';
+            previewRight.innerHTML = '';
+            
+            if (document.getElementById('module-workspaces-enabled').checked) {
+                previewLeft.innerHTML += '<span class="preview-module">Werkruimtes</span>';
+            }
+            
+            if (document.getElementById('module-clock-enabled').checked) {
+                previewCenter.innerHTML += '<span class="preview-module">Klok</span>';
+            }
+            
+            if (document.getElementById('module-battery-enabled').checked) {
+                previewRight.innerHTML += '<span class="preview-module">Batterij</span>';
+            }
+            
+            if (document.getElementById('module-network-enabled').checked) {
+                previewRight.innerHTML += '<span class="preview-module">Netwerk</span>';
+            }
+            
+            if (document.getElementById('module-cpu-enabled').checked) {
+                previewRight.innerHTML += '<span class="preview-module">CPU</span>';
+            }
+            
+            if (document.getElementById('module-memory-enabled').checked) {
+                previewRight.innerHTML += '<span class="preview-module">Geheugen</span>';
+            }
+        }
+        
+        function addCustomModule() {
+            customModuleCount++;
+            
+            const modulesContainer = document.getElementById('modules-container');
+            const newModule = document.createElement('div');
+            newModule.className = 'module-container';
+            newModule.dataset.module = `custom-${customModuleCount}`;
+            
+            newModule.innerHTML = `
+                <div class="module-header">
+                    <div class="module-title">Aangepaste Module ${customModuleCount}</div>
+                    <div class="module-actions">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="module-custom-${customModuleCount}-enabled" name="module-custom-${customModuleCount}-enabled" checked>
+                            <label for="module-custom-${customModuleCount}-enabled">Ingeschakeld</label>
+                        </div>
+                        <button type="button" onclick="removeCustomModule(this)">Verwijderen</button>
+                    </div>
+                </div>
+                <div class="module-options">
+                    <label for="custom-${customModuleCount}-name">Modulenaam:</label>
+                    <input type="text" id="custom-${customModuleCount}-name" name="custom-${customModuleCount}-name" placeholder="custom/example">
+                    
+                    <label for="custom-${customModuleCount}-position">Positie:</label>
+                    <select id="custom-${customModuleCount}-position" name="custom-${customModuleCount}-position">
+                        <option value="left">Links</option>
+                        <option value="center">Midden</option>
+                        <option value="right" selected>Rechts</option>
+                    </select>
+                    
+                    <label for="custom-${customModuleCount}-format">Format:</label>
+                    <input type="text" id="custom-${customModuleCount}-format" name="custom-${customModuleCount}-format" placeholder="{value}">
+                    
+                    <label for="custom-${customModuleCount}-exec">Exec commando (optioneel):</label>
+                    <input type="text" id="custom-${customModuleCount}-exec" name="custom-${customModuleCount}-exec" placeholder="echo 'Hello'">
+                    
+                    <label for="custom-${customModuleCount}-interval">Update interval (seconden):</label>
+                    <input type="number" id="custom-${customModuleCount}-interval" name="custom-${customModuleCount}-interval" min="1" max="60" value="5">
+                </div>
+            `;
+            
+            // Voeg de nieuwe module toe voor de "Module Toevoegen" knop
+            const addButton = document.getElementById('add-custom-module');
+            modulesContainer.insertBefore(newModule, addButton);
+        }
+        
+        function removeCustomModule(button) {
+            const moduleContainer = button.closest('.module-container');
+            moduleContainer.remove();
+            generateConfig();
+        }
+        function downloadConfig(type) {
+            let content, filename;
+            
+            if (type === 'config') {
+                content = document.getElementById('generated-config').textContent;
+                filename = 'config.json';
+            } else if (type === 'style') {
+                content = document.getElementById('generated-style').textContent;
+                filename = 'style.css';
+            }
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+        }
+        
+        function downloadBoth() {
+            downloadConfig('config');
+            setTimeout(() => downloadConfig('style'), 100);
+        }
+        
+        function showConfigTab(tab) {
+            // Verberg alle tab content
+            const tabContents = document.querySelectorAll('.config-tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Verwijder active class van alle tabs
+            const tabs = document.querySelectorAll('.config-tab');
+            tabs.forEach(t => {
+                t.classList.remove('active');
+            });
+            
+            // Activeer de geselecteerde tab
+            document.getElementById(`${tab}-tab-content`).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
+        function applyPresetConfig() {
+            const preset = document.getElementById('preset-config').value;
+            
+            const presets = {
+                minimal: {
+                    barPosition: 'top',
+                    barHeight: 30,
+                    barSpacing: 4,
+                    barRounded: true,
+                    barRadius: 10,
+                    barTransparent: false,
+                    barOpacity: 100,
+                    barBackground: '#2e3440',
+                    barForeground: '#eceff4',
+                    fontFamily: 'Roboto, FontAwesome',
+                    fontSize: 12,
+                    modulePadding: 8,
+                    moduleMargin: 4,
+                    activeWorkspaceBg: '#5e81ac',
+                    inactiveWorkspaceBg: '#3b4252',
+                    urgentWorkspaceBg: '#bf616a',
+                    modules: {
+                        clock: true,
+                        workspaces: true,
+                        battery: false,
+                        network: false,
+                        cpu: false,
+                        memory: false
+                    }
+                },
+                full: {
+                    barPosition: 'top',
+                    barHeight: 36,
+                    barSpacing: 6,
+                    barRounded: true,
+                    barRadius: 12,
+                    barTransparent: true,
+                    barOpacity: 90,
+                    barBackground: '#2e3440',
+                    barForeground: '#eceff4',
+                    fontFamily: 'Roboto, FontAwesome',
+                    fontSize: 14,
+                    modulePadding: 10,
+                    moduleMargin: 6,
+                    activeWorkspaceBg: '#5e81ac',
+                    inactiveWorkspaceBg: '#3b4252',
+                    urgentWorkspaceBg: '#bf616a',
+                    modules: {
+                        clock: true,
+                        workspaces: true,
+                        battery: true,
+                        network: true,
+                        cpu: true,
+                        memory: true
+                    }
+                },
+                gaming: {
+                    barPosition: 'bottom',
+                    barHeight: 28,
+                    barSpacing: 4,
+                    barRounded: false,
+                    barRadius: 0,
+                    barTransparent: false,
+                    barOpacity: 100,
+                    barBackground: '#1a1a1a',
+                    barForeground: '#ff0000',
+                    fontFamily: 'Roboto, FontAwesome',
+                    fontSize: 12,
+                    modulePadding: 6,
+                    moduleMargin: 3,
+                    activeWorkspaceBg: '#ff0000',
+                    inactiveWorkspaceBg: '#333333',
+                    urgentWorkspaceBg: '#ffff00',
+                    modules: {
+                        clock: true,
+                        workspaces: true,
+                        battery: false,
+                        network: true,
+                        cpu: true,
+                        memory: false
+                    }
+                },
+                productivity: {
+                    barPosition: 'top',
+                    barHeight: 32,
+                    barSpacing: 5,
+                    barRounded: true,
+                    barRadius: 8,
+                    barTransparent: true,
+                    barOpacity: 95,
+                    barBackground: '#2d2d2d',
+                    barForeground: '#ffffff',
+                    fontFamily: 'Ubuntu, FontAwesome',
+                    fontSize: 13,
+                    modulePadding: 9,
+                    moduleMargin: 5,
+                    activeWorkspaceBg: '#4c7899',
+                    inactiveWorkspaceBg: '#333333',
+                    urgentWorkspaceBg: '#900000',
+                    modules: {
+                        clock: true,
+                        workspaces: true,
+                        battery: true,
+                        network: true,
+                        cpu: true,
+                        memory: true
+                    }
+                }
+            };
+            
+            if (preset && presets[preset]) {
+                const config = presets[preset];
+                
+                // Algemene instellingen
+                document.getElementById('bar-position').value = config.barPosition;
+                document.getElementById('bar-height').value = config.barHeight;
+                document.getElementById('bar-spacing').value = config.barSpacing;
+                document.getElementById('bar-rounded').checked = config.barRounded;
+                document.getElementById('bar-radius').value = config.barRadius;
+                document.getElementById('bar-transparent').checked = config.barTransparent;
+                document.getElementById('bar-opacity').value = config.barOpacity;
+                document.getElementById('bar-background').value = config.barBackground;
+                document.getElementById('bar-foreground').value = config.barForeground;
+                
+                // Stijl instellingen
+                document.getElementById('font-family').value = config.fontFamily;
+                document.getElementById('font-size').value = config.fontSize;
+                document.getElementById('module-padding').value = config.modulePadding;
+                document.getElementById('module-margin').value = config.moduleMargin;
+                document.getElementById('active-workspace-bg').value = config.activeWorkspaceBg;
+                document.getElementById('inactive-workspace-bg').value = config.inactiveWorkspaceBg;
+                document.getElementById('urgent-workspace-bg').value = config.urgentWorkspaceBg;
+                
+                // Modules
+                document.getElementById('module-clock-enabled').checked = config.modules.clock;
+                document.getElementById('module-workspaces-enabled').checked = config.modules.workspaces;
+                document.getElementById('module-battery-enabled').checked = config.modules.battery;
+                document.getElementById('module-network-enabled').checked = config.modules.network;
+                document.getElementById('module-cpu-enabled').checked = config.modules.cpu;
+                document.getElementById('module-memory-enabled').checked = config.modules.memory;
+                
+                // Update kleurvoorbeelden
+                document.querySelectorAll('.color-preview').forEach(preview => {
+                    const input = preview.previousElementSibling;
+                    preview.style.backgroundColor = input.value;
+                });
+                
+                // Update opacity waarde
+                document.getElementById('opacity-value').textContent = `${config.barOpacity}%`;
+                
+                // Genereer configuratie
+                generateConfig();
+            }
+        }
+        
+        function validateForm() {
+            // Eenvoudige validatie
+            let isValid = true;
+            const errorMessages = [];
+            
+            // Controleer of er ten minste één module is ingeschakeld
+            const anyModuleEnabled = 
+                document.getElementById('module-clock-enabled').checked ||
+                document.getElementById('module-workspaces-enabled').checked ||
+                document.getElementById('module-battery-enabled').checked ||
+                document.getElementById('module-network-enabled').checked ||
+                document.getElementById('module-cpu-enabled').checked ||
+                document.getElementById('module-memory-enabled').checked;
+                
+            if (!anyModuleEnabled) {
+                isValid = false;
+                errorMessages.push("Schakel ten minste één module in");
+            }
+            
+            // Toon eventuele fouten
+            const errorContainer = document.getElementById('form-errors');
+            if (!isValid) {
+                errorContainer.style.display = 'block';
+                errorContainer.innerHTML = `<strong>Er zijn fouten gevonden:</strong><br>${errorMessages.join('<br>')}`;
+            } else {
+                errorContainer.style.display = 'none';
+                generateConfig();
+            }
+            
+            return isValid;
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialiseer dark mode
+            const darkMode = sessionStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+            }
+            updateDarkModeButton();
+            
+            // Dark mode toggle
+            const darkModeButton = document.querySelector('.dark-mode-toggle');
+            if (darkModeButton) {
+                darkModeButton.addEventListener('click', toggleDarkMode);
+            }
+            
+            // Kleurvoorbeelden bijwerken bij verandering
+            document.querySelectorAll('input[type="color"]').forEach(input => {
+                input.addEventListener('input', function() {
+                    const preview = this.nextElementSibling;
+                    if (preview && preview.classList.contains('color-preview')) {
+                        preview.style.backgroundColor = this.value;
+                    }
+                });
+            });
+            
+            // Opacity waarde bijwerken
+            document.getElementById('bar-opacity').addEventListener('input', function() {
+                document.getElementById('opacity-value').textContent = `${this.value}%`;
+            });
+            
+            // Genereer initiële configuratie
+            generateConfig();
+            
+            // Update configuratie bij formulier wijzigingen
+            document.getElementById('config-form').addEventListener('input', generateConfig);
+        });
+                  function toggleDarkMode() {
+                      document.body.classList.toggle('dark-mode');
+                      sessionStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+                      updateDarkModeButton();
+                  }
+        
+                  function updateDarkModeButton() {
+                      const darkModeButton = document.querySelector('.dark-mode-toggle');
+                      if (darkModeButton) {
+                          darkModeButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+                      }
+                  }
+        </script>
+    </body>
+</html>

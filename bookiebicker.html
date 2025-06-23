@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Clicker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="secret-checker.js"></script>
+    <link rel="icon" type="image/png" href="images/icon.png">
+</head>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="wiki.html">Wiki</a></li>
+            <li><a href="mijndotfiles.html">Mijn dotfiles</a></li>
+            <li><a href="secret.html">Secret</a></li>
+            <li class="current">Bookiebicker</li>
+        </ul>
+    </nav>
+    <button class="dark-mode-toggle">🌙</button>
+
+    <main>
+        <div class="game-container">
+            <div class="main-content">
+                <h1>Cookie Clicker</h1>
+                
+                <div class="stats-panel">
+                    <div class="stats-container">
+                        <div class="stat-box">
+                            <div id="counter">Cookies: 0</div>
+                            <div id="cps">Per seconde: 0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div>Cookies per Click: <span id="cpcDisplay">1</span></div>
+                            <div>Total Baked: <span id="totalCookies">0</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cookie-container">
+                    <i id="cookie" class="fas fa-cookie"></i>
+                    <i class="fas fa-cookie mini-cookie"></i>
+                </div>
+
+                <div class="stats-panel">
+                    <h3>Prestige & Bonuses</h3>
+                    <div class="stats-container">
+                        <div class="stat-box">
+                            <p>Prestige Points: <span id="prestigePoints">0</span></p>
+                            <p>Multiplier: <span id="prestigeMultiplier">1</span>x</p>
+                        </div>
+                        <div class="stat-box">
+                            <p id="milkLevel">Milk Level: 0</p>
+                            <p id="milkMultiplier">Milk Bonus: 0%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="menu-button" onclick="showAllAchievements()">
+                        <i class="fas fa-trophy"></i> Achievements
+                    </button>
+                    <button class="menu-button" onclick="prestige()">
+                        <i class="fas fa-star"></i> Prestige
+                    </button>
+                </div>
+
+                <div class="button-group">
+                    <button class="menu-button" onclick="saveGameState()">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                    <button class="menu-button" onclick="loadGameState()">
+                        <i class="fas fa-folder-open"></i> Load
+                    </button>
+                    <a href="secret.html" class="button">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                </div>
+            </div>
+            <div class="side-content">
+                <div class="shop-panel">
+                    <h3>Upgrades</h3>
+                    <div id="upgrades"></div>
+                </div>
+                <div class="shop-panel">
+                    <h3>Producers</h3>
+                    <div id="producers"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="achievement" class="achievement"></div>
+
+    <script>
+        let count = 0;
+        let cookiesPerClick = 1;
+        let cookiesPerSecond = 0;
+        let goldenCookieChance = 0.1;
+        let clickMultiplier = 1;
+        let achievementsUnlocked = new Set();
+        let totalClicks = 0;
+        let totalCookiesBaked = 0;
+        let prestigePoints = 0;
+        let prestigeMultiplier = 1;
+        let milkLevel = 0;
+        let milkMultiplier = 1;
+        
+        const cookie = document.getElementById('cookie');
+        const counter = document.getElementById('counter');
+        const cpsCounter = document.getElementById('cps');
+        const upgradesDiv = document.getElementById('upgrades');
+        const producersDiv = document.getElementById('producers');
+        const achievementDiv = document.getElementById('achievement');
+
+        const achievements = [
+            { name: "Cookie Rookie", requirement: 100, message: "Bak je eerste 100 cookies!" },
+            { name: "Cookie Master", requirement: 1000, message: "Bereik 1,000 cookies!" },
+            { name: "Cookie Mogul", requirement: 10000, message: "Bereik 10,000 cookies!" },
+            { name: "Cookie Emperor", requirement: 100000, message: "Bereik 100,000 cookies!" },
+            { name: "Cookie God", requirement: 1000000, message: "Bereik 1,000,000 cookies!" },
+            { name: "Speed Baker", requirement: 1000, type: "cps", message: "Reach 1,000 cookies per second!" },
+            { name: "Click Master", requirement: 1000, type: "clicks", message: "Click 1,000 times!" },
+            { name: "First Prestige", requirement: 1, type: "prestige", message: "Prestige for the first time!" },
+            { name: "Cookie Empire", requirement: 1000000000, message: "Reach 1 billion cookies!" }
+        ];
+
+        const upgrades = [
+            {
+                name: '<i class="fas fa-cookie-bite"></i> Dubbele Cookies',
+                cost: 50,
+                multiplier: 2,
+                description: "Krijg 2x zoveel cookies per klik"
+            },
+            {
+                name: '<i class="fas fa-cookie-bite"></i> Triple Cookies',
+                cost: 200,
+                multiplier: 3,
+                description: "Krijg 3x zoveel cookies per klik"
+            },
+            {
+                name: '<i class="fas fa-cookie-bite"></i> Super Cookies',
+                cost: 1000,
+                multiplier: 5,
+                description: "Krijg 5x zoveel cookies per klik"
+            },
+            {
+                name: '<i class="fas fa-cookie-bite"></i> Mega Cookies',
+                cost: 5000,
+                multiplier: 10,
+                description: "Krijg 10x zoveel cookies per klik"
+            },
+            {
+                name: '<i class="fas fa-cookie-bite"></i> Ultra Cookies',
+                cost: 25000,
+                multiplier: 20,
+                description: "Krijg 20x zoveel cookies per klik"
+            },
+            {
+                name: '<i class="fas fa-star"></i> Golden Touch',
+                cost: 10000,
+                multiplier: 1,
+                goldenBonus: true,
+                description: "Verhoog de kans op Golden Cookies"
+            }
+        ];
+
+        const producers = [
+            {
+                name: '<i class="fas fa-user-alt"></i> Cookie Oma',
+                baseCost: 15,
+                cost: 15,
+                cps: 0.1,
+                description: "Een lieve oma die cookies bakt",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-store"></i> Cookie Bakkerij',
+                baseCost: 100,
+                cost: 100,
+                cps: 1,
+                description: "Een kleine bakkerij die cookies produceert",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-industry"></i> Cookie Fabriek',
+                baseCost: 1100,
+                cost: 1100,
+                cps: 8,
+                description: "Een grote fabriek vol cookie machines",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-building"></i> Cookie Imperium',
+                baseCost: 12000,
+                cost: 12000,
+                cps: 47,
+                description: "Een wereldwijd cookie bedrijf",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-university"></i> Cookie Bank',
+                baseCost: 130000,
+                cost: 130000,
+                cps: 260,
+                description: "Investeert in cookie futures",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-place-of-worship"></i> Cookie Tempel',
+                baseCost: 1400000,
+                cost: 1400000,
+                cps: 1400,
+                description: "Aanbidt de cookie goden",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-flask"></i> Cookie Lab',
+                baseCost: 14000000,
+                cost: 14000000,
+                cps: 7800,
+                description: "Experimenteert met nieuwe cookie recepten",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-rocket"></i> Cookie Ruimtestation',
+                baseCost: 170000000,
+                cost: 170000000,
+                cps: 44000,
+                description: "Bakt cookies in de ruimte",
+                multiplier: 1
+            },
+            {
+                name: '<i class="fas fa-magic"></i> Cookie Tovenaar',
+                baseCost: 2100000000,
+                cost: 2100000000,
+                cps: 260000,
+                description: "Tovert cookies tevoorschijn",
+                multiplier: 1
+            }
+        ];
+
+        const goldenCookieEffects = {
+            'frenzy': {
+                name: "Frenzy",
+                duration: 77,
+                multiplier: 7,
+                description: "Cookie productie x7 voor 77 seconden!"
+            },
+            'clickFrenzy': {
+                name: "Click Frenzy",
+                duration: 13,
+                multiplier: 777,
+                description: "Clicks zijn 777x krachtiger voor 13 seconden!"
+            },
+            'blab': {
+                messages: [
+                    "Je cookies fluisteren zoete geheimen...",
+                    "De cookies voorspellen de toekomst...",
+                    "De cookies vertellen oude legendes..."
+                ]
+            }
+        };
+
+        function showAchievement(message) {
+            achievementDiv.textContent = "Achievement: " + message;
+            achievementDiv.style.display = 'block';
+            setTimeout(() => {
+                achievementDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function checkAchievements() {
+            achievements.forEach(achievement => {
+                if (!achievementsUnlocked.has(achievement.name)) {
+                    if (achievement.type === "cps" && cookiesPerSecond >= achievement.requirement) {
+                        achievementsUnlocked.add(achievement.name);
+                        showAchievement(achievement.message);
+                    } else if (achievement.type === "clicks" && totalClicks >= achievement.requirement) {
+                        achievementsUnlocked.add(achievement.name);
+                        showAchievement(achievement.message);
+                    } else if (achievement.type === "prestige" && prestigePoints >= achievement.requirement) {
+                        achievementsUnlocked.add(achievement.name);
+                        showAchievement(achievement.message);
+                    } else if (!achievement.type && count >= achievement.requirement) {
+                        achievementsUnlocked.add(achievement.name);
+                        showAchievement(achievement.message);
+                    }
+                }
+            });
+        }
+
+        function updateCookiesPerSecond() {
+            cookiesPerSecond = producers.reduce((total, producer) => {
+                return total + (producer.cps * producer.multiplier * (producer.amount || 0));
+            }, 0);
+            cpsCounter.textContent = 'Per seconde: ' + cookiesPerSecond.toFixed(1);
+        }
+
+        function spawnGoldenCookie() {
+            if (Math.random() < goldenCookieChance) {
+                const goldenCookie = document.createElement('i');
+                goldenCookie.className = 'fas fa-cookie';
+                goldenCookie.style.position = 'absolute';
+                goldenCookie.style.fontSize = '50px';
+                goldenCookie.style.color = 'gold';
+                goldenCookie.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+                goldenCookie.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+                goldenCookie.style.cursor = 'pointer';
+                goldenCookie.style.zIndex = '1000';
+
+                goldenCookie.onclick = () => {
+                    const effects = Object.keys(goldenCookieEffects);
+                    const effect = effects[Math.floor(Math.random() * effects.length)];
+                    
+                    if (effect === 'blab') {
+                        const messages = goldenCookieEffects.blab.messages;
+                        showAchievement(messages[Math.floor(Math.random() * messages.length)]);
+                        count += cookiesPerSecond * 900;
+                    } else {
+                        const effectData = goldenCookieEffects[effect];
+                        if (effect === 'frenzy') {
+                            const oldCps = cookiesPerSecond;
+                            cookiesPerSecond *= effectData.multiplier;
+                            showAchievement(effectData.description);
+                            setTimeout(() => {
+                                cookiesPerSecond = oldCps;
+                            }, effectData.duration * 1000);
+                        } else if (effect === 'clickFrenzy') {
+                            const oldMultiplier = clickMultiplier;
+                            clickMultiplier *= effectData.multiplier;
+                            showAchievement(effectData.description);
+                            setTimeout(() => {
+                                clickMultiplier = oldMultiplier;
+                            }, effectData.duration * 1000);
+                        }
+                    }
+                    goldenCookie.remove();
+                };
+
+                document.body.appendChild(goldenCookie);
+                setTimeout(() => goldenCookie.remove(), 10000);
+            }
+        }
+
+        setInterval(spawnGoldenCookie, 30000);
+
+        upgrades.forEach(upgrade => {
+            const button = document.createElement('button');
+            button.className = 'upgrade';
+            button.innerHTML = `${upgrade.name}<br>Kost: ${upgrade.cost} cookies<br>${upgrade.description}`;
+            button.disabled = true;
+
+            button.addEventListener('click', () => {
+                if (count >= upgrade.cost) {
+                    count -= upgrade.cost;
+                    if (upgrade.goldenBonus) {
+                        goldenCookieChance *= 2;
+                    } else {
+                        cookiesPerClick *= upgrade.multiplier;
+                    }
+                    counter.textContent = 'Cookies: ' + Math.floor(count);
+                    upgradesDiv.removeChild(button);
+                }
+            });
+
+            upgradesDiv.appendChild(button);
+            
+            setInterval(() => {
+                button.disabled = count < upgrade.cost;
+            }, 100);
+        });
+
+        producers.forEach(producer => {
+            producer.amount = 0;
+            const button = document.createElement('button');
+            button.className = 'producer';
+            button.innerHTML = `${producer.name}<br>Kost: ${producer.cost} cookies<br>${producer.description}<br>+${producer.cps} cookies/sec`;
+            button.disabled = true;
+
+            button.addEventListener('click', () => {
+                if (count >= producer.cost) {
+                    count -= producer.cost;
+                    producer.amount++;
+                    producer.cost = Math.floor(producer.baseCost * Math.pow(1.15, producer.amount));
+                    updateCookiesPerSecond();
+                    counter.textContent = 'Cookies: ' + Math.floor(count);
+                    button.innerHTML = `${producer.name}<br>Kost: ${producer.cost} cookies<br>${producer.description}<br>+${producer.cps * producer.multiplier} cookies/sec<br>Aantal: ${producer.amount}`;
+                }
+            });
+
+            producersDiv.appendChild(button);
+            
+            setInterval(() => {
+                button.disabled = count < producer.cost;
+            }, 100);
+        });
+
+        function createClickParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.className = 'click-particle';
+            particle.textContent = '+' + Math.floor(cookiesPerClick * clickMultiplier);
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 1000);
+        }
+
+        function prestige() {
+    const newPoints = Math.floor(Math.log10(count) - 5);
+    if (newPoints <= 0) {
+        alert("You need at least 100,000 cookies to prestige!");
+        return;
+    }
+
+    if (confirm(`Are you sure you want to prestige? You'll earn ${newPoints} prestige points!`)) {
+        prestigePoints += newPoints;
+        prestigeMultiplier = 1 + (prestigePoints * 0.1);
+        count = 0;
+        cookiesPerClick = 1;
+        cookiesPerSecond = 0;
+        
+        // Reset producers
+        producers.forEach(producer => {
+            producer.amount = 0;
+            producer.cost = producer.baseCost;
+        });
+
+        // Reset and recreate upgrades
+        upgradesDiv.innerHTML = '';
+        upgrades.forEach(upgrade => {
+            const button = document.createElement('button');
+            button.className = 'upgrade';
+            button.innerHTML = `${upgrade.name}<br>Kost: ${upgrade.cost} cookies<br>${upgrade.description}`;
+            button.disabled = true;
+
+            button.addEventListener('click', () => {
+                if (count >= upgrade.cost) {
+                    count -= upgrade.cost;
+                    if (upgrade.goldenBonus) {
+                        goldenCookieChance *= 2;
+                    } else {
+                        cookiesPerClick *= upgrade.multiplier;
+                    }
+                    counter.textContent = 'Cookies: ' + Math.floor(count);
+                    upgradesDiv.removeChild(button);
+                }
+            });
+
+            upgradesDiv.appendChild(button);
+            
+            setInterval(() => {
+                button.disabled = count < upgrade.cost;
+            }, 100);
+        });
+
+        // Reset producers div
+        producersDiv.innerHTML = '';
+        producers.forEach(producer => {
+            const button = document.createElement('button');
+            button.className = 'producer';
+            button.innerHTML = `${producer.name}<br>Kost: ${producer.cost} cookies<br>${producer.description}<br>+${producer.cps} cookies/sec`;
+            button.disabled = true;
+
+            button.addEventListener('click', () => {
+                if (count >= producer.cost) {
+                    count -= producer.cost;
+                    producer.amount++;
+                    producer.cost = Math.floor(producer.baseCost * Math.pow(1.15, producer.amount));
+                    updateCookiesPerSecond();
+                    counter.textContent = 'Cookies: ' + Math.floor(count);
+                    button.innerHTML = `${producer.name}<br>Kost: ${producer.cost} cookies<br>${producer.description}<br>+${producer.cps * producer.multiplier} cookies/sec<br>Aantal: ${producer.amount}`;
+                }
+            });
+
+            producersDiv.appendChild(button);
+            
+            setInterval(() => {
+                button.disabled = count < producer.cost;
+            }, 100);
+        });
+
+        // Reset all upgrade-related variables
+        clickMultiplier = 1;
+        goldenCookieChance = 0.1;
+
+        updateDisplay();
+        checkAchievements();
+    }
+}
+        function updateMilk() {
+            milkLevel = Math.floor(achievementsUnlocked.size * 0.2);
+            milkMultiplier = 1 + (milkLevel * 0.1);
+            document.getElementById('milkLevel').textContent = `Milk Level: ${milkLevel}`;
+        }
+
+        function updateDisplay() {
+            counter.textContent = 'Cookies: ' + Math.floor(count);
+            const cps = cookiesPerSecond * prestigeMultiplier * milkMultiplier;
+            cpsCounter.textContent = `Per seconde: ${cps.toFixed(1)}`;
+            document.getElementById('prestigePoints').textContent = prestigePoints;
+            document.getElementById('prestigeMultiplier').textContent = prestigeMultiplier.toFixed(1);
+            document.getElementById('totalCookies').textContent = Math.floor(totalCookiesBaked);
+            document.getElementById('cpcDisplay').textContent = (cookiesPerClick * clickMultiplier).toFixed(1);
+            document.getElementById('milkMultiplier').textContent = 
+                `Milk Bonus: ${((milkMultiplier - 1) * 100).toFixed(0)}%`;
+        }
+
+        cookie.addEventListener('click', (e) => {
+            const cookieRect = cookie.getBoundingClientRect();
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            createClickParticle(x, y);
+            totalClicks++;
+            const earned = cookiesPerClick * clickMultiplier * prestigeMultiplier;
+            count += earned;
+            totalCookiesBaked += earned;
+            updateDisplay();
+            checkAchievements();
+        });
+
+        setInterval(() => {
+            count += cookiesPerSecond;
+            totalCookiesBaked += cookiesPerSecond;
+            updateDisplay();
+            checkAchievements();
+        }, 1000);
+
+        function showAllAchievements() {
+            let message = "Achievements:\n";
+            achievements.forEach(achievement => {
+                const unlocked = achievementsUnlocked.has(achievement.name);
+                message += `${achievement.name}: ${unlocked ? '✓' : '✗'} (${achievement.requirement} cookies needed)\n`;
+            });
+            alert(message);
+        }
+
+        function saveGameState() {
+            const gameState = JSON.stringify({
+                count,
+                cookiesPerClick,
+                cookiesPerSecond,
+                goldenCookieChance,
+                clickMultiplier,
+                producers,
+                achievementsUnlocked: Array.from(achievementsUnlocked),
+                totalClicks,
+                totalCookiesBaked,
+                prestigePoints,
+                prestigeMultiplier,
+                milkLevel,
+                milkMultiplier,
+                upgrades: Array.from(document.querySelectorAll('.upgrade')).map(btn => ({
+                    innerHTML: btn.innerHTML,
+                    disabled: btn.disabled
+                }))
+            });
+            
+            const blob = new Blob([gameState], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'cookieclicker_save.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert('Game saved!');
+        }
+
+        function loadGameState() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const gameState = JSON.parse(e.target.result);
+                    count = gameState.count || 0;
+                    cookiesPerClick = gameState.cookiesPerClick || 1;
+                    cookiesPerSecond = gameState.cookiesPerSecond || 0;
+                    goldenCookieChance = gameState.goldenCookieChance || 0.1;
+                    clickMultiplier = gameState.clickMultiplier || 1;
+                    producers = gameState.producers || [];
+                    achievementsUnlocked = new Set(gameState.achievementsUnlocked || []);
+                    totalClicks = gameState.totalClicks || 0;
+                    totalCookiesBaked = gameState.totalCookiesBaked || 0;
+                    prestigePoints = gameState.prestigePoints || 0;
+                    prestigeMultiplier = gameState.prestigeMultiplier || 1;
+                    milkLevel = gameState.milkLevel || 0;
+                    milkMultiplier = gameState.milkMultiplier || 1;
+
+                    // Restore upgrades
+                    upgradesDiv.innerHTML = '';
+                    if (gameState.upgrades) {
+                        gameState.upgrades.forEach(upgrade => {
+                            const button = document.createElement('button');
+                            button.className = 'upgrade';
+                            button.innerHTML = upgrade.innerHTML;
+                            button.disabled = upgrade.disabled;
+                            upgradesDiv.appendChild(button);
+                        });
+                    }
+
+                    // Update producers
+                    producers.forEach((producer, index) => {
+                        const button = document.querySelector(`.producer:nth-child(${index + 1})`);
+                        if (button) {
+                            button.innerHTML = `${producer.name}<br>Kost: ${producer.cost} cookies<br>${producer.description}<br>+${producer.cps * producer.multiplier} cookies/sec<br>Aantal: ${producer.amount}`;
+                            button.disabled = count < producer.cost;
+                        }
+                    });
+
+                    updateDisplay();
+                    updateMilk();
+                    checkAchievements();
+                    alert('Game loaded!');
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+    </script>
+    <script src="script.js"></script>
+</html>

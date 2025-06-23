@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breun Dotfiles Wiki</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="404-checker.js"></script>
+    <link rel="icon" type="image/png" href="images/icon.png">
+</head>
+<body>
+    <div id="page-content">
+        <nav class="breadcrumb">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="wiki.html">Wiki</a></li>
+                <li class="current">Mijn Dotfiles</li>
+            </ul>
+        </nav>
+        <button class="dark-mode-toggle">🌙</button>
+        <header>
+            <h1>Mijn Dotfiles</h1>
+            <p class="post-meta">Een overzicht van mijn persoonlijke dotfiles en installatie-instructies</p>
+            <a class="button" href="wiki.html">Terug naar de Wiki</a>
+        </header>
+
+        <main>
+            <section>
+                <h2>Overzicht</h2>
+                <p>Hier vind je een overzicht van mijn persoonlijke dotfiles configuratie voor Hyprland en andere tools die ik dagelijks gebruik. Deze configuraties zijn zorgvuldig afgestemd op mijn workflow en esthetische voorkeuren.</p>
+            </section>
+            <section>
+                <h2>Belangrijkste componenten</h2>
+                <ul class="feature-list">
+                    <li>
+                        <strong>Hyprland</strong> - Een dynamische tiling Wayland compositor
+                    </li>
+                    <li>
+                        <strong>Waybar</strong> - Een zeer aanpasbare statusbalk
+                    </li>
+                    <li>
+                        <strong>Kitty</strong> - Een snelle, feature-rijke terminal emulator
+                    </li>
+                    <li>
+                        <strong>Rofi</strong> - Een veelzijdige applicatie launcher
+                    </li>
+                    <li>
+                        <strong>Swaync</strong> - Een lichtgewicht notificatiedaemon met een minimalistische interface
+                    </li>
+                    <li>
+                        <strong>Persoonlijke scripts</strong> - Voor automatisering en workflow-verbetering
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Installatie</h2>
+                <p>Volg deze stappen om mijn dotfiles te installeren op je eigen systeem:</p>
+                
+                <h3>1. Kloon de repository</h3>
+                <div class="code-block">
+                    <pre><code>git clone https://github.com/Breunder/Breundotfiles.git ~/.dotfiles</code></pre>
+                </div>
+
+                <h3>2. Installeer de dotfiles</h3>
+                <div class="code-block">
+                    <pre><code>./install.sh</code></pre>
+                </div>
+
+                <div class="note">
+                    <p><strong>Let op:</strong> Maak altijd een backup van je bestaande configuraties voordat je nieuwe dotfiles installeert!</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>Configuraties</h2>
+                
+                <h3>Hyprland</h3>
+                <p>Mijn Hyprland configuratie bevat:</p>
+                <ul>
+                    <li>Aangepaste animaties en overgangen</li>
+                    <li>Efficiënte toetsenbordsnelkoppelingen</li>
+                    <li>Automatische werkruimte-indeling</li>
+                    <li>Geoptimaliseerde vensterregels</li>
+                </ul>
+                <div class="code-block">
+                    <pre><code># Voorbeeld van mijn Hyprland configuratie
+monitor=,preferred,auto,1
+
+# Autostart
+exec-once = waybar & hyprpaper & swayncdeamon
+
+# Thema
+general {
+    gaps_in = 5
+    gaps_out = 10
+    border_size = 2
+    col.active_border = rgba(88c0d0ee)
+    col.inactive_border = rgba(595959aa)
+    layout = dwindle
+}
+
+# Animaties
+animations {
+    enabled = yes
+    bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+    animation = windows, 1, 7, myBezier
+    animation = windowsOut, 1, 7, default, popin 80%
+    animation = border, 1, 10, default
+    animation = fade, 1, 7, default
+    animation = workspaces, 1, 6, default
+}</code></pre>
+                </div>
+                
+                <h3>Waybar</h3>
+                <p>Een minimalistische maar informatieve statusbalk met:</p>
+                <ul>
+                    <li>Werkruimte-indicators</li>
+                    <li>Systeemmonitoring</li>
+                    <li>Media controls</li>
+                    <li>Netwerk- en batterijstatus</li>
+                </ul>
+                
+                <h3>Kitty Terminal</h3>
+                <p>Een snelle, feature-rijke terminal met:</p>
+                <ul>
+                    <li>Aangepast kleurenschema</li>
+                    <li>Ligatuur-ondersteunende fonts</li>
+                    <li>Tab- en layoutbeheer</li>
+                </ul>
+
+<section>
+    <h2>Probeer het uit</h2>
+    <p>Experimenteer met enkele basis commando's in deze terminal emulator:</p>
+    
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="terminal-button red"></span>
+                <span class="terminal-button yellow"></span>
+                <span class="terminal-button green"></span>
+            </div>
+            <div class="terminal-title">breun@hyprland: ~</div>
+        </div>
+        <div class="terminal-body">
+            <div id="terminal-output">Welkom bij de Breun Dotfiles Terminal Emulator!
+Type 'help' voor een lijst met beschikbare commando's.</div>
+            <div class="terminal-input-line">
+                <span class="terminal-prompt">breun@hyprland:~$</span>
+                <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Genereer een willekeurig wachtwoord als het nog niet bestaat
+    if (!localStorage.getItem('randomPassword')) {
+        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let password = '';
+        for (let i = 0; i < 10; i++) {
+            password += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        localStorage.setItem('randomPassword', password);
+    }
+});
+    // Terminal emulator functionaliteit
+    document.addEventListener('DOMContentLoaded', function() {
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalOutput = document.getElementById('terminal-output');
+        
+        // Focus de terminal input wanneer op de terminal wordt geklikt
+        document.querySelector('.terminal-container').addEventListener('click', function() {
+            terminalInput.focus();
+        });
+        
+        // Verwerk commando's wanneer Enter wordt ingedrukt
+        terminalInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const command = terminalInput.value.trim();
+                
+                // Voeg het commando toe aan de output
+                terminalOutput.innerHTML += `<div><span class="terminal-prompt">breun@hyprland:~$</span> ${command}</div>`;
+                
+                // Verwerk het commando
+                processCommand(command);
+                
+                // Reset de input
+                terminalInput.value = '';
+                
+                // Scroll naar beneden
+                document.querySelector('.terminal-body').scrollTop = document.querySelector('.terminal-body').scrollHeight;
+            }
+        });
+        
+        // Commando verwerking
+        function processCommand(command) {
+            let output = '';
+            
+            switch(command.toLowerCase()) {
+                case 'help':
+                    output = `Beschikbare commando's:
+- help: Toon deze help
+- ls: Toon bestanden
+- cat: Toon bestanden
+- cat config.conf: Toon configuratiebestand
+- fastfetch: Toon systeeminformatie
+- clear: Wis terminal
+- secret: ???
+- pwd: Toon huidige directory
+- whoami: Toon gebruikersnaam
+- date: Toon datum en tijd
+- uname: Toon systeem informatie
+- tree: Toon bestandsstructuur
+- htop: Toon systeem processen`;
+                    break;
+                    
+                case 'ls':
+                    output = `config/  scripts/  wallpapers/  install.sh password.log README.md`;
+                    break;
+                    
+                case 'cat config.conf':
+                    output = `# Hyprland configuratie
+monitor=,preferred,auto,1
+exec-once = waybar & hyprpaper
+general {
+    gaps_in = 5
+    gaps_out = 10
+    border_size = 2
+    col.active_border = rgba(88c0d0ee)
+}`;
+                    break;
+                    
+                case 'cat password.log':
+                    output = localStorage.getItem('randomPassword') || 'Error: Password file corrupted';
+                    break;
+                case 'fastfetch':
+                    output = `                    -@                    breun@hyprland
+                    .##@                   --------------
+                   .####@                  OS: Arch Linux x86_64
+                   @#####@                 Host: Custom Build
+                  . ######@                Kernel: 6.1.31-1-MANJARO
+                  @########@               Uptime: 4 hours, 20 mins
+                  @########@               Packages: 1337
+                 @##########@              Shell: zsh 5.9
+                 @###########@             Resolution: 2560x1440
+                @#############@            DE: Hyprland
+                @##############@           WM: Hyprland
+               @################@          Theme: Nordic-darker
+               @#################@         Icons: Papirus-Dark
+              @###################@        Terminal: kitty
+              @###################@        CPU: AMD Ryzen 9 5900X
+             @#####################@       GPU: NVIDIA GeForce RTX 3080
+             @#####################@       Memory: 16384MB / 32768MB`;
+                    break;
+                    
+                case 'clear':
+                    terminalOutput.innerHTML = '';
+                    return;
+                    
+                case 'secret':
+                    output = `wow je hebt een <a href="secret.html">link</a> gevonden!`;
+                    break;
+
+                case 'pwd':
+                    output = `/home/breun`;
+                    break;
+
+                case 'whoami':
+                    output = `breun`;
+                    break;
+
+                case 'date':
+                    output = `${new Date().toLocaleString('nl-NL', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                    })}`;
+                    break; 
+                                       
+                case 'uname':
+                    output = `Linux hyprland 6.1.31-1-MANJARO #1 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux`;
+                    break;
+
+                case 'tree':
+                    output = `.
+├── config/
+│   ├── hypr/
+│   ├── waybar/
+│   └── kitty/
+├── scripts/
+│   ├── startup.sh
+│   └── backup.sh
+├── wallpapers/
+├── install.sh
+└── README.md`;
+                    break;
+
+                case 'htop':
+                    output = `[Systeem Processen Simulatie]
+PID   USER     CPU%   MEM%   Command
+1     root     0.0    0.1    /sbin/init
+324   breun    2.1    1.2    /usr/bin/hyprland
+892   breun    1.5    0.8    /usr/bin/waybar
+1024  breun    0.5    0.3    /usr/bin/kitty`;
+                    break;
+                    
+                default:
+                    output = `Command not found: ${command}. Type 'help' voor beschikbare commando's.`;
+            }
+            
+            terminalOutput.innerHTML += `<div>${output}</div>`;
+        }
+    });
+</script>
+
+            </section>
+
+            <section>
+                <h2>Aanpassingen</h2>
+                <p>Mijn dotfiles zijn ontworpen om gemakkelijk aan te passen aan je eigen voorkeuren:</p>
+                      
+                <h3>Waybar modules</h3>
+                <p>Voeg of verwijder modules in <code>~/.config/waybar/config</code> om de statusbalk aan te passen.</p>
+
+                <h3>Hyprland configuratie</h3>
+                <p>Pas je Hyprland instellingen aan in <code>~/.config/hypr/hyprland.conf</code> om je window manager te personaliseren. Hier kun je bijvoorbeeld sneltoetsen, animaties en workspaces configureren.</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Teun Henderik. Alle rechten voorbehouden.</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

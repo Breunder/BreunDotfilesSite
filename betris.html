@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="secret-checker.js"></script>
+    <link rel="icon" type="image/png" href="images/icon.png">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="wiki.html">Wiki</a></li>
+            <li><a href="mijndotfiles.html">Mijn dotfiles</a></li>
+            <li><a href="secret.html">Secret</a></li>
+            <li class="current">Betris</li>
+        </ul>
+    </nav>
+    <button class="dark-mode-toggle">🌙</button>
+
+    <main>
+        <section>
+            <div class="game-wrapper">
+                <div id="game-container">
+                    <canvas id="tetris-board" width="300" height="600"></canvas>
+                    <div class="mobile-controls">
+                        <div class="touch-buttons">
+                            <button ontouchstart="handleTouch('a')" onclick="handleTouch('a')" aria-label="Move Left">←</button>
+                            <button ontouchstart="handleTouch('w')" onclick="handleTouch('w')" aria-label="Rotate">↻</button>
+                            <button ontouchstart="handleTouch('d')" onclick="handleTouch('d')" aria-label="Move Right">→</button>
+                            <button ontouchstart="handleTouch('s')" onclick="handleTouch('s')" aria-label="Move Down">↓</button>
+                            <button ontouchstart="handleTouch(' ')" onclick="handleTouch(' ')" aria-label="Drop">⟱</button>
+                        </div>
+                    </div>
+                    <div id="controls">
+                        <div id="score-display">Score: 0</div>
+                        <div id="game-status">Start Game</div>
+                        <h3>Controls:</h3>
+                        <p>A : Move Left</p>
+                        <p>D : Move Right</p>
+                        <p>S : Move Down</p>
+                        <p>W : Rotate</p>
+                        <p>Space : Drop</p>
+                        <button class="menu-button" id="start-btn">Start Game</button>
+                        <button class="menu-button" id="restart-btn" style="display:none;">Restart</button>
+                        <a href="secret.html" class="button">Terug naar Secret</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('tetris-board');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('score-display');
+        const gameStatusDisplay = document.getElementById('game-status');
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+
+        class Tetris {
+            constructor() {
+                this.board = Array(20).fill().map(() => Array(10).fill(0));
+                this.currentPiece = null;
+                this.score = 0;
+                this.gameOver = false;
+            }
+
+            init() {
+                this.spawnPiece();
+                this.draw();
+                this.startGameLoop();
+            }
+
+            spawnPiece() {
+                const pieces = [
+                    [[1,1,1,1]],
+                    [[1,1],[1,1]],
+                    [[1,1,1],[0,1,0]],
+                    [[1,1,1],[1,0,0]],
+                    [[1,1,0],[0,1,1]],
+                    [[0,1,1],[1,1,0]],
+                    [[1,0,0],[1,1,1]],
+                    [[0,0,1],[1,1,1]],
+                    [[1,1,1],[1,0,1]],
+                    [[1,1,0,0],[0,1,1,1]]
+                ];
+                this.currentPiece = {
+                    shape: pieces[Math.floor(Math.random() * pieces.length)],
+                    x: Math.floor(this.board[0].length / 2) - 1,
+                    y: 0
+                };
+            }
+
+            draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                this.board.forEach((row, y) => {
+                    row.forEach((cell, x) => {
+                        if (cell) {
+                            ctx.fillStyle = 'cyan';
+                            ctx.fillRect(x * 30, y * 30, 28, 28);
+                            ctx.strokeStyle = 'white';
+                            ctx.strokeRect(x * 30, y * 30, 28, 28);
+                        }
+                    });
+                });
+
+                if (this.currentPiece) {
+                    ctx.fillStyle = 'red';
+                    this.currentPiece.shape.forEach((row, dy) => {
+                        row.forEach((cell, dx) => {
+                            if (cell) {
+                                ctx.fillRect(
+                                    (this.currentPiece.x + dx) * 30, 
+                                    (this.currentPiece.y + dy) * 30, 
+                                    28, 28
+                                );
+                                ctx.strokeStyle = 'white';
+                                ctx.strokeRect(
+                                    (this.currentPiece.x + dx) * 30, 
+                                    (this.currentPiece.y + dy) * 30, 
+                                    28, 28
+                                );
+                            }
+                        });
+                    });
+                }
+            }
+
+            moveDown() {
+                this.currentPiece.y++;
+                if (this.checkCollision()) {
+                    this.currentPiece.y--;
+                    this.placePiece();
+                    this.clearLines();
+                    this.spawnPiece();
+                    if (this.checkCollision()) {
+                        this.gameOver = true;
+                        gameStatusDisplay.textContent = 'Game Over!';
+                        restartBtn.style.display = 'block';
+                    }
+                }
+                this.draw();
+            }
+
+            moveLeft() {
+                this.currentPiece.x--;
+                if (this.checkCollision()) {
+                    this.currentPiece.x++;
+                }
+                this.draw();
+            }
+
+            moveRight() {
+                this.currentPiece.x++;
+                if (this.checkCollision()) {
+                    this.currentPiece.x--;
+                }
+                this.draw();
+            }
+
+            rotate() {
+                const rotated = this.currentPiece.shape[0].map((_, i) => 
+                    this.currentPiece.shape.map(row => row[i]).reverse()
+                );
+                const originalShape = this.currentPiece.shape;
+                this.currentPiece.shape = rotated;
+                if (this.checkCollision()) {
+                    this.currentPiece.shape = originalShape;
+                }
+                this.draw();
+            }
+
+            checkCollision() {
+                return this.currentPiece.shape.some((row, dy) => 
+                    row.some((cell, dx) => {
+                        if (!cell) return false;
+                        const newX = this.currentPiece.x + dx;
+                        const newY = this.currentPiece.y + dy;
+                        return (
+                            newX < 0 || 
+                            newX >= this.board[0].length || 
+                            newY >= this.board.length || 
+                            (newY >= 0 && this.board[newY][newX])
+                        );
+                    })
+                );
+            }
+
+            placePiece() {
+                this.currentPiece.shape.forEach((row, dy) => {
+                    row.forEach((cell, dx) => {
+                        if (cell) {
+                            this.board[this.currentPiece.y + dy][this.currentPiece.x + dx] = 1;
+                        }
+                    });
+                });
+            }
+
+            clearLines() {
+                let linesCleared = 0;
+                for (let y = this.board.length - 1; y >= 0; y--) {
+                    if (this.board[y].every(cell => cell)) {
+                        this.board.splice(y, 1);
+                        this.board.unshift(Array(this.board[0].length).fill(0));
+                        linesCleared++;
+                        y++;
+                    }
+                }
+                this.score += linesCleared * 100;
+                scoreDisplay.textContent = `Score: ${this.score}`;
+            }
+
+            startGameLoop() {
+                this.gameLoop = setInterval(() => {
+                    if (!this.gameOver) {
+                        this.moveDown();
+                    }
+                }, 500);
+            }
+
+            dropPiece() {
+                while (!this.checkCollision()) {
+                    this.currentPiece.y++;
+                }
+                this.currentPiece.y--;
+                this.placePiece();
+                this.clearLines();
+                this.spawnPiece();
+                if (this.checkCollision()) {
+                    this.gameOver = true;
+                    gameStatusDisplay.textContent = 'Game Over!';
+                    restartBtn.style.display = 'block';
+                }
+                this.draw();
+            }
+        }
+
+        let game;
+
+        startBtn.addEventListener('click', () => {
+            game = new Tetris();
+            game.init();
+            startBtn.style.display = 'none';
+            gameStatusDisplay.textContent = 'Playing';
+        });
+
+        restartBtn.addEventListener('click', () => {
+            game = new Tetris();
+            game.init();
+            restartBtn.style.display = 'none';
+            gameStatusDisplay.textContent = 'Playing';
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (game && !game.gameOver) {
+                switch(e.key.toLowerCase()) {
+                    case 'a': game.moveLeft(); break;
+                    case 'd': game.moveRight(); break;
+                    case 's': game.moveDown(); break;
+                    case 'w': game.rotate(); break;
+                    case ' ': 
+                        game.dropPiece();
+                        break;
+                }
+            }
+        });
+
+        function handleTouch(key) {
+            if (game && !game.gameOver) {
+                switch(key) {
+                    case 'a': game.moveLeft(); break;
+                    case 'd': game.moveRight(); break;
+                    case 's': game.moveDown(); break;
+                    case 'w': game.rotate(); break;
+                    case ' ': game.dropPiece(); break;
+                }
+            }
+        }
+
+        // Prevent scrolling on touch devices during gameplay
+        document.addEventListener('touchmove', function(e) {
+            if (game && !game.gameOver) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchstart', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

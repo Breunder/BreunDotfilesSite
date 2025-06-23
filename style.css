@@ -7,23 +7,25 @@
 
 /* Algemene body stijl */
 body {
-    font-family: 'Arial', sans-serif; /* Zorg voor een consistent font */
+    font-family: 'Arial', sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
     color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+    background-image: url("images/hyprland.jpg");
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 /* Dark mode styles */
 body.dark-mode {
     background-color: #1b1b1b;
-    color: #ffffff; /* Maak de tekst wit in dark mode */
+    color: #ffffff;
 }
 
-body.dark-mode header,
-body.dark-mode code,
-body.dark-mode div {
+body.dark-mode code  {
     background-color: #1e1e1e;
     color: #ffffff;
 }
@@ -36,14 +38,14 @@ body.dark-mode strong {
     color: #ffffff;
 }
 
+h1.fix {
+    color: #ffffff
+}
+
 body.dark-mode .blog-post section h2,
 body.dark-mode .blog-post section p,
 body.dark-mode blockquote {
-    color: #ffffff; /* Ensure h2 text is white in dark mode */
-}
-
-body.dark-mode a {
-    color: #90b5da;
+    color: #ffffff;
 }
 
 body.dark-mode a:hover {
@@ -55,7 +57,9 @@ body.dark-mode .read-more {
     color: #e0e0e0;
 }
  
-body.dark-mode .read-more:hover {
+body.dark-mode .read-more:hover
+body.dark-mode .release-body
+body.dark-mode div {
     background-color: #444;
 }
 
@@ -69,6 +73,15 @@ body.dark-mode .dropdown-content {
     color: #e0e0e0;
 }
 
+body.dark-mode .dropdown-content a {
+    color: #ffffff;
+}
+
+body.dark-mode .dropdown-content a:hover {
+    background-color: #333;
+    color: #88c0d0;
+}
+
 body.dark-mode .popup-content {
     background-color: rgba(30, 30, 30, 0.95);
     border: 1px solid #333;
@@ -80,13 +93,11 @@ body.dark-mode .popup-content p {
     color: #ffffff;
 }
 
-/* Dark mode styles voor submenu's */
 body.dark-mode .submenu {
     background-color: #1e1e1e;
     border: 1px solid #333;
 }
 
-/* Verwijder de donkere stijl voor menu knoppen en gebruik de standaard stijl */
 .menu-button {
     display: block;
     width: 100%;
@@ -106,7 +117,6 @@ body.dark-mode .submenu {
     background-color: #0056b3;
 }
 
-/* Behoud de donkere stijl voor submenu links */
 body.dark-mode .submenu li a {
     color: #90b5da;
 }
@@ -116,7 +126,6 @@ body.dark-mode .submenu li a:hover {
     color: #88c0d0;
 }
 
-/* Verwijder de darkmode stijl voor de indicator en gebruik de standaard kleur */
 .submenu-indicator {
     color: #fff;
 }
@@ -140,7 +149,6 @@ body.dark-mode #arch-news-list-home li:hover,
 body.dark-mode #hyprland-news-list-home li:hover {
     background-color: #2d2d2d;
     border-color: #444;
-    transform: scale(1.02);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -155,77 +163,72 @@ body.dark-mode ul#arch-news-list li {
 }
 
 body.dark-mode #arch-news-list li {
-    background-color: #2a2a2a; /* Donkere achtergrondkleur voor lijstitems */
-    border: 1px solid #1e1e1e; /* Donkere randkleur */
+    background-color: #2a2a2a; 
+    border: 1px solid #1e1e1e;
 }
 
 body.dark-mode #arch-news-list li:hover {
-    background-color: #1e1e1e; /* Hoverkleur voor lijstitems */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); /* Hover schaduw */
+    background-color: #1e1e1e; 
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); 
 }
 
 body.dark-mode section {
-    background-color: #1e1e1e; /* Donkere achtergrondkleur voor sections in dark mode */
-    color: #ffffff; /* Zorg dat de tekst wit blijft */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Pas schaduw aan voor donkere achtergrond */
-}
-
-body.dark-mode main {
-    background-color: #1e1e1e; /* Donkere achtergrondkleur voor main in dark mode */
-    color: #ffffff; /* Witte tekstkleur */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Pas schaduw aan */
+    background-color: #1e1e1e; 
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); 
 }
 
 body.dark-mode ul li {
-    background-color: #2a2a2a; /* Donkere achtergrondkleur voor lijstitems */
-    border: 1px solid #333; /* Donkere randkleur */
+    background-color: #2a2a2a;
+    border: 1px solid #333;
 }
 
 body.dark-mode ul li:hover {
-    background-color: #333; /* Hoverkleur voor lijstitems */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); /* Hover schaduw */
+    background-color: #333;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); 
 }
 
 body.dark-mode details summary {
-    color: #ffffff; /* Witte tekstkleur voor samenvattingen */
+    color: #ffffff;
     background-color: #1e1e1e;
     border-color: #1e1e1e;
+    cursor: pointer;
 }
 
 body.dark-mode details summary:hover {
-    color: #ffffff; /* Witte tekstkleur voor samenvattingen */
+    color: #ffffff;
     background-color: #2d2d2d;
     border-color: #444;
 }
 
 body.dark-mode details p {
-    color: #cccccc; /* Lichtere tekstkleur voor paragrafen */
+    color: #cccccc; 
 }
 
 body.dark-mode footer {
-    background-color: #1e1e1e; /* Donkere achtergrondkleur voor de footer */
-    color: #ffffff; /* Witte tekstkleur */
-    border-top: 1px solid #333; /* Optionele rand voor scheiding */
+    background-color: #1e1e1e;
+    color: #ffffff; 
+    border-top: 1px solid #333; 
 }
 
 body.dark-mode #search-results {
-    background-color: #1e1e1e; /* Donkere achtergrondkleur voor zoekresultaten */
-    color: #ffffff; /* Witte tekstkleur */
-    border: 1px solid #333; /* Donkere randkleur */
+    background-color: #1e1e1e; 
+    color: #ffffff;
+    border: 1px solid #333;
 }
 
 body.dark-mode #search-results li {
-    background-color: #2a2a2a; /* Donkere achtergrondkleur voor lijstitems */
-    border-bottom: 1px solid #444; /* Donkere scheidingslijn */
+    background-color: #2a2a2a;
+    border-bottom: 1px solid #444;
 }
 
 body.dark-mode #search-results li a {
-    color: #81a1c1; /* Kleur voor links in zoekresultaten */
+    color: #81a1c1;
 }
 
 body.dark-mode #search-results li a:hover {
-    background-color: #333; /* Hoverkleur voor lijstitems */
-    color: #88c0d0; /* Hoverkleur voor links */
+    background-color: #333;
+    color: #88c0d0; 
 }
 
 /* Zoekresultaten */
@@ -240,8 +243,8 @@ body.dark-mode #search-results li a:hover {
     max-height: 400px;
     overflow-y: auto;
     width: 100%;
-    max-width: 400px; /* Match search input width */
-    z-index: 9999;
+    max-width: 400px;
+    z-index: 99999; /* verhoogd zodat altijd vooraan */
     display: none;
     list-style: none;
     padding: 0;
@@ -282,7 +285,6 @@ body.dark-mode #search-results li a:hover {
     color: #666;
 }
 
-/* Dark mode aanpassingen */
 body.dark-mode #search-results {
     background: #1e1e1e;
     border-color: #333;
@@ -302,7 +304,7 @@ body.dark-mode .search-result-item p {
 
 /* Breadcrumb stijlen */
 .breadcrumb {
-    position: fixed; /* Ensure consistent placement across pages */
+    position: fixed; 
     top: 10px;
     left: 10px;
     background-color: rgba(0, 0, 0, 0.6);
@@ -318,11 +320,11 @@ body.dark-mode .search-result-item p {
 }
 
 .blog-post {
-    margin-top: 60px; /* Ensure breadcrumbs do not overlap with blog posts */
+    margin-top: 60px;
 }
 
 header .breadcrumb {
-    position: relative; /* Scoped to header to avoid conflicts */
+    position: relative;
     top: auto;
     left: auto;
     margin-bottom: 10px;
@@ -335,7 +337,7 @@ header .breadcrumb {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 4px; /* Consistent spacing tussen items */
+    gap: 4px;
 }
 
 .breadcrumb li {
@@ -358,16 +360,16 @@ header .breadcrumb {
 }
 
 .breadcrumb a {
-    color: rgba(255, 255, 255, 0.9); /* Brighter link color */
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
-    padding: 3px 6px; /* Slightly larger padding for links */
+    padding: 3px 6px; 
     border-radius: 4px;
     transition: all 0.2s ease;
 }
 
 .breadcrumb a:hover {
-    color: #ffffff; /* Make only the text white */
-    background-color: transparent; /* Remove background color change */
+    color: #ffffff;
+    background-color: transparent; 
     transform: translateY(-1px);
     font-weight: bold;
 }
@@ -378,13 +380,13 @@ header .breadcrumb {
 }
 
 .breadcrumb .current {
-    color: rgba(255, 255, 255, 0.8); /* Slightly brighter for better visibility */
-    font-weight: bold; /* Highlight the current page */
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: bold;
 }
 
 .breadcrumb .current:hover {
-    color: #ffffff; /* Ensure full visibility for the current item */
-    background-color: rgba(255, 255, 255, 0.2); /* Subtle background for contrast */
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
 }
 
@@ -399,8 +401,8 @@ body.dark-mode .breadcrumb a {
 }
 
 body.dark-mode .breadcrumb a:hover {
-    color: #ffffff; /* Ensure text is clearly visible */
-    background-color: rgba(255, 255, 255, 0.2); /* Brighter hover background */
+    color: #ffffff; 
+    background-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-1px);
     font-weight: bold;
 }
@@ -410,8 +412,8 @@ body.dark-mode .breadcrumb .current {
 }
 
 body.dark-mode .breadcrumb .current:hover {
-    color: #ffffff; /* Ensure full visibility for the current item */
-    background-color: rgba(255, 255, 255, 0.2); /* Subtle background for contrast */
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
 }
 
@@ -419,18 +421,16 @@ body.dark-mode .breadcrumb li:not(:last-child)::after {
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* Header stijl */
 header {
-    background-color: #2e3440;
-    color: white;
+    background-color: #0B0E1E;
+    color: rgb(20, 1, 1);
     text-align: center;
     padding: 2rem;
     animation: fadeIn 1s ease-in-out;
     position: relative;
-    padding-top: 100px; /* Increased padding to avoid overlap with breadcrumb */
+    padding-top: 100px;
 }
 
-/* Zoekveld container */
 .search-container {
     width: 100%;
     max-width: 400px;
@@ -438,7 +438,6 @@ header {
     position: relative;
 }
 
-/* Zoek input */
 #search {
     padding: 10px;
     width: 100%;
@@ -456,7 +455,6 @@ header {
     outline: none;
 }
 
-/* Koppen */
 h2 {
     color: #2e3440;
     margin-bottom: 1rem;
@@ -499,7 +497,6 @@ ul li {
     border-radius: 5px;
     padding: 15px;
     background-color: #f9f9f9;
-    cursor: pointer;
     transition: all 0.3s ease;
 }
 
@@ -546,7 +543,6 @@ body.dark-mode ul li details summary em {
 ul li:hover,
 ul li:hover details summary {
     background-color: #f0f8ff;
-    transform: scale(1.02);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -562,7 +558,6 @@ ul li:hover details summary {
 
 .blog-item:hover {
     background-color: #f0f8ff;
-    transform: scale(1.02);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     border-color: #ddd;
 }
@@ -667,9 +662,9 @@ blog-title:hover {
     background-color: #f9f9f9;
     min-width: 200px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for centering */
+    z-index: 100000; /* verhoogd zodat altijd vooraan */
+    left: 50%;
+    transform: translateX(-50%); 
     border-radius: 5px;
     overflow: hidden;
     opacity: 0;
@@ -705,27 +700,20 @@ blog-title:hover {
     position: relative;
 }
 
-/* Submenu standaard verborgen */
 .submenu {
     display: none;
+    z-index: 100001; /* toegevoegd voor stacking boven andere UI */
+    position: relative; /* nodig voor z-index te werken */
 }
 
-/* Submenu geopend */
 .submenu.open {
     display: block;
 }
 
-/* Submenu geopend via de 'open' klasse */
-.submenu.open {
-    display: block;
-}
-
-/* Verwijder hover-effect voor submenu's */
 .wiki-menu > li:hover .submenu {
     display: none;
 }
 
-/* Submenu indicator */
 .submenu-indicator {
     font-size: 0.8em;
     color: #fff;
@@ -838,7 +826,7 @@ blog-title:hover {
     border-radius: 5px;
     margin-bottom: 10px;
     background-color: #f9f9f9;
-    transition: all 0.3s ease; /* Één consistente transitie voor alle eigenschappen */
+    transition: all 0.3s ease;
 }
 
 .blog-item, #arch-news-list-home li, #hyprland-news-list-home li {
@@ -853,8 +841,8 @@ blog-title:hover {
 
 .blog-item:hover, #arch-news-list-home li:hover, #hyprland-news-list-home li:hover {
     background-color: #f0f8ff;
-    transform: scale(1.02);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    cursor: default;
     border-color: #ddd;
 }
 
@@ -887,7 +875,7 @@ body.dark-mode ul li:hover details summary {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 50px; /* Add margin to avoid overlap with breadcrumbs */
+    margin-top: 50px;
 }
 
 /* Blogpost header */
@@ -967,8 +955,8 @@ footer {
     text-align: center;
     padding: 0.1rem;
     margin-top: 1rem;
-    background-color: #f9f9f9;
-    color: #555;
+    background-color: #0B0E1E;
+    color: #ffffff;
     font-size: 0.9rem;
 }
 
@@ -980,7 +968,7 @@ footer {
 
     header {
         padding: 1.5rem;
-        padding-top: 45px; /* Aangepaste padding voor mobile */
+        padding-top: 45px;
     }
 
     h1 {
@@ -993,18 +981,18 @@ footer {
     }
 
     #search {
-        width: 90%; /* Zorg dat het zoekveld bijna de volledige breedte gebruikt */
-        font-size: 0.9em; /* Maak de tekst iets kleiner */
+        width: 90%;
+        font-size: 0.9em;
     }
 
     #search-results {
         width: 90%;
-        max-width: 360px; /* 90% of 400px */
-        max-height: 300px; /* Vergroot de maximale hoogte op mobiele apparaten */
+        max-width: 360px;
+        max-height: 300px; 
     }
 
     #search-results li {
-        padding: 8px; /* Maak de items compacter */
+        padding: 8px;
     }
 
     .dropdown-content {
@@ -1017,42 +1005,40 @@ footer {
     }
 
     .breadcrumb {
-        top: 15px; /* Ensure consistent alignment */
+        top: 15px;
         left: 15px;
         font-size: 0.9em;
         padding: 8px 12px;
     }
 
     .dark-mode-toggle {
-        top: 15px; /* Match breadcrumb height */
-        right: 15px; /* Adjust for better alignment */
+        top: 15px;
+        right: 15px;
     }
 
     .breadcrumb ul {
-        gap: 6px; /* Increased spacing between breadcrumb items */
+        gap: 6px;
     }
 
     .breadcrumb a {
-        padding: 6px 10px; /* Larger touch target for links */
-        border-radius: 8px; /* More rounded corners for a modern look */
+        padding: 6px 10px; 
+        border-radius: 8px;
     }
 
     .breadcrumb li:not(:last-child)::after {
-        margin: 0 4px; /* Adjusted spacing for better readability */
+        margin: 0 4px; 
     }
 
     .breadcrumb li:not(:last-child)::after {
         margin: 0 2px;
     }
 
-    /* Verberg middelste delen van lange breadcrumbs */
     .breadcrumb li:not(:first-child):not(:last-child) {
         max-width: 60px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
-    /* Zorg ervoor dat de laatste (huidige) pagina altijd zichtbaar is */
     .breadcrumb li:last-child {
         max-width: none;
         flex-shrink: 0;
@@ -1159,6 +1145,29 @@ footer {
     }
 }
 
+/* Verbeterde tekstkleur voor headings en paragrafen */
+h1, h2, h3, h4, h5, h6 {
+    color: #1a1d23;
+}
+
+p .post-meta {
+    color: #23272f;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p  {
+    color: #eaf6ff !important;
+}
+
+body.dark-mode p .post-meta {
+    color: #b6d4ff !important;
+}
+
 /* Specifieke stijlen voor code blocks */
 pre {
     background-color: #f5f5f5;
@@ -1194,7 +1203,7 @@ blockquote {
 /* Stijl voor <strong> */
 strong {
     font-weight: bold;
-    color: #2e3440; /* Zelfde kleur als koppen in home.html */
+    color: #2e3440;
 }
 
 /* Animaties */
@@ -1332,4 +1341,1540 @@ body.dark-mode .popup-content {
 .dark-mode-toggle:hover {
     background-color: #0056b3;
     transform: scale(1.1);
+}
+.software-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.software-list li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 0;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.software-list li:hover {
+    background-color: #f0f8ff;
+    transform: scale(1.02);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .software-list li {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+
+body.dark-mode .software-list li:hover {
+    background-color: #2d2d2d;
+    border-color: #444;
+}
+
+.software-list label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+}
+
+.software-list input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.action-section {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.script-output {
+    text-align: left;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    font-family: monospace;
+}
+
+body.dark-mode .script-output {
+    background-color: #1e1e1e;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+#script-container {
+    margin-top: 2rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@media (max-width: 600px) {
+    .software-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Secret page specific styles */
+.hidden {
+    display: none;
+}
+
+#passwordSection .search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+#passwordSection input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode #passwordSection input[type="password"] {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #ffffff;
+}
+
+#secretContent select.menu-button {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    display: block;
+    text-align: center;
+}
+/* Tab stijlen */
+.tab-container {
+    max-width: 800px;
+    margin: 1 auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto !important;
+    display: block;
+    float: none;
+}
+
+div.tab-container{
+    margin: 1;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+   }
+
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s;
+    border: 1px solid #e0e0e0;
+}
+
+.tab-button.active {
+    background-color: #0080ff;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+#arch-news-list li,
+#hyprland-news-full li {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+#arch-news-list li:hover,
+#hyprland-news-full li:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .tab-container {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 25px;
+}
+
+body.dark-mode .tab-button {
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border: 1px solid #333;
+}
+
+body.dark-mode .tab-button.active {
+    background-color: #333;
+    color: #88c0d0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode #arch-news-list li,
+body.dark-mode #hyprland-news-full li {
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border: 1px solid #404040;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode #arch-news-list li:hover,
+body.dark-mode #hyprland-news-full li:hover {
+    background-color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+}
+        
+.tab-button {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.terminal-header {
+    background-color: #3b4252;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+}
+        
+.terminal-title {
+    color: #e5e9f0;
+    font-size: 14px;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+}
+                
+.terminal-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.terminal-body {
+    background-color: #2e3440;
+    color: #eceff4;
+    padding: 15px;
+    height: 300px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+#terminal-output {
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+}
+
+.terminal-input-line {
+    display: flex;
+    align-items: center;
+}
+
+.terminal-prompt {
+    color: #88c0d0;
+    margin-right: 8px;
+    white-space: nowrap;
+}
+
+#terminal-input {
+    background: transparent;
+    border: none;
+    color: #e5e9f0;
+    font-family: inherit;
+    font-size: inherit;
+    flex-grow: 1;
+    outline: none;
+    caret-color: #88c0d0;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark-mode fieldset {
+    background-color: #1e1e1e;
+    border-color: #444;
+}
+
+legend {
+    font-weight: bold;
+    color: #2e3440;
+    padding: 0 0.5rem;
+    transition: color 0.3s ease;
+}
+
+body.dark-mode legend {
+    color: #81a1c1;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: white;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+body.dark-mode select#gameSelect.menu-button:hover{
+    background-color: #0056b3;
+}
+
+body.dark-mode select#gameSelect.menu-button{
+    background-color: #007bbf;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode input, body.dark-mode textarea {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+.config-output {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: auto;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode .config-output {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+.preview-container {
+    width: 100%;
+    height: 300px;
+    background-color: #1e1e2e;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .preview-container {
+    background-color: #11111b;
+}
+
+.preview-window {
+    width: 70%;
+    height: 60%;
+    background-color: #333;
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.preview-titlebar {
+    height: 30px;
+    background-color: #2e3440;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    justify-content: space-between;
+}
+
+.preview-window-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.preview-window-close,
+.preview-window-minimize,
+.preview-window-maximize {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.preview-window-close {
+    background-color: #ff5f56;
+}
+
+.preview-window-minimize {
+    background-color: #ffbd2e;
+}
+
+.preview-window-maximize {
+    background-color: #27c93f;
+}
+
+.preview-window-title {
+    color: #d8dee9;
+    font-size: 12px;
+}
+
+.preview-window-content {
+    height: calc(100% - 30px);
+    background-color: #2e3440;
+    padding: 10px;
+    color: #d8dee9;
+    font-family: monospace;
+    overflow: auto;
+}
+
+.preview-terminal {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.preview-prompt {
+    color: #a3be8c;
+}
+
+.preview-cursor {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.preview-workspace {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.preview-workspace-indicator {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background-color: #5e81ac;
+    margin-right: 5px;
+}
+
+.preview-note {
+    text-align: center;
+    font-style: italic;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+body.dark-mode .preview-note {
+    color: #aaa;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+}
+
+.gallery-item:hover {
+    transform: scale(1.02);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+}
+
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 4;
+}
+
+.gallery-item:hover .gallery-caption {
+    opacity: 1;
+}
+
+/* Style voor klikbare links */
+.gallery-caption a {
+    position: relative;
+    z-index: 5;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.gallery-caption a:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+body.dark-mode .gallery-caption a {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .gallery-caption a:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Click indicator overlay */
+.gallery-item::before {
+    content: "🔍";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.gallery-item:hover::before {
+    opacity: 1;
+}
+
+/* Semi-transparent overlay on hover */
+.gallery-item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover::after {
+    opacity: 1;
+}
+
+/* Tooltip */
+.gallery-item[data-tooltip]::before {
+    content: "Klik om te vergroten";
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.gallery-item:hover[data-tooltip]::before {
+    opacity: 1;
+}
+
+body.dark-mode .gallery-item {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+}
+
+body.dark-mode .gallery-caption {
+    background: rgba(0,0,0,0.8);
+}
+
+body.dark-mode .gallery-item[data-tooltip]::before {
+    background: rgba(255,255,255,0.9);
+    color: black;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90vh;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+     object-fit: contain;
+}
+
+.modal.show {
+    display: flex;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+body.dark-mode .modal {
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
+.gallery-caption a {
+    color: #88c0d0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.gallery-caption a:hover {
+    color: #5e81ac;
+    text-decoration: underline;
+}
+
+body.dark-mode .gallery-caption a {
+    color: #81a1c1;
+}
+
+body.dark-mode .gallery-caption a:hover {
+    color: #88c0d0;
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.side-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#cookie {
+    font-size: 250px;
+    color: #8B4513;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#cookie:hover {
+    transform: scale(1.1);
+    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#cookie:active {
+    transform: scale(0.95);
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.shop-panel {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.upgrade, .producer {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.achievement {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+
+body.dark-mode .main-content,
+body.dark-mode .shop-panel {
+    background: rgba(30, 30, 30, 0.95);
+    color: #e0e0e0;
+}
+
+body.dark-mode #cookie {
+    color: #c17d3e;
+    text-shadow: 3px 3px 5px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode #counter,
+body.dark-mode #cps {
+    color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+    .game-container {
+        grid-template-columns: 1fr;
+    }
+
+    #cookie {
+        font-size: 200px;
+        padding: 15px;
+    }
+}
+
+.click-particle {
+    position: absolute;
+    pointer-events: none;
+    animation: float-up 1s ease-out;
+    opacity: 0;
+    z-index: 1000;
+}
+
+.prestige-info {
+    margin: 10px 0;
+    color: #8B4513;
+}
+
+body.dark-mode .prestige-info {
+    color: #c17d3e;
+}
+
+.stats {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+body.dark-mode .stats {
+    color: #aaa;
+}
+
+.milk-info {
+    margin: 10px 0;
+    color: #8B4513;
+    font-size: 0.9em;
+}
+
+body.dark-mode .milk-info {
+    color: #c17d3e;
+}
+
+.stats-panel {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.button-group button {
+    flex: 1;
+    min-width: 150px;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.stat-box {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+body.dark-mode .stats-panel {
+    background: rgba(30, 30, 30, 0.95);
+    color: #e0e0e0;
+}
+
+body.dark-mode .stat-box {
+    background: rgba(40, 40, 40, 0.7);
+}
+
+.cookie-container {
+    position: relative;
+    display: inline-block;
+    padding: 40px;
+    background: radial-gradient(
+        circle at center,
+        #d4a56a 0%,
+        #b3824c 60%,
+        #8B4513 100%
+    );
+    border-radius: 50%;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.4),
+                0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+body.dark-mode .cookie-container {
+    background: radial-gradient(
+        circle at center,
+        #916c44 0%,
+        #704f2d 70%,
+        #4a2b12 100%
+    );
+    box-shadow: 0 8px 40px rgba(0,0,0,0.32);
+}
+
+.cookie-container:hover {
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5),
+                0 12px 25px rgba(0, 0, 0, 0.4);
+}
+
+.cookie-container:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.6),
+                0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.mini-cookie {
+    position: absolute;
+    font-size: 50px;
+    color: #8B4513;
+    animation: float 3s ease-in-out infinite;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+body.dark-mode .mini-cookie {
+    color: #c17d3e;
+    text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.1);
+}
+
+canvas {
+    border: 2px solid #007bff;
+    background: black;
+    margin: 0 auto;
+    display: block;
+    max-width: 100%;
+}
+
+body.dark-mode canvas {
+    border-color: #88c0d0;
+    box-shadow: 0 0 15px rgba(136, 192, 208, 0.2);
+}
+
+#game-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 20px auto;
+    max-width: 800px;
+    position: relative;
+}
+
+#controls {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode #controls {
+    background-color: rgba(30, 30, 30, 0.95);
+    color: #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode #game-status {
+    color: #e0e0e0;
+}
+
+#score-display {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+body.dark-mode #score-display {
+    color: #e0e0e0;
+}
+
+.game-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 100px);
+    padding: 20px;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    #game-container {
+        flex-direction: column;
+        align-items: center;
+    }
+            
+    #controls {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+.mobile-controls {
+    display: none;
+    position: absolute;
+    top: 75%;
+    right: 50px;
+    transform: translateY(-50%);
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(2px);
+    border-radius: 10px;
+    z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.touch-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 5px;
+}
+
+.mobile-controls button {
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 123, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: white;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.mobile-controls button:active {
+    transform: scale(0.95);
+    background: rgba(0, 90, 200, 0.8);
+}
+
+body.dark-mode .mobile-controls {
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .mobile-controls button {
+    background: rgba(136, 192, 208, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .mobile-controls button:active {
+    background: rgba(100, 150, 170, 0.8);
+}
+
+@media (max-width: 768px) {
+    .mobile-controls {
+        display: block;
+    }
+
+    #game-container {
+        margin-bottom: 100px;
+    }
+
+    #controls p {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .mobile-controls {
+        padding: 5px;
+    }
+
+    .touch-buttons {
+        gap: 5px;
+    }
+
+    .mobile-controls button {
+        width: 45px;
+        height: 45px;
+        min-width: 45px;
+        font-size: 18px;
+    }
+
+    #game-container {
+        margin-bottom: 80px;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .mobile-controls {
+        display: block;
+    }
+            
+    #controls p {
+        display: none;
+    }
+
+    .content {
+        margin-bottom: 100px;
+    }
+}
+
+#gameContainer {
+    display: none;
+}
+
+.emoji {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.message {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.home-link {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.home-link:hover {
+    background-color: #2980b9;
+}
+
+.terminal {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 1.5rem;
+    border-radius: 5px;
+    text-align: left;
+    margin: 2rem 0;
+    font-family: monospace;
+    overflow: auto;
+}
+
+.terminal-prompt::before {
+    content: "$ ";
+    color: #27ae60;
+}
+
+#requested-url {
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+.available-pages {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.available-pages h2 {
+    margin-top: 0;
+    color: #3498db;
+}
+
+.available-pages ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.available-pages li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.available-pages li:last-child {
+    border-bottom: none;
+}
+
+.available-pages a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.available-pages a:hover {
+    text-decoration: underline;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark-mode fieldset {
+    background-color: #1e1e1e;
+    border-color: #444;
+}
+
+legend {
+    font-weight: bold;
+    color: #2e3440;
+    padding: 0 0.5rem;
+    transition: color 0.3s ease;
+}
+
+body.dark-mode legend {
+    color: #81a1c1;
+}
+
+select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: white;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+        
+.config-output {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: auto;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode .config-output {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.module-container {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark-mode .module-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+.module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.module-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.module-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.preview-bar {
+    background-color: #2e3440;
+    color: white;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 30px;
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .preview-bar {
+    background-color: #1e1e1e;
+}
+
+.preview-module {
+    padding: 0.25rem 0.5rem;
+    margin: 0 0.25rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.5rem;
+}
+
+.color-preview {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.software-list input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+section,
+.blog-post,
+.tab-container,
+.stats-panel,
+.module-container,
+#controls,
+.main-content,
+.shop-panel,
+.side-content,
+.preview-container,
+.stats-panel,
+.stat-box,
+#search-results,
+.dropdown-content,
+.submenu,
+.popup-content,
+footer,
+header,
+fieldset,
+input,
+select,
+textarea,
+.config-output,
+.available-pages,
+.terminal-container,
+#game-container,
+.game-wrapper {
+    border-radius: 16px !important;
+}
+
+section,
+.tab-container,
+.stats-panel,
+#controls,
+.main-content,
+.shop-panel,
+.side-content,
+.preview-container,
+.stats-panel,
+.stat-box,
+#search-results,
+.dropdown-content,
+.submenu,
+.popup-content,
+footer,
+header,
+fieldset,
+.config-output,
+.available-pages,
+.terminal-container,
+#game-container,
+.game-wrapper {
+    background: rgba(255,255,255,0.75);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+}
+
+/* Donkere modus glas effect */
+body.dark-mode section,
+body.dark-mode .tab-container,
+body.dark-mode .stats-panel,
+body.dark-mode #controls,
+body.dark-mode .main-content,
+body.dark-mode .shop-panel,
+body.dark-mode .side-content,
+body.dark-mode .preview-container,
+body.dark-mode .stats-panel,
+body.dark-mode .stat-box,
+body.dark-mode #search-results,
+body.dark-mode .dropdown-content,
+body.dark-mode .submenu,
+body.dark-mode .popup-content,
+body.dark-mode footer,
+body.dark-mode header,
+body.dark-mode fieldset,
+body.dark-mode .config-output,
+body.dark-mode .available-pages,
+body.dark-mode .terminal-container,
+body.dark-mode #game-container,
+body.dark-mode .game-wrapper {
+    background: rgba(30,30,30,0.80) !important;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.25);
+}
+
+/* Cards en lijst items */
+ul li,
+.blog-item,
+#arch-news-list-home li,
+#hyprland-news-list-home li,
+#arch-news-list li,
+#hyprland-news-full li,
+.software-list li,
+.module-container,
+.stat-box {
+    border-radius: 14px !important;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+body.dark-mode ul li,
+body.dark-mode .blog-item,
+body.dark_mode #arch-news-list-home li,
+body.dark_mode #hyprland-news-list-home li,
+body.dark_mode #arch-news-list li,
+body.dark_mode #hyprland-news-full li,
+body.dark_mode .software-list li,
+body.dark_mode .module-container,
+body.dark_mode .stat-box {
+    background: rgba(40,40,40,0.85) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+}
+
+/* Knoppen */
+.button, .read-more, .menu-button, .dropdown-btn, .tab-button, .mobile-controls button {
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    background: rgba(0,123,255,0.90);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.button:hover, .read-more:hover, .menu-button:hover, .dropdown-btn:hover, .tab-button:hover, .mobile-controls button:hover {
+       background: rgba(0,86,179,0.95);
+    box-shadow: 0 4px  16px rgba(0,0,0,0.12);
+}
+
+/* Donkere modus knoppen */
+body.dark-mode .button,
+body.dark-mode .read-more,
+
+body.dark-mode .menu-button,
+body.dark-mode .dropdown-btn,
+body.dark-mode .tab-button,
+body.dark-mode .mobile-controls button {
+    background: rgba(0,123,191,0.90) !important;
+    color: #e0e0e0;
+    box-shadow: 0  2px 12px rgba(0,0,0,0.18);
+}
+
+body.dark-mode .button:hover,
+body.dark-mode .read-more:hover,
+body.dark-mode .menu-button:hover,
+body.dark-mode .dropdown-btn:hover,
+body.dark-mode .tab-button:hover,
+body.dark-mode .mobile-controls button:hover {
+    background: rgba(0,86,179,0.95) !important;
+}
+
+/* Modal en popup */
+.modal-content,
+.popup-content {
+    border-radius: 18px !important;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+body.dark-mode .modal-content,
+body.dark-mode .popup-content {
+    background: rgba(30,30,30,0.96) !important;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.32);
+}
+
+/* Breadcrumb glas effect */
+.breadcrumb {
+    border-radius: 10px !important;
+    background: rgba(0,0,0,0.35) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+body.dark-mode .breadcrumb {
+    background: rgba(0,0,0,0.25) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+}
+
+/* Gallery items */
+.gallery-item {
+    border-radius: 16px !important;
+    background: rgba(255,255,255,0.80);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+
+body.dark-mode .gallery-item {
+    background: rgba(30,30,30,0.85) !important;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.22);
+}
+
+/* Preview window */
+.preview-window {
+    border-radius: 14px !important;
+    background: rgba(51,51,51,0.90);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+
+/* Cookie game container */
+.cookie-container {
+    border-radius: 50% !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    background: radial-gradient(circle at center, #eac086 0%, #b3824c 60%, #8B4513 100%);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+body.dark-mode .cookie-container {
+    background: radial-gradient(circle at center, #916c44 0%, #704f2d 70%, #4a2b12 100%);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.32);
+}
+
+/* GitHub link kleur voor light/dark mode */
+.github-link {
+    text-decoration: none;
+    color: #23272f;
+    transition: color 0.3s;
+}
+.github-link:hover {
+    color: #007bff;
+}
+body.dark-mode .github-link {
+    color: #b6d4ff;
+}
+body.dark-mode .github-link:hover {
+    color: #88c0d0;
 }

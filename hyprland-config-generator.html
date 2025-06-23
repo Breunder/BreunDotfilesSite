@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyprland Configuratie Generator</title>
+    <script src="404-checker.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preload" href="images/hyprland.jpg" as="image" type="image/jpeg" crossorigin>
+    <link rel="icon" type="image/png" href="images/icon.png">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="wiki.html">Wiki</a></li>
+            <li class="current">Hyprland Configuratie Generator</li>
+        </ul>
+    </nav>
+    <button class="dark-mode-toggle">🌙</button>
+    <header>
+        <h1>Hyprland Configuratie Generator</h1>
+        <p class="post-meta">Maak eenvoudig een uitgebreide Hyprland-configuratie met deze generator.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Preset Configuraties</h2>
+            <label for="preset-config">Kies een preset:</label>
+            <select id="preset-config" onchange="applyPresetConfig()">
+                <option value="">-- Selecteer een preset --</option>
+                <option value="minimal">Minimal</option>
+                <option value="gaming">Gaming</option>
+                <option value="productivity">Productiviteit</option>
+            </select>
+        </section>
+
+        <section>
+            <h2>Configuratie Opties</h2>
+            <form id="config-form" onsubmit="return validateForm()">
+                <div id="form-errors" style="color: red; margin-bottom: 1rem; display: none;"></div>
+                <fieldset>
+                    <legend>Algemene Instellingen</legend>
+                    <label for="workspace">Aantal werkruimtes:</label>
+                    <input type="number" id="workspace" name="workspace" min="1" max="10" value="2">
+                    <br><br>
+
+                    <label for="terminal">Terminal (bijv. Kitty):</label>
+                    <input type="text" id="terminal" name="terminal" placeholder="Kitty">
+                    <br><br>
+
+                    <label for="wallpaper">Achtergrondpad:</label>
+                    <input type="text" id="wallpaper" name="wallpaper" placeholder="/path/to/wallpaper.jpg">
+                    <br><br>
+
+                    <label for="vsync">V-Sync inschakelen:</label>
+                    <select id="vsync" name="vsync">
+                        <option value="true">Ja</option>
+                        <option value="false">Nee</option>
+                    </select>
+                </fieldset>
+                <br>
+
+                <fieldset>
+                    <legend>Keybindings</legend>
+                    <label for="keybinding-launcher">Applicatiestarter (bijv. Rofi):</label>
+                    <input type="text" id="keybinding-launcher" name="keybinding-launcher" placeholder="rofi -show drun">
+                    <br><br>
+
+                    <label for="keybinding-close">Venster sluiten:</label>
+                    <input type="text" id="keybinding-close" name="keybinding-close" placeholder="killactive">
+                </fieldset>
+                <br>
+
+                <fieldset>
+                    <legend>Monitor Instellingen</legend>
+                    <label for="monitor">Monitornaam (bijv. DP-1):</label>
+                    <input type="text" id="monitor" name="monitor" placeholder="DP-1">
+                    <br><br>
+
+                    <label for="resolution">Resolutie (bijv. 1920x1080):</label>
+                    <input type="text" id="resolution" name="resolution" placeholder="1920x1080">
+                    <br><br>
+
+                    <label for="refresh-rate">Verversingssnelheid (Hz):</label>
+                    <input type="number" id="refresh-rate" name="refresh-rate" min="30" max="240" value="60">
+                </fieldset>
+                <br>
+
+                <fieldset>
+                    <legend>Decoraties</legend>
+                    <label for="rounding">Hoekafronding (px):</label>
+                    <input type="number" id="rounding" name="rounding" min="0" max="50" value="10">
+                    <br><br>
+
+                    <label for="border-size">Randdikte (px):</label>
+                    <input type="number" id="border-size" name="border-size" min="0" max="10" value="2">
+                    <br><br>
+
+                    <label for="active-color">Actieve kleur:</label>
+                    <input type="color" id="active-color" name="active-color" value="#51a1c1">
+                    <br><br>
+
+                    <label for="inactive-color">Inactieve kleur:</label>
+                    <input type="color" id="inactive-color" name="inactive-color" value="#2e3440">
+                </fieldset>
+                <br>
+            
+                <fieldset>
+                    <legend>Animaties</legend>
+                    <label for="animations-enabled">Animaties inschakelen:</label>
+                    <select id="animations-enabled" name="animations-enabled">
+                        <option value="true">Ja</option>
+                        <option value="false">Nee</option>
+                    </select>
+                    <br><br>
+                
+                    <label for="animation-style">Animatiestijl:</label>
+                    <select id="animation-style" name="animation-style">
+                        <option value="default">Standaard</option>
+                        <option value="fade">Fade</option>
+                        <option value="slide">Slide</option>
+                        <option value="zoom">Zoom</option>
+                        <option value="popin">Pop In</option>
+                    </select>
+                    <br><br>
+                
+                    <label for="animation-speed">Animatiesnelheid (ms):</label>
+                    <input type="number" id="animation-speed" name="animation-speed" min="50" max="1000" value="300">
+                    <br><br>
+                
+                    <label for="animation-curve">Animatiecurve:</label>
+                    <select id="animation-curve" name="animation-curve">
+                        <option value="default">Standaard</option>
+                        <option value="linear">Lineair</option>
+                        <option value="easeInOut">Ease In Out</option>
+                        <option value="easeIn">Ease In</option>
+                        <option value="easeOut">Ease Out</option>
+                    </select>
+
+                    <label for="window-open-animation">Venster openen animatie:</label>
+                    <select id="window-open-animation" name="window-open-animation">
+                        <option value="slide">Slide</option>
+                        <option value="popin">Pop In</option>
+                        <option value="fade">Fade</option>
+                    </select>
+                    
+                    <label for="window-close-animation">Venster sluiten animatie:</label>
+                    <select id="window-close-animation" name="window-close-animation">
+                        <option value="slide">Slide</option>
+                        <option value="popout">Pop Out</option>
+                        <option value="fade">Fade</option>
+                    </select>
+                    
+                    <label for="workspace-switch-animation">Werkruimte wissel animatie:</label>
+                    <select id="workspace-switch-animation" name="workspace-switch-animation">
+                        <option value="slide">Slide</option>
+                        <option value="fade">Fade</option>
+                        <option value="zoom">Zoom</option>
+                    </select>
+                </fieldset>               
+                
+                <fieldset>
+                    <legend>Live Preview</legend>
+                    <div class="preview-container">
+                        <div class="preview-window" id="preview-window">
+                            <div class="preview-titlebar">
+                                <div class="preview-window-controls">
+                                    <span class="preview-window-close"></span>
+                                    <span class="preview-window-minimize"></span>
+                                    <span class="preview-window-maximize"></span>
+                                </div>
+                                <div class="preview-window-title">Terminal</div>
+                            </div>
+                            <div class="preview-window-content">
+                                <div class="preview-terminal">
+                                    <span class="preview-prompt">user@hyprland:~$</span> <span class="preview-cursor">_</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="preview-workspace" id="preview-workspace">
+                            <div class="preview-workspace-indicator">Workspace 1</div>
+                        </div>
+                    </div>
+                    <p class="preview-note">Dit is een vereenvoudigde weergave van hoe je Hyprland configuratie eruit zou kunnen zien.</p>
+                </fieldset>
+                <br>
+
+                <fieldset>
+                    <legend>Geavanceerde Instellingen</legend>
+                    <div id="advanced-settings-container">
+                        <div class="advanced-setting">
+                            <label for="exec-once-0">Exec-once (bijv. Waybar):</label>
+                            <input type="text" id="exec-once-0" name="exec-once" placeholder="waybar &">
+                            <button type="button" onclick="duplicateField(this, 'exec-once', 'Exec-once (bijv. Waybar):')">+ Voeg meer toe</button>
+                            <br><br>
+
+                            <label for="exec-always-0">Exec-always (bijv. Polybar):</label>
+                            <input type="text" id="exec-always-0" name="exec-always" placeholder="polybar &">
+                            <button type="button" onclick="duplicateField(this, 'exec-always', 'Exec-always (bijv. Polybar):')">+ Voeg meer toe</button>
+                            <br><br>
+
+                            <label for="input-config-0">Input Configuratie:</label>
+                            <textarea id="input-config-0" name="input-config" rows="4" placeholder="kb_layout = us"></textarea>
+                            <button type="button" onclick="duplicateField(this, 'input-config', 'Input Configuratie:')">+ Voeg meer toe</button>
+                            <br><br>
+
+                            <label for="custom-config-0">Aangepaste Configuratie:</label>
+                            <textarea id="custom-config-0" name="custom-config" rows="6" placeholder="# Voeg hier je aangepaste configuratie toe"></textarea>
+                            <button type="button" onclick="duplicateField(this, 'custom-config', 'Aangepaste Configuratie:')">+ Voeg meer toe</button>
+                            <br><br>
+                        </div>
+                    </div>
+                    <div id="duplicated-settings-container">
+                        <h3>Gedupliceerde Instellingen</h3>
+                    </div>
+                </fieldset>
+                <br>
+            </form>
+        </section>
+
+        <section>
+            <h2>Gegenereerde Configuratie</h2>
+            <pre id="generated-config" class="config-output">Hier verschijnt je configuratie...</pre>
+            <button onclick="downloadConfig()">Download Configuratie</button>
+        </section>
+    </main>
+    
+    <footer>
+        <a class="button" href="wiki.html">Terug naar de hoofdpagina</a>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        function generateConfig() {
+            const workspaceCount = document.getElementById('workspace').value;
+            const terminal = document.getElementById('terminal').value || 'Kitty';
+            const wallpaper = document.getElementById('wallpaper').value || '/path/to/wallpaper.jpg';
+            const vsync = document.getElementById('vsync').value;
+            const launcher = document.getElementById('keybinding-launcher').value || 'rofi -show drun';
+            const closeWindow = document.getElementById('keybinding-close').value || 'killactive';
+            const monitor = document.getElementById('monitor').value || 'DP-1';
+            const resolution = document.getElementById('resolution').value || '1920x1080';
+            const refreshRate = document.getElementById('refresh-rate').value || '60';
+            const rounding = document.getElementById('rounding').value || '10';
+            const borderSize = document.getElementById('border-size').value || '2';
+            const activeColor = document.getElementById('active-color').value || '#51a1c1';
+            const inactiveColor = document.getElementById('inactive-color').value || '#2e3440';
+            const animationsEnabled = document.getElementById('animations-enabled').value;
+            const animationStyle = document.getElementById('animation-style').value;
+            const animationSpeed = document.getElementById('animation-speed').value;
+            const animationCurve = document.getElementById('animation-curve').value;
+            const windowOpenAnimation = document.getElementById('window-open-animation')?.value || 'slide';
+            const windowCloseAnimation = document.getElementById('window-close-animation')?.value || 'slide';
+            const workspaceSwitchAnimation = document.getElementById('workspace-switch-animation')?.value || 'slide';
+
+
+            let config = `# Hyprland Configuratie\n\n`;
+            config += `# Werkruimtes\n`;
+            for (let i = 1; i <= workspaceCount; i++) {
+                config += `workspace = ${i}, ${monitor}\n`;
+            }
+            config += `\n# Terminal\n`;
+            config += `bind = SUPER, Return, exec, ${terminal}\n`;
+            config += `\n# Achtergrond\n`;
+            config += `exec-once = swww img ${wallpaper}\n`;
+            config += `\n# Compositor\n`;
+            config += `compositor {\n    vsync = ${vsync}\n}\n`;
+            config += `\n# Keybindings\n`;
+            config += `bind = SUPER, D, exec, ${launcher}\n`;
+            config += `bind = SUPER, Q, ${closeWindow}\n`;
+            config += `\n# Monitor\n`;
+            config += `monitor = ${monitor}, ${resolution}@${refreshRate}Hz\n`;
+            config += `\n# Decoraties\n`;
+            config += `decoration {\n    rounding = ${rounding}\n    border_size = ${borderSize}\n    active_color = ${activeColor}\n    inactive_color = ${inactiveColor}\n}\n`;
+            config += `\n# Animaties\n`;
+            config += `animations {\n`;
+            config += `    enabled = ${animationsEnabled}\n`;
+            if (animationsEnabled === 'true') {
+                config += `    animation = windows, 1, ${animationSpeed}, ${animationCurve}, ${animationStyle}\n`;
+                config += `    animation = windowsOut, 1, ${animationSpeed}, ${animationCurve}, ${animationStyle}Out\n`;
+                config += `    animation = border, 1, ${animationSpeed}, ${animationCurve}\n`;
+                config += `    animation = fade, 1, ${animationSpeed}, ${animationCurve}\n`;
+                config += `    animation = workspaces, 1, ${animationSpeed}, ${animationCurve}, slide\n`;
+                config += `    animation = windows, 1, ${animationSpeed}, ${animationCurve}, ${windowOpenAnimation}\n`;
+                config += `    animation = windowsOut, 1, ${animationSpeed}, ${animationCurve}, ${windowCloseAnimation}\n`;
+                config += `    animation = border, 1, ${animationSpeed}, ${animationCurve}\n`;
+                config += `    animation = fade, 1, ${animationSpeed}, ${animationCurve}\n`;
+                config += `    animation = workspaces, 1, ${animationSpeed}, ${animationCurve}, ${workspaceSwitchAnimation}\n`;
+            }
+            config += `}\n`;
+
+            // Verwerk originele en gedupliceerde geavanceerde instellingen
+            const allSettings = document.querySelectorAll('.advanced-setting');
+            let settingIndex = 1; // Start de nummering voor geavanceerde instellingen
+            allSettings.forEach((setting) => {
+                const execOnce = setting.querySelector(`[id^="exec-once-"]`)?.value || '';
+                const execAlways = setting.querySelector(`[id^="exec-always-"]`)?.value || '';
+                const inputConfig = setting.querySelector(`[id^="input-config-"]`)?.value || '';
+                const customConfig = setting.querySelector(`[id^="custom-config-"]`)?.value || '';
+
+                if (execOnce) {
+                    config += `\n# Exec-once (${settingIndex})\n`;
+                    config += `exec-once = ${execOnce}\n`;
+                }
+                if (execAlways) {
+                    config += `\n# Exec-always (${settingIndex})\n`;
+                    config += `exec-always = ${execAlways}\n`;
+                }
+                if (inputConfig) {
+                    config += `\n# Input Configuratie (${settingIndex})\n`;
+                    config += `input {\n${inputConfig.split('\n').map(line => `    ${line}`).join('\n')}\n}\n`;
+                }
+                if (customConfig) {
+                    config += `\n# Aangepaste Configuratie (${settingIndex})\n`;
+                    config += `${customConfig}\n`;
+                }
+
+                // Verhoog de index alleen als er een van de velden is ingevuld
+                if (execOnce || execAlways || inputConfig || customConfig) {
+                    settingIndex++;
+                }
+            });
+
+            document.getElementById('generated-config').textContent = config;
+            updateLivePreview(config); // Update the live preview
+        }
+
+        function updateLivePreview(config) {
+            const livePreview = document.getElementById('live-preview');
+            if (livePreview) {
+                livePreview.textContent = config;
+            }
+        }
+
+        function downloadConfig() {
+            const config = document.getElementById('generated-config').textContent;
+            const blob = new Blob([config], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'hyprland.conf';
+            link.click();
+        }
+
+        function addAdvancedSetting() {
+            const container = document.getElementById('advanced-settings-container');
+            const index = container.children.length;
+
+            const newSetting = document.createElement('div');
+            newSetting.classList.add('advanced-setting');
+            newSetting.innerHTML = `
+                <label for="exec-once-${index}">Exec-once (bijv. Waybar):</label>
+                <input type="text" id="exec-once-${index}" name="exec-once" placeholder="waybar &">
+                <br><br>
+
+                <label for="exec-always-${index}">Exec-always (bijv. Polybar):</label>
+                <input type="text" id="exec-always-${index}" name="exec-always" placeholder="polybar &">
+                <br><br>
+
+                <label for="input-config-${index}">Input Configuratie:</label>
+                <textarea id="input-config-${index}" name="input-config" rows="4" placeholder="kb_layout = us"></textarea>
+                <br><br>
+
+                <label for="custom-config-${index}">Aangepaste Configuratie:</label>
+                <textarea id="custom-config-${index}" name="custom-config" rows="6" placeholder="# Voeg hier je aangepaste configuratie toe"></textarea>
+                <br><br>
+            `;
+            container.appendChild(newSetting);
+        }
+
+        function duplicateField(button, fieldName, labelText) {
+            const parentDiv = button.parentElement; // Het originele item
+            const duplicatedContainer = document.getElementById('duplicated-settings-container'); // Container voor gedupliceerde velden
+            const index = duplicatedContainer.querySelectorAll(`[id^="${fieldName}-"]`).length;
+
+            // Maak een nieuw label
+            const newLabel = document.createElement('label');
+            newLabel.setAttribute('for', `${fieldName}-${index}`);
+            newLabel.textContent = labelText;
+
+            // Maak een nieuw veld
+            const newField = document.createElement(fieldName === 'input-config' || fieldName === 'custom-config' ? 'textarea' : 'input');
+            newField.id = `${fieldName}-${index}`;
+            newField.name = fieldName;
+            newField.placeholder = parentDiv.querySelector(`[id^="${fieldName}-0"]`).placeholder;
+            if (fieldName === 'input-config' || fieldName === 'custom-config') {
+                newField.rows = fieldName === 'input-config' ? 4 : 6;
+            } else {
+                newField.type = 'text';
+            }
+
+            // Maak een nieuwe knop
+            const newButton = document.createElement('button');
+            newButton.type = 'button';
+            newButton.textContent = '+ Voeg meer toe';
+            newButton.onclick = () => duplicateField(newButton, fieldName, labelText);
+
+            // Maak een nieuwe container voor het gedupliceerde item
+            const newContainer = document.createElement('div');
+            newContainer.classList.add('advanced-setting');
+            newContainer.appendChild(newLabel);
+            newContainer.appendChild(newField);
+            newContainer.appendChild(newButton);
+            newContainer.appendChild(document.createElement('br'));
+            newContainer.appendChild(document.createElement('br'));
+
+            // Voeg het nieuwe item toe aan de gedupliceerde instellingen container
+            duplicatedContainer.appendChild(newContainer);
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            sessionStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            updateDarkModeButton();
+        }
+
+        function updateDarkModeButton() {
+            const darkModeButton = document.querySelector('.dark-mode-toggle');
+            if (darkModeButton) {
+                darkModeButton.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            }
+        }
+
+        function applyPresetConfig() {
+            const preset = document.getElementById('preset-config').value;
+
+            const presets = {
+                minimal: {
+                    workspace: 2,
+                    terminal: 'alacritty',
+                    wallpaper: '/path/to/minimal.jpg',
+                    vsync: 'true',
+                    launcher: 'rofi -show drun',
+                    closeWindow: 'killactive',
+                    monitor: 'DP-1',
+                    resolution: '1920x1080',
+                    refreshRate: 60,
+                    rounding: 5,
+                    borderSize: 1,
+                    activeColor: '#ffffff',
+                    inactiveColor: '#888888',
+                    animationsEnabled: 'true',
+                    animationStyle: 'fade',
+                    animationSpeed: 200,
+                    animationCurve: 'easeOut'
+                },
+                gaming: {
+                    workspace: 3,
+                    terminal: 'kitty',
+                    wallpaper: '/path/to/gaming.jpg',
+                    vsync: 'false',
+                    launcher: 'rofi -show drun',
+                    closeWindow: 'killactive',
+                    monitor: 'HDMI-1',
+                    resolution: '2560x1440',
+                    refreshRate: 144,
+                    rounding: 10,
+                    borderSize: 2,
+                    activeColor: '#ff0000',
+                    inactiveColor: '#333333',
+                    animationsEnabled: 'true',
+                    animationStyle: 'slide',
+                    animationSpeed: 150,
+                    animationCurve: 'linear'
+                },
+                productivity: {
+                    workspace: 4,
+                    terminal: 'gnome-terminal',
+                    wallpaper: '/path/to/productivity.jpg',
+                    vsync: 'true',
+                    launcher: 'rofi -show drun',
+                    closeWindow: 'killactive',
+                    monitor: 'DP-2',
+                    resolution: '1920x1080',
+                    refreshRate: 60,
+                    rounding: 8,
+                    borderSize: 2,
+                    activeColor: '#00ff00',
+                    inactiveColor: '#444444',
+                    animationsEnabled: 'true',
+                    animationStyle: 'default',
+                    animationSpeed: 300,
+                    animationCurve: 'easeInOut'
+                }
+            };
+
+            if (preset && presets[preset]) {
+                const config = presets[preset];
+                document.getElementById('workspace').value = config.workspace;
+                document.getElementById('terminal').value = config.terminal;
+                document.getElementById('wallpaper').value = config.wallpaper;
+                document.getElementById('vsync').value = config.vsync;
+                document.getElementById('keybinding-launcher').value = config.launcher;
+                document.getElementById('keybinding-close').value = config.closeWindow;
+                document.getElementById('monitor').value = config.monitor;
+                document.getElementById('resolution').value = config.resolution;
+                document.getElementById('refresh-rate').value = config.refreshRate;
+                document.getElementById('rounding').value = config.rounding;
+                document.getElementById('border-size').value = config.borderSize;
+                document.getElementById('active-color').value = config.activeColor;
+                document.getElementById('inactive-color').value = config.inactiveColor;
+                document.getElementById('animations-enabled').value = config.animationsEnabled;
+                document.getElementById('animation-style').value = config.animationStyle;
+                document.getElementById('animation-speed').value = config.animationSpeed;
+                document.getElementById('animation-curve').value = config.animationCurve;
+
+                generateConfig(); // Update the live preview
+            }
+        }
+
+        function validateForm() {
+            const requiredFields = [
+                { id: 'workspace', name: 'Aantal werkruimtes' },
+                { id: 'terminal', name: 'Terminal' },
+                { id: 'wallpaper', name: 'Achtergrondpad' },
+                { id: 'monitor', name: 'Monitornaam' },
+                { id: 'resolution', name: 'Resolutie' },
+                { id: 'refresh-rate', name: 'Verversingssnelheid' }
+            ];
+
+            let isValid = true;
+            const errorMessages = [];
+
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field.id);
+                const errorElement = document.querySelector(`#${field.id}-error`);
+                if (!input.value.trim()) {
+                    isValid = false;
+                    errorMessages.push(`- ${field.name}`);
+                    input.style.borderColor = 'red'; // Highlight invalid fields
+                    if (!errorElement) {
+                        const error = document.createElement('div');
+                        error.id = `${field.id}-error`;
+                        error.style.color = 'red';
+                        error.textContent = `${field.name} is verplicht.`;
+                        input.parentElement.appendChild(error);
+                    }
+                } else {
+                    input.style.borderColor = ''; // Reset border color if valid
+                    if (errorElement) {
+                        errorElement.remove(); // Remove existing error message
+                    }
+                }
+            });
+
+            const errorContainer = document.getElementById('form-errors');
+            if (!isValid) {
+                errorContainer.style.display = 'block';
+                errorContainer.innerHTML = `<strong>Er zijn fouten gevonden:</strong><br>${errorMessages.join('<br>')}`;
+            } else {
+                errorContainer.style.display = 'none';
+            }
+
+            return isValid; // Prevent form submission if validation fails
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkMode = sessionStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+            }
+            updateDarkModeButton();
+
+            const darkModeButton = document.querySelector('.dark-mode-toggle');
+            if (darkModeButton) {
+                darkModeButton.addEventListener('click', toggleDarkMode);
+            }
+
+            // Update the live preview in real-time as the user interacts with the form
+            document.getElementById('config-form').addEventListener('input', generateConfig);
+        });
+        function updateLivePreview() {
+            // Haal de waarden op van de formulierelementen
+            const rounding = document.getElementById('rounding').value;
+            const borderSize = document.getElementById('border-size').value;
+            const activeColor = document.getElementById('active-color').value;
+            const inactiveColor = document.getElementById('inactive-color').value;
+            const animationsEnabled = document.getElementById('animations-enabled').value === 'true';
+            const animationStyle = document.getElementById('animation-style').value;
+            
+            // Update de preview window
+            const previewWindow = document.getElementById('preview-window');
+            if (previewWindow) {
+                // Pas border radius toe op basis van rounding
+                previewWindow.style.borderRadius = `${rounding}px`;
+                
+                // Pas border toe op basis van border size en active color
+                previewWindow.style.border = `${borderSize}px solid ${activeColor}`;
+                
+                // Voeg animatie toe als deze is ingeschakeld
+                if (animationsEnabled) {
+                    let animationClass = '';
+                    switch(animationStyle) {
+                        case 'fade':
+                            animationClass = 'preview-animation-fade';
+                            break;
+                        case 'slide':
+                            animationClass = 'preview-animation-slide';
+                            break;
+                        case 'zoom':
+                            animationClass = 'preview-animation-zoom';
+                            break;
+                        case 'popin':
+                            animationClass = 'preview-animation-popin';
+                            break;
+                        default:
+                            animationClass = '';
+                    }
+                    
+                    // Verwijder bestaande animatie classes
+                    previewWindow.classList.remove(
+                        'preview-animation-fade',
+                        'preview-animation-slide',
+                        'preview-animation-zoom',
+                        'preview-animation-popin'
+                    );
+                    
+                    // Voeg nieuwe animatie class toe
+                    if (animationClass) {
+                        previewWindow.classList.add(animationClass);
+                    }
+                }
+            }
+            
+            // Update de workspace indicator
+            const workspaceCount = document.getElementById('workspace').value;
+            const workspaceIndicator = document.querySelector('.preview-workspace-indicator');
+            if (workspaceIndicator) {
+                workspaceIndicator.textContent = `Workspace 1/${workspaceCount}`;
+                workspaceIndicator.style.backgroundColor = activeColor;
+            }
+        }
+
+        // Voeg animatie classes toe aan de <style> sectie
+        document.head.insertAdjacentHTML('beforeend', `
+        <style>
+        .preview-animation-fade {
+            animation: preview-fade 2s infinite alternate;
+        }
+
+        .preview-animation-slide {
+            animation: preview-slide 2s infinite alternate;
+        }
+
+        .preview-animation-zoom {
+            animation: preview-zoom 2s infinite alternate;
+        }
+
+        .preview-animation-popin {
+            animation: preview-popin 2s infinite alternate;
+        }
+
+        @keyframes preview-fade {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes preview-slide {
+            0% { transform: translate(-55%, -50%); }
+            100% { transform: translate(-45%, -50%); }
+        }
+
+        @keyframes preview-zoom {
+            0% { transform: translate(-50%, -50%) scale(0.95); }
+            100% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        @keyframes preview-popin {
+            0% { transform: translate(-50%, -50%) scale(0.9); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+        </style>
+        `);
+
+        // Voeg event listeners toe om de preview bij te werken wanneer instellingen veranderen
+        document.addEventListener('DOMContentLoaded', () => {
+            // Bestaande DOMContentLoaded code...
+            
+            // Initialiseer de live preview
+            updateLivePreview();
+            
+            // Update de preview wanneer relevante instellingen veranderen
+            const previewElements = [
+                'rounding', 'border-size', 'active-color', 'inactive-color',
+                'animations-enabled', 'animation-style', 'workspace'
+            ];
+            
+            previewElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', updateLivePreview);
+                    element.addEventListener('change', updateLivePreview);
+                }
+            });
+            
+            // Update ook de preview wanneer een preset wordt toegepast
+            const presetSelect = document.getElementById('preset-config');
+            if (presetSelect) {
+                presetSelect.addEventListener('change', function() {
+                    // Wacht even tot de preset is toegepast
+                    setTimeout(updateLivePreview, 100);
+                });
+            }
+        });
+
+        // Wijzig de bestaande generateConfig functie om ook de preview bij te werken
+        const originalGenerateConfig = generateConfig;
+        generateConfig = function() {
+            originalGenerateConfig();
+            updateLivePreview();
+        };
+    </script>
+</body>
+</html>

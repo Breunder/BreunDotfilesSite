@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+    <link rel="icon" type="image/png" href="images/icon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Ontdek alles over Hyprland-configuraties, dotfiles, en Linux-tips in de Breun Dotfiles Wiki. Leer hoe je je workflow kunt optimaliseren.">
@@ -14,24 +15,9 @@
     <meta property="og:url" content="https://example.com/home.html">
     <meta property="og:type" content="website">
     <title>Breun Dotfiles Wiki - Hyprland Configuraties en Tips</title>
+    <script src="404-checker.js"></script>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Dark mode styles for dropdown */
-        body.dark-mode .dropdown-content {
-            background-color: #1e1e1e; /* Donkere achtergrondkleur */
-            color: #ffffff; /* Witte tekstkleur */
-            border: 1px solid #333; /* Donkere randkleur */
-        }
-
-        body.dark-mode .dropdown-content a {
-            color: #ffffff; /* Witte tekstkleur voor links */
-        }
-
-        body.dark-mode .dropdown-content a:hover {
-            background-color: #333; /* Donkerdere hoverkleur */
-            color: #88c0d0; /* Hoverkleur voor links */
-        }
-    </style>
+    <link rel="preload" href="images/hyprland.jpg" as="image" type="image/jpeg" crossorigin>
 </head>
 <body>
     <nav class="breadcrumb">
@@ -42,7 +28,7 @@
     <button class="dark-mode-toggle">🌙</button>
     <header>
         <h1>Welkom bij de Breun Dotfiles Site</h1>
-        <p class="post-meta">Hier kan je alles vinden over archlinux en hyprland. Plus mijn eigen dotfiles kan je hier vinden</p>
+        <p>Hier kan je alles vinden over archlinux en hyprland. Plus mijn eigen dotfiles kan je hier vinden</p>
         <div>
             <input type="text" id="search" placeholder="Zoek in de blogs en nieuws..." onkeyup="zoekFunction()" aria-label="Zoekveld">
             <ul id="search-results" class="dropdown-content"></ul>
@@ -65,6 +51,11 @@
             <h2>Recente blogposts</h2>
             <ul>
                 <li class="blog-item">
+                    <h3>De websites die mij hebben geinspireerd</h3>
+                    <p class="preview">In deze post bespreek ik welke websites mij hebben geinspireerd...</p>
+                    <a href="post4.html" aria-label="Lees meer over welke websites mij hebben geinspireerd">Lees meer &raquo;</a>
+                </li>
+                <li class="blog-item">
                     <h3>Hoe ik mijn Hyprland dotfiles optimaliseerde</h3>
                     <p class="preview">In deze blogpost bespreek ik hoe ik mijn Hyprland-dotfiles heb geoptimaliseerd...</p>
                     <a href="post3.html" aria-label="Lees meer over Hoe ik mijn Hyprland dotfiles optimaliseerde">Lees meer &raquo;</a>
@@ -73,11 +64,6 @@
                     <h3>Waybar: Mijn favoriete widgets</h3>
                     <p class="preview">Waybar is een van de populairste werkbalken voor Hyprland. In deze post deel ik mijn favoriete widgets...</p>
                     <a href="post2.html" aria-label="Lees meer over Waybar: Mijn favoriete widgets">Lees meer &raquo;</a>
-                </li>
-                <li class="blog-item">
-                    <h3>Waarom ik Rofi boven dmenu kies</h3>
-                    <p class="preview">In dit artikel leg ik uit waarom ik kies voor Rofi in plaats van dmenu voor het starten van applicaties...</p>
-                    <a href="post1.html" aria-label="Lees meer over Waarom ik Rofi boven dmenu kies">Lees meer &raquo;</a>
                 </li>
                 <a href="blog.html" aria-label="Bekijk alle blogposts">Zie alle blogposts &raquo;</a>
             </ul>
@@ -106,13 +92,13 @@
             <h2>Laatste Wijzigingen</h2>
             <ul>
                 <li>
-                    <strong>13/04/2025:</strong> Wat bugs gefixd.
+                    <strong>23/06/2025:</strong> De stijl helemaal veranderd naar een soort glas look.
                 </li>
                 <li>
-                    <strong>13/04/2025:</strong> breadcrumb navigatie verbeterd en zoekfunctie gefixd en verbeterd
+                    <strong>14/05/2025:</strong> Nieuwe secret toegevoegd :).
                 </li>
                 <li>
-                    <strong>12/04/2025:</strong> Archlinuxnews en hyprlandnews paginas samen gevoegd in "Nieuws" pagina.
+                    <strong>21/04/2025:</strong> Nieuwe 404 pagina toegevoegd.
                 </li>
             </ul>
             <a href="changelog.html" aria-label="Bekijk de volledige changelog">Bekijk de volledige changelog &raquo;</a>
@@ -127,7 +113,7 @@
         function zoekFunction() {
             const input = document.getElementById('search').value.toLowerCase();
             const resultsContainer = document.getElementById('search-results');
-            resultsContainer.innerHTML = ''; // Clear previous results
+            resultsContainer.innerHTML = '';
 
             if (input) {
                 resultsContainer.style.display = 'block';

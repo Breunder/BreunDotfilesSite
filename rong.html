@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Game</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="secret-checker.js"></script>
+    <link rel="icon" type="image/png" href="images/icon.png">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="wiki.html">Wiki</a></li>
+            <li><a href="mijndotfiles.html">Mijn dotfiles</a></li>
+            <li><a href="secret.html">Secret</a></li>
+            <li class="current">Rong</li>
+        </ul>
+    </nav>
+    <button class="dark-mode-toggle">🌙</button>
+
+    <main>
+        <section id="menu">
+            <div class="content">
+                <button class="menu-button" onclick="startGame('pvp')">Player vs Player</button>
+                <div class="button-group">
+                    <button class="menu-button" onclick="startGame('pve-easy')">Player vs Computer (Easy)</button>
+                    <button class="menu-button" onclick="startGame('pve-medium')">Player vs Computer (Medium)</button>
+                    <button class="menu-button" onclick="startGame('pve-hard')">Player vs Computer (Hard)</button>
+                </div>
+                <div class="controls">
+                    <h3>Controls:</h3>
+                    <p>Player 1: W (up) and S (down)</p>
+                    <p>Player 2 (PvP mode): I (up) and K (down)</p>
+                </div>
+                <a href="secret.html" class="button">Terug naar Secret</a>
+            </div>
+        </section>
+
+        <section id="gameContainer">
+            <div class="content">
+                <canvas id="pong" width="800" height="400"></canvas>
+                <div class="controls">
+                    <h3>Controls:</h3>
+                    <p>Player 1: W (up) and S (down)</p>
+                    <p id="p2controls"></p>
+                </div>
+                <a href="secret.html" class="button">Terug naar Secret</a>
+            </div>
+            <div class="mobile-controls">
+                <div>
+                    <button onmousedown="handleMobileControl('w', true)" onmouseup="handleMobileControl('w', false)" 
+                            ontouchstart="handleMobileControl('w', true)" ontouchend="handleMobileControl('w', false)">↑</button>
+                    <button onmousedown="handleMobileControl('s', true)" onmouseup="handleMobileControl('s', false)"
+                            ontouchstart="handleMobileControl('s', true)" ontouchend="handleMobileControl('s', false)">↓</button>
+                </div>
+                <div id="rightControls" style="display: none;">
+                    <button onmousedown="handleMobileControl('i', true)" onmouseup="handleMobileControl('i', false)"
+                            ontouchstart="handleMobileControl('i', true)" ontouchend="handleMobileControl('i', false)">↑</button>
+                    <button onmousedown="handleMobileControl('k', true)" onmouseup="handleMobileControl('k', false)"
+                            ontouchstart="handleMobileControl('k', true)" ontouchend="handleMobileControl('k', false)">↓</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('pong');
+        const context = canvas.getContext('2d');
+        let gameMode = '';
+        let gameStarted = false;
+        let difficulty = {
+            easy: {
+                aiSpeed: 2,
+                predictionError: 100,
+                reactionDelay: 300,
+                returnToCenter: 0.03
+            },
+            medium: {
+                aiSpeed: 3,
+                predictionError: 50,
+                reactionDelay: 150,
+                returnToCenter: 0.05
+            },
+            hard: {
+                aiSpeed: 4,
+                predictionError: 20,
+                reactionDelay: 50,
+                returnToCenter: 0.07
+            }
+        };
+
+        const ball = {
+            x: canvas.width/2,
+            y: canvas.height/2,
+            radius: 10,
+            speed: 7,
+            velocityX: 5,
+            velocityY: 5
+        };
+
+        const paddleHeight = 100;
+        const paddleWidth = 10;
+
+        const leftPaddle = {
+            x: 10,
+            y: canvas.height/2 - paddleHeight/2,
+            width: paddleWidth,
+            height: paddleHeight,
+            score: 0,
+            speed: 4,
+            moveUp: false,
+            moveDown: false
+        };
+
+        const rightPaddle = {
+            x: canvas.width - (paddleWidth + 10),
+            y: canvas.height/2 - paddleHeight/2,
+            width: paddleWidth,
+            height: paddleHeight,
+            score: 0,
+            speed: 4,
+            moveUp: false,
+            moveDown: false,
+            predictedY: canvas.height/2,
+            lastPrediction: 0
+        };
+
+        function startGame(mode) {
+            gameMode = mode;
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('gameContainer').style.display = 'block';
+            document.getElementById('p2controls').textContent = mode === 'pvp' ? 
+                'Player 2: I (up) and K (down)' : 'Computer controls itself';
+            if(mode === 'pvp') {
+                document.getElementById('rightControls').style.display = 'block';
+            } else {
+                document.getElementById('rightControls').style.display = 'none';
+            }
+            gameStarted = true;
+            resetGame();
+            setupControls();
+            gameLoop();
+        }
+
+        function resetGame() {
+            leftPaddle.score = 0;
+            rightPaddle.score = 0;
+            resetBall();
+            leftPaddle.y = canvas.height/2 - paddleHeight/2;
+            rightPaddle.y = canvas.height/2 - paddleHeight/2;
+        }
+
+        function setupControls() {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('keyup', handleKeyUp);
+            document.addEventListener('keydown', handleKeyDown);
+            document.addEventListener('keyup', handleKeyUp);
+        }
+
+        function handleKeyDown(e) {
+            if(e.key === 'w') leftPaddle.moveUp = true;
+            if(e.key === 's') leftPaddle.moveDown = true;
+            if(gameMode === 'pvp') {
+                if(e.key === 'i') rightPaddle.moveUp = true;
+                if(e.key === 'k') rightPaddle.moveDown = true;
+            }
+        }
+
+        function handleKeyUp(e) {
+            if(e.key === 'w') leftPaddle.moveUp = false;
+            if(e.key === 's') leftPaddle.moveDown = false;
+            if(gameMode === 'pvp') {
+                if(e.key === 'i') rightPaddle.moveUp = false;
+                if(e.key === 'k') rightPaddle.moveDown = false;
+            }
+        }
+
+        function handleMobileControl(key, isDown) {
+            const event = { key: key };
+            if (isDown) {
+                handleKeyDown(event);
+            } else {
+                handleKeyUp(event);
+            }
+        }
+
+        function updatePaddles() {
+            if(leftPaddle.moveUp && leftPaddle.y > 0) {
+                leftPaddle.y -= leftPaddle.speed;
+            }
+            if(leftPaddle.moveDown && leftPaddle.y < canvas.height - leftPaddle.height) {
+                leftPaddle.y += leftPaddle.speed;
+            }
+
+            if(gameMode === 'pvp') {
+                if(rightPaddle.moveUp && rightPaddle.y > 0) {
+                    rightPaddle.y -= rightPaddle.speed;
+                }
+                if(rightPaddle.moveDown && rightPaddle.y < canvas.height - rightPaddle.height) {
+                    rightPaddle.y += rightPaddle.speed;
+                }
+            } else {
+                let currentDifficulty;
+                if(gameMode === 'pve-easy') currentDifficulty = difficulty.easy;
+                else if(gameMode === 'pve-medium') currentDifficulty = difficulty.medium;
+                else currentDifficulty = difficulty.hard;
+
+                if(ball.velocityX > 0) {
+                    if(Date.now() - rightPaddle.lastPrediction > currentDifficulty.reactionDelay) {
+                        let steps = (rightPaddle.x - ball.x) / ball.velocityX;
+                        rightPaddle.predictedY = ball.y + (ball.velocityY * steps);
+                        
+                        let distanceFactor = (rightPaddle.x - ball.x) / canvas.width;
+                        rightPaddle.predictedY += (Math.random() - 0.5) * currentDifficulty.predictionError * distanceFactor;
+                        
+                        rightPaddle.predictedY = Math.max(rightPaddle.height/2, 
+                            Math.min(canvas.height - rightPaddle.height/2, rightPaddle.predictedY));
+                            
+                        rightPaddle.lastPrediction = Date.now();
+                    }
+                    
+                    let targetY = rightPaddle.predictedY - rightPaddle.height/2;
+                    let diff = targetY - rightPaddle.y;
+                    rightPaddle.y += Math.sign(diff) * Math.min(Math.abs(diff), currentDifficulty.aiSpeed);
+                } else {
+                    let centerY = canvas.height/2 - rightPaddle.height/2;
+                    let distanceToCenter = centerY - rightPaddle.y;
+                    rightPaddle.y += distanceToCenter * currentDifficulty.returnToCenter;
+                }
+
+                rightPaddle.y = Math.max(0, Math.min(canvas.height - rightPaddle.height, rightPaddle.y));
+            }
+        }
+
+        function collision(ball, paddle) {
+            return ball.x + ball.radius > paddle.x && 
+                    ball.x - ball.radius < paddle.x + paddle.width && 
+                    ball.y + ball.radius > paddle.y && 
+                    ball.y - ball.radius < paddle.y + paddle.height;
+        }
+
+        function drawRect(x, y, w, h, color) {
+            context.fillStyle = color;
+            context.fillRect(x, y, w, h);
+        }
+
+        function drawCircle(x, y, r, color) {
+            context.fillStyle = color;
+            context.beginPath();
+            context.arc(x, y, r, 0, Math.PI*2, false);
+            context.closePath();
+            context.fill();
+        }
+
+        function drawText(text, x, y, color) {
+            context.fillStyle = color;
+            context.font = "45px Arial";
+            context.fillText(text, x, y);
+        }
+
+        function update() {
+            if(!gameStarted) return;
+            
+            updatePaddles();
+
+            ball.x += ball.velocityX;
+            ball.y += ball.velocityY;
+
+            if(ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+                ball.velocityY = -ball.velocityY;
+            }
+
+            let player = (ball.x < canvas.width/2) ? leftPaddle : rightPaddle;
+            
+            if(collision(ball, player)) {
+                let collidePoint = (ball.y - (player.y + player.height/2));
+                collidePoint = collidePoint / (player.height/2);
+                
+                let angleRad = (Math.PI/4) * collidePoint;
+                let direction = (ball.x < canvas.width/2) ? 1 : -1;
+                
+                ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+                ball.velocityY = ball.speed * Math.sin(angleRad);
+                
+                ball.speed += 0.5;
+            }
+
+            if(ball.x - ball.radius < 0) {
+                rightPaddle.score++;
+                resetBall();
+            } else if(ball.x + ball.radius > canvas.width) {
+                leftPaddle.score++;
+                resetBall();
+            }
+        }
+
+        function resetBall() {
+            ball.x = canvas.width/2;
+            ball.y = canvas.height/2;
+            ball.speed = 7;
+            ball.velocityX = -ball.velocityX;
+            ball.velocityY = 5;
+        }
+
+        function render() {
+            drawRect(0, 0, canvas.width, canvas.height, "black");
+            
+            if(gameStarted) {
+                drawRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height, "white");
+                drawRect(rightPaddle.x, rightPaddle.y, rightPaddle.width, rightPaddle.height, "white");
+                drawCircle(ball.x, ball.y, ball.radius, "white");
+                drawText(leftPaddle.score, canvas.width/4, 50, "white");
+                drawText(rightPaddle.score, 3*canvas.width/4, 50, "white");
+            }
+        }
+
+        function gameLoop() {
+            update();
+            render();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Prevent scrolling when touching the canvas
+        document.getElementById('pong').addEventListener('touchstart', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        // Prevent default touch behaviors
+        document.addEventListener('touchmove', function(e) {
+            if (gameStarted) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        render();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
