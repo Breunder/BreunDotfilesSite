@@ -15,7 +15,8 @@ body {
     color: #333;
     transition: background-color 0.3s ease, color 0.3s ease; 
     background-image: url("images/hyprland.jpg");
-    background-size: auto
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 /* Dark mode styles */
@@ -35,6 +36,10 @@ body.dark-mode h2,
 body.dark-mode h3,
 body.dark-mode strong {
     color: #ffffff;
+}
+
+h1.fix {
+    color: #ffffff
 }
 
 body.dark-mode .blog-post section h2,
@@ -239,7 +244,7 @@ body.dark-mode #search-results li a:hover {
     overflow-y: auto;
     width: 100%;
     max-width: 400px;
-    z-index: 9999;
+    z-index: 99999; /* verhoogd zodat altijd vooraan */
     display: none;
     list-style: none;
     padding: 0;
@@ -418,7 +423,7 @@ body.dark-mode .breadcrumb li:not(:last-child)::after {
 
 header {
     background-color: #0B0E1E;
-    color: white;
+    color: rgb(20, 1, 1);
     text-align: center;
     padding: 2rem;
     animation: fadeIn 1s ease-in-out;
@@ -657,7 +662,7 @@ blog-title:hover {
     background-color: #f9f9f9;
     min-width: 200px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 10000;
+    z-index: 100000; /* verhoogd zodat altijd vooraan */
     left: 50%;
     transform: translateX(-50%); 
     border-radius: 5px;
@@ -697,10 +702,8 @@ blog-title:hover {
 
 .submenu {
     display: none;
-}
-
-.submenu.open {
-    display: block;
+    z-index: 100001; /* toegevoegd voor stacking boven andere UI */
+    position: relative; /* nodig voor z-index te werken */
 }
 
 .submenu.open {
@@ -1142,6 +1145,29 @@ footer {
     }
 }
 
+/* Verbeterde tekstkleur voor headings en paragrafen */
+h1, h2, h3, h4, h5, h6 {
+    color: #1a1d23;
+}
+
+p .post-meta {
+    color: #23272f;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p  {
+    color: #eaf6ff !important;
+}
+
+body.dark-mode p .post-meta {
+    color: #b6d4ff !important;
+}
+
 /* Specifieke stijlen voor code blocks */
 pre {
     background-color: #f5f5f5;
@@ -1434,11 +1460,15 @@ body.dark-mode #passwordSection input[type="password"] {
 /* Tab stijlen */
 .tab-container {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 1 auto;
     padding: 25px;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+div.tab-container{
+    margin: 1;
 }
 
 .tabs {
@@ -2183,8 +2213,7 @@ body.dark-mode .cookie-container {
         #704f2d 70%,
         #4a2b12 100%
     );
-    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.6),
-                0 8px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.32);
 }
 
 .cookie-container:hover {
@@ -2424,7 +2453,7 @@ body.dark-mode .mobile-controls button:active {
     text-align: left;
     margin: 2rem 0;
     font-family: monospace;
-    overflow-x: auto;
+    overflow: auto;
 }
 
 .terminal-prompt::before {
@@ -2612,9 +2641,237 @@ body.dark-mode .preview-bar {
     margin-right: 10px;
 }
 
-.software-list label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    width: 100%;
+section,
+.blog-post,
+.tab-container,
+.stats-panel,
+.module-container,
+#controls,
+.main-content,
+.shop-panel,
+.side-content,
+.preview-container,
+.stats-panel,
+.stat-box,
+#search-results,
+.dropdown-content,
+.submenu,
+.popup-content,
+footer,
+header,
+fieldset,
+input,
+select,
+textarea,
+.config-output,
+.available-pages,
+.terminal-container,
+#game-container,
+.game-wrapper {
+    border-radius: 16px !important;
+}
+
+section,
+.tab-container,
+.stats-panel,
+#controls,
+.main-content,
+.shop-panel,
+.side-content,
+.preview-container,
+.stats-panel,
+.stat-box,
+#search-results,
+.dropdown-content,
+.submenu,
+.popup-content,
+footer,
+header,
+fieldset,
+.config-output,
+.available-pages,
+.terminal-container,
+#game-container,
+.game-wrapper {
+    background: rgba(255,255,255,0.75);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+}
+
+/* Donkere modus glas effect */
+body.dark-mode section,
+body.dark-mode .tab-container,
+body.dark-mode .stats-panel,
+body.dark-mode #controls,
+body.dark-mode .main-content,
+body.dark-mode .shop-panel,
+body.dark-mode .side-content,
+body.dark-mode .preview-container,
+body.dark-mode .stats-panel,
+body.dark-mode .stat-box,
+body.dark-mode #search-results,
+body.dark-mode .dropdown-content,
+body.dark-mode .submenu,
+body.dark-mode .popup-content,
+body.dark-mode footer,
+body.dark-mode header,
+body.dark-mode fieldset,
+body.dark-mode .config-output,
+body.dark-mode .available-pages,
+body.dark-mode .terminal-container,
+body.dark-mode #game-container,
+body.dark-mode .game-wrapper {
+    background: rgba(30,30,30,0.80) !important;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.25);
+}
+
+/* Cards en lijst items */
+ul li,
+.blog-item,
+#arch-news-list-home li,
+#hyprland-news-list-home li,
+#arch-news-list li,
+#hyprland-news-full li,
+.software-list li,
+.module-container,
+.stat-box {
+    border-radius: 14px !important;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+body.dark-mode ul li,
+body.dark-mode .blog-item,
+body.dark-mode #arch-news-list-home li,
+body.dark_mode #hyprland-news-list-home li,
+body.dark_mode #arch-news-list li,
+body.dark_mode #hyprland-news-full li,
+body.dark_mode .software-list li,
+body.dark_mode .module-container,
+body.dark_mode .stat-box {
+    background: rgba(40,40,40,0.85) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+}
+
+/* Knoppen */
+.button, .read-more, .menu-button, .dropdown-btn, .tab-button, .mobile-controls button {
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    background: rgba(0,123,255,0.90);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.button:hover, .read-more:hover, .menu-button:hover, .dropdown-btn:hover, .tab-button:hover, .mobile-controls button:hover {
+       background: rgba(0,86,179,0.95);
+    box-shadow: 0 4px  16px rgba(0,0,0,0.12);
+}
+
+/* Donkere modus knoppen */
+body.dark-mode .button,
+body.dark-mode .read-more,
+
+body.dark-mode .menu-button,
+body.dark-mode .dropdown-btn,
+body.dark-mode .tab-button,
+body.dark-mode .mobile-controls button {
+    background: rgba(0,123,191,0.90) !important;
+    color: #e0e0e0;
+    box-shadow: 0  2px 12px rgba(0,0,0,0.18);
+}
+
+body.dark-mode .button:hover,
+body.dark-mode .read-more:hover,
+body.dark-mode .menu-button:hover,
+body.dark-mode .dropdown-btn:hover,
+body.dark-mode .tab-button:hover,
+body.dark-mode .mobile-controls button:hover {
+    background: rgba(0,86,179,0.95) !important;
+}
+
+/* Modal en popup */
+.modal-content,
+.popup-content {
+    border-radius: 18px !important;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+body.dark-mode .modal-content,
+body.dark-mode .popup-content {
+    background: rgba(30,30,30,0.96) !important;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.32);
+}
+
+/* Breadcrumb glas effect */
+.breadcrumb {
+    border-radius: 10px !important;
+    background: rgba(0,0,0,0.35) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+body.dark-mode .breadcrumb {
+    background: rgba(0,0,0,0.25) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+}
+
+/* Gallery items */
+.gallery-item {
+    border-radius: 16px !important;
+    background: rgba(255,255,255,0.80);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+
+body.dark-mode .gallery-item {
+    background: rgba(30,30,30,0.85) !important;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.22);
+}
+
+/* Preview window */
+.preview-window {
+    border-radius: 14px !important;
+    background: rgba(51,51,51,0.90);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+
+/* Cookie game container */
+.cookie-container {
+    border-radius: 50% !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    background: radial-gradient(circle at center, #eac086 0%, #b3824c 60%, #8B4513 100%);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+body.dark-mode .cookie-container {
+    background: radial-gradient(circle at center, #916c44 0%, #704f2d 70%, #4a2b12 100%);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.32);
+}
+
+/* GitHub link kleur voor light/dark mode */
+.github-link {
+    text-decoration: none;
+    color: #23272f;
+    transition: color 0.3s;
+}
+.github-link:hover {
+    color: #007bff;
+}
+body.dark-mode .github-link {
+    color: #b6d4ff;
+}
+body.dark-mode .github-link:hover {
+    color: #88c0d0;
 }
